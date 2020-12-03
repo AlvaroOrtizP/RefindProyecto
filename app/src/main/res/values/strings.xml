@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">ReFind</string>
+    <string name="title_activity_perfin_anunciante">Map</string>
+
+
+    <string name="bibliografia">Bibliografia</string>
+    <string name="fotoPrueba">fotoPrueba</string>
+    <string name="tituloPrueba">titulo Prueba</string>
+    <string name="descripcionPrueba">descripcion Prueba</string>
+
+
+    <!-- Strings de: Activity : PERFIL -->
+    <string name="nombreUsuario">Ej_Alvaro</string>
+    <string name="desFotoUsuario">Foto del usuario</string>
+    <string name="editarPerfil">Editar perfil</string>
+    <string name="tvSeguidores">Seguidores</string>
+    <string name="tvSiguiendo">Siguiendo</string>
+    <string name="tvComentario">Comentarios</string>
+    <string name="tvNSeguidores">0</string>
+    <string name="tvNSiguiendo">0</string>
+    <string name="tvNComentario">0</string>
+    <string name="tvLinea">Bibliografia de ejemplo, no se que poner</string>
+
+    <!-- Strings de: Activity : REGISTRO -->
+    <string name="logo_Registro">Logo de Refind</string>
+    <string name="emailRegistro">Correo electronico </string>
+    <string name="nombreRegistro">Nombre</string>
+    <string name="apellidoRegistro">Apellido</string>
+    <string name="passRegistro">Contraseña</string>
+    <string name="passComRegistro">Repita la contraseña</string>
+    <string name="iniciarSesionRegistro">Iniciar Sesion</string>
+    <string name="registrarRegistro">Registrarse</string>
+
+    <!-- Strings de: Activity : PERFIL ANUNCIANTE -->
+    <string name="nombre_anuncio">IES ATAULFO ARGENTA</string>
+    <string name="descripcion_anuncio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis sagittis nibh. Ut euismod, dolor et bibendum tincidunt, orci justo efficitur dolor, non rhoncus nibh massa vitae lectus</string>
+
+    <!-- Strings de: Activity : LOGIN -->
+    <string name="descripcionLogo">Logo de ReFind</string>
+    <string name="email_login">Correo electronico </string>
+    <string name="passLogin">Contraseña</string>
+    <string name="iniciarSesionLogin">Iniciar Sesion</string>
+    <string name="mensajeParaRegistro">¿Aun no tienes una cuenta?</string>
+    <string name="btnRegistro">Registro</string>
+
+
+    <!-- Menu contextual AL DEJAR PULSADO-->
+    <string name="action_copiar">Copiar bibliografia</string>
+    <string name="action_editar">Editar bibliografia</string>
+    <string name="action_defecto">Bibliografia por defecto</string>
+
+    <!-- Strings de: Menu : OVERFLOW -->
+    <string name="menuPrincipal">Principal</string>
+    <string name="menuAnunciante">Anuncio Ejemplo</string>
+    <string name="menuPerfil">Tu perfil</string>
+
+    <!-- Strings de: Activity : MAIN -->
+    <string name="lista">Lista</string>
+
+    <!-- Strings de: Activity : MAIN - list_element -->
+    <string name="icoImageView">Icono de imagen</string>
+    <string name="TituloEjemplo">Titulo Ejemplo</string>
+    <string name="descripcionEjemplo">Descripcion Ejemplo</string>
+    <string name="statusTextView">Activo</string>
+    <string name="title_activity__anunciante">Map</string>
+    <string name="title_activity_anunciante">Map</string>
+</resources>
