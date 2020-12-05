@@ -1,0 +1,268 @@
+Index: app/src/debug/res/values/google_maps_api.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/debug/res/values/google_maps_api.xml	(date 1607184913497)
++++ app/src/debug/res/values/google_maps_api.xml	(date 1607184913497)
+@@ -0,0 +1,7 @@
++<resources>
++    <!--
++    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=46:6A:EA:CD:0C:CE:C7:52:88:3F:88:A6:DF:00:CA:D2:8D:11:79:97%3Bcom.example.refindproyecto
++    https://developers.google.com/maps/documentation/android/start#get-key
++    -->
++    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDizkw798DwPByIWoFrmdytre1bBKWhZxA</string>
++</resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/refindproyecto/ActivityAnuncio.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/refindproyecto/ActivityAnuncio.java	(date 1607184992558)
++++ app/src/main/java/com/example/refindproyecto/ActivityAnuncio.java	(date 1607184992558)
+@@ -0,0 +1,50 @@
++package com.example.refindproyecto;
++
++import androidx.fragment.app.FragmentActivity;
++
++import android.os.Bundle;
++
++import com.google.android.gms.maps.CameraUpdateFactory;
++import com.google.android.gms.maps.GoogleMap;
++import com.google.android.gms.maps.OnMapReadyCallback;
++import com.google.android.gms.maps.SupportMapFragment;
++import com.google.android.gms.maps.model.LatLng;
++import com.google.android.gms.maps.model.MarkerOptions;
++
++public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallback {
++
++    private GoogleMap mMap;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_anuncio);
++        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
++        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
++                .findFragmentById(R.id.map);
++        mapFragment.getMapAsync(this);
++    }
++
++    /**
++     * Manipulates the map once available.
++     * This callback is triggered when the map is ready to be used.
++     * This is where we can add markers or lines, add listeners or move the camera. In this case,
++     * we just add a marker near Sydney, Australia.
++     * If Google Play services is not installed on the device, the user will be prompted to install
++     * it inside the SupportMapFragment. This method will only be triggered once the user has
++     * installed Google Play services and returned to the app.
++     */
++    @Override
++    public void onMapReady(GoogleMap googleMap) {
++        mMap = googleMap;
++        // Add a marker in Sydney and move the camera
++        //LatLng sydney = new LatLng(-34, 151);
++        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
++        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
++
++
++        LatLng Ataulfo = new LatLng(43.3792481, -3.2193657);
++        mMap.addMarker(new MarkerOptions().position(Ataulfo).title("IES Ataulfo Argenta"));
++        mMap.moveCamera(CameraUpdateFactory.newLatLng(Ataulfo));
++    }
++}
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 70b6ddf56b2036c2c0542d572166c69188b430d0)
++++ app/build.gradle	(date 1607184788864)
+@@ -36,6 +36,7 @@
+     implementation 'com.google.android.material:material:1.2.1'
+     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+     implementation 'com.google.firebase:firebase-auth:20.0.1'
++    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+     testImplementation 'junit:junit:4.+'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+Index: app/src/main/res/layout/activity_anuncio.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_anuncio.xml	(date 1607184972656)
++++ app/src/main/res/layout/activity_anuncio.xml	(date 1607184972656)
+@@ -0,0 +1,51 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/UselessLeaf"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".ActivityAnuncio">
++
++    <TextView
++        android:id="@+id/tvNombre_anuncio"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="140dp"
++        android:text="@string/nombre_anuncio"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/tvDescripcion_anuncio"
++        android:layout_width="350dp"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="76dp"
++        android:text="@string/descripcion_anuncio"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.491"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/tvNombre_anuncio"
++
++        />
++
++    <LinearLayout
++        android:id="@+id/linearLayout"
++        android:layout_width="match_parent"
++        android:layout_height="309dp"
++        android:orientation="vertical"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.491"
++        app:layout_constraintStart_toStartOf="parent">
++
++        <fragment
++            android:id="@+id/map"
++            android:name="com.google.android.gms.maps.SupportMapFragment"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent" />
++    </LinearLayout>
++
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 70b6ddf56b2036c2c0542d572166c69188b430d0)
++++ app/src/main/AndroidManifest.xml	(date 1607184789059)
+@@ -2,6 +2,13 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     package="com.example.refindproyecto">
+ 
++    <!--
++         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
++         Google Maps Android API v2, but you must specify either coarse or fine
++         location permissions for the "MyLocation" functionality.
++    -->
++    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
++
+     <application
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+@@ -9,6 +16,22 @@
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/Theme.RefindProyecto">
++
++        <!--
++             The API key for Google Maps-based APIs is defined as a string resource.
++             (See the file "res/values/google_maps_api.xml").
++             Note that the API key is linked to the encryption key used to sign the APK.
++             You need a different API key for each encryption key, including the release key that is used to
++             sign the APK for publishing.
++             You can define the keys for the debug and release targets in src/debug/ and src/release/.
++        -->
++        <meta-data
++            android:name="com.google.android.geo.API_KEY"
++            android:value="@string/google_maps_key" />
++
++        <activity
++            android:name=".ActivityAnuncio"
++            android:label="@string/title_activity_anuncio"></activity>
+         <activity android:name=".ActivityPerfil">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+@@ -16,11 +39,9 @@
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
+-        <activity android:name=".ActivityRegistro"></activity>
+-        <activity android:name=".ActivityLogin">
+-
+-        </activity>
+-        <activity android:name=".MainActivity"></activity>
++        <activity android:name=".ActivityRegistro" />
++        <activity android:name=".ActivityLogin"></activity>
++        <activity android:name=".MainActivity" />
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 70b6ddf56b2036c2c0542d572166c69188b430d0)
++++ app/src/main/res/values/strings.xml	(date 1607184788604)
+@@ -64,4 +64,5 @@
+     <string name="statusTextView">Activo</string>
+     <string name="title_activity__anunciante">Map</string>
+     <string name="title_activity_anunciante">Map</string>
++    <string name="title_activity_anuncio">Map</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/release/res/values/google_maps_api.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/release/res/values/google_maps_api.xml	(date 1607184789306)
++++ app/src/release/res/values/google_maps_api.xml	(date 1607184789306)
+@@ -0,0 +1,20 @@
++<resources>
++    <!--
++    TODO: Before you release your application, you need a Google Maps API key.
++
++    To do this, you can either add your release key credentials to your existing
++    key, or create a new key.
++
++    Note that this file specifies the API key for the release build target.
++    If you have previously set up a key for the debug target with the debug signing certificate,
++    you will also need to set up a key for your release certificate.
++
++    Follow the directions here:
++
++    https://developers.google.com/maps/documentation/android/signup
++
++    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
++    string in this file.
++    -->
++    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
++</resources>
+\ No newline at end of file
+Index: app/src/main/res/values/google_maps_api.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/google_maps_api.xml	(date 1607184913505)
++++ app/src/main/res/values/google_maps_api.xml	(date 1607184913505)
+@@ -0,0 +1,7 @@
++<resources>
++    <!--
++    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=46:6A:EA:CD:0C:CE:C7:52:88:3F:88:A6:DF:00:CA:D2:8D:11:79:97%3Bcom.example.refindproyecto
++    https://developers.google.com/maps/documentation/android/start#get-key
++    -->
++    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDizkw798DwPByIWoFrmdytre1bBKWhZxA</string>
++</resources>
+\ No newline at end of file
