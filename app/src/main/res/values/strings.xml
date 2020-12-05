@@ -64,4 +64,5 @@
     <string name="statusTextView">Activo</string>
     <string name="title_activity__anunciante">Map</string>
     <string name="title_activity_anunciante">Map</string>
+    <string name="title">Title</string>
 </resources>
