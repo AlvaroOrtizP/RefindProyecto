@@ -38,23 +38,32 @@ public class ActivityLogin extends AppCompatActivity {
         Intent registro = new Intent(this, ActivityRegistro.class);
         startActivity(registro);
     }
+
+
+
     public void iniciarSesion (View view){
-        //TODO : pendiente hacer comprobar que los apartado no esten vacios y hacer un boton de logout.
-        mAuth.signInWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                                    Toast.LENGTH_SHORT).show();
+        //TODO : hacer un boton de logout.
+        if(correo.getText().toString().equals("")|| pass.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(), "Debe rellenar los campos", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            mAuth.signInWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(i);
+                                Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034006353484",
+    "project_id": "refindp-6ddc1",
+    "storage_bucket": "refindp-6ddc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034006353484:android:e18196c71454d313f186e9",
+        "android_client_info": {
+          "package_name": "com.example.refindproyecto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034006353484-3jnmgopsdqi4gbheb1p14b20rrtjqgbf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY0aLfWlISXdaAx69tSpCBnWIcmyu8fMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034006353484-3jnmgopsdqi4gbheb1p14b20rrtjqgbf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
