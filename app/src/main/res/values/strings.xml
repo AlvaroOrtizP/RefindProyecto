@@ -34,6 +34,7 @@
     <!-- Strings de: Activity : PERFIL ANUNCIANTE -->
     <string name="nombre_anuncio">IES ATAULFO ARGENTA</string>
     <string name="descripcion_anuncio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis sagittis nibh. Ut euismod, dolor et bibendum tincidunt, orci justo efficitur dolor, non rhoncus nibh massa vitae lectus</string>
+    <string name="descripcion_flecha">Volver a inicio</string>
 
     <!-- Strings de: Activity : LOGIN -->
     <string name="descripcionLogo">Logo de ReFind</string>
@@ -49,10 +50,10 @@
     <string name="action_editar">Editar bibliografia</string>
     <string name="action_defecto">Bibliografia por defecto</string>
 
-    <!-- Strings de: Menu : OVERFLOW -->
-    <string name="menuPrincipal">Principal</string>
-    <string name="menuAnunciante">Anuncio Ejemplo</string>
-    <string name="menuPerfil">Tu perfil</string>
+    <!-- Strings de: Menu : Navegation_items -->
+    <string name="menuPrincipal">Inicio</string>
+    <string name="menuFavorito">Favoritos</string>
+    <string name="menuPerfil">Perfil</string>
 
     <!-- Strings de: Activity : MAIN -->
     <string name="lista">Lista</string>
@@ -65,4 +66,5 @@
     <string name="title_activity__anunciante">Map</string>
     <string name="title_activity_anunciante">Map</string>
     <string name="title">Title</string>
+    <string name="title_activity_acivity_anuncio">Map</string>
 </resources>
