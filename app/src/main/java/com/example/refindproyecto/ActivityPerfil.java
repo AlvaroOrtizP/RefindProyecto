@@ -20,32 +20,20 @@ public class ActivityPerfil extends AppCompatActivity {
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil =findViewById(R.id.btnPerfil);
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
+        btnInicio.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityPerfil.this, MainActivity.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityPerfil.this, MainActivity.class);
+            startActivity(i);
         });
-        btnFavorito.setOnClickListener(new View.OnClickListener() {
+        btnFavorito.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityPerfil.this, ActivityFavoritos.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityPerfil.this, ActivityFavoritos.class);
+            startActivity(i);
         });
-        btnPerfil.setOnClickListener(new View.OnClickListener() {
+        btnPerfil.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityPerfil.this, ActivityPerfil.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityPerfil.this, ActivityPerfil.class);
+            startActivity(i);
         });
 
 

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getSupportActionBar().hide();//Quitar el titulo
 
         mRecyclerView=findViewById(R.id.reciclerCategorias);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -38,32 +39,20 @@ public class MainActivity extends AppCompatActivity {
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil =findViewById(R.id.btnPerfil);
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
+        btnInicio.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(i);
         });
-        btnFavorito.setOnClickListener(new View.OnClickListener() {
+        btnFavorito.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(MainActivity.this, ActivityFavoritos.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(MainActivity.this, ActivityFavoritos.class);
+            startActivity(i);
         });
-        btnPerfil.setOnClickListener(new View.OnClickListener() {
+        btnPerfil.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(MainActivity.this, ActivityPerfil.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(MainActivity.this, ActivityPerfil.class);
+            startActivity(i);
         });
 
     }

@@ -25,32 +25,20 @@ public class ActivityFavoritos extends AppCompatActivity {
         tvTitulo = findViewById(R.id.tvTitulo);
 
 
-        btnInicio.setOnClickListener(new View.OnClickListener() {
+        btnInicio.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityFavoritos.this, MainActivity.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityFavoritos.this, MainActivity.class);
+            startActivity(i);
         });
-        btnFavorito.setOnClickListener(new View.OnClickListener() {
+        btnFavorito.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityFavoritos.this, ActivityFavoritos.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityFavoritos.this, ActivityFavoritos.class);
+            startActivity(i);
         });
-        btnPerfil.setOnClickListener(new View.OnClickListener() {
+        btnPerfil.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(ActivityFavoritos.this, ActivityPerfil.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ActivityFavoritos.this, ActivityPerfil.class);
+            startActivity(i);
         });
 
         favorito.setCantidadFavoritos(5);
