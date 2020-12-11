@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.refindproyecto.CategoriaMain.Categoria_row;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     MyAdapter myAdapter;
     ArrayList<Categoria_row> arrayCategorias = new ArrayList<>();
+    ImageButton inicio, favorito, perfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,38 @@ public class MainActivity extends AppCompatActivity {
 
         myAdapter = new MyAdapter(this, getMyList());
         mRecyclerView.setAdapter(myAdapter);
+
+        inicio=findViewById(R.id.btnInicio);
+        favorito=findViewById(R.id.btnFavorito);
+        perfil=findViewById(R.id.btnPerfil);
+
+        inicio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+        favorito.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, ActivityFavoritos.class);
+                startActivity(i);
+            }
+        });
+        perfil.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivity.this, ActivityPerfil.class);
+                startActivity(i);
+            }
+        });
 
     }
     private ArrayList<Categoria_row> getMyList(){

@@ -126,15 +126,28 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvBibliografia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/tvLinea"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="0.025" />
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="409dp"
-        android:layout_height="280dp"
+        android:layout_height="220dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="2dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -142,28 +155,26 @@
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="3"
+            android:background="@color/common_google_signin_btn_text_light_pressed"
             android:columnWidth="90dp"
-            android:horizontalSpacing="10dp"
-            android:verticalSpacing="10dp"
             android:gravity="center"
-            android:stretchMode="columnWidth" />
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
         <!-- Se usa la class ImagenAdapter -->
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvBibliografia"
+    <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/tvLinea"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.285"
-        android:textSize="15sp"/>
+        app:layout_constraintStart_toStartOf="parent">
+        <include layout="@layout/bottom_nav" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

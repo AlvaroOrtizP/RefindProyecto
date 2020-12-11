@@ -6,13 +6,47 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class ActivityFavoritos extends AppCompatActivity {
-
+    ImageButton inicio, favorito, perfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos);
+
+        inicio=findViewById(R.id.btnInicio);
+        favorito=findViewById(R.id.btnFavorito);
+        perfil=findViewById(R.id.btnPerfil);
+
+        inicio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityFavoritos.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+        favorito.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityFavoritos.this, ActivityFavoritos.class);
+                startActivity(i);
+            }
+        });
+        perfil.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityFavoritos.this, ActivityPerfil.class);
+                startActivity(i);
+            }
+        });
     }
 
     /**

@@ -6,13 +6,47 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class ActivityPerfil extends AppCompatActivity {
-
+    ImageButton inicio, favorito, perfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+
+        inicio=findViewById(R.id.btnInicio);
+        favorito=findViewById(R.id.btnFavorito);
+        perfil=findViewById(R.id.btnPerfil);
+
+        inicio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityPerfil.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+        favorito.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityPerfil.this, ActivityFavoritos.class);
+                startActivity(i);
+            }
+        });
+        perfil.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivityPerfil.this, ActivityPerfil.class);
+                startActivity(i);
+            }
+        });
     }
     /**
      * Metoto para mostrar u ocultar el menu
