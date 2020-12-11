@@ -10,17 +10,17 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class ActivityPerfil extends AppCompatActivity {
-    ImageButton inicio, favorito, perfil;
+    ImageButton btnInicio, btnFavorito, btnPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        inicio=findViewById(R.id.btnInicio);
-        favorito=findViewById(R.id.btnFavorito);
-        perfil=findViewById(R.id.btnPerfil);
+        btnInicio =findViewById(R.id.btnInicio);
+        btnFavorito =findViewById(R.id.btnFavorito);
+        btnPerfil =findViewById(R.id.btnPerfil);
 
-        inicio.setOnClickListener(new View.OnClickListener() {
+        btnInicio.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -29,7 +29,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        favorito.setOnClickListener(new View.OnClickListener() {
+        btnFavorito.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -38,7 +38,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        perfil.setOnClickListener(new View.OnClickListener() {
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -47,44 +47,8 @@ public class ActivityPerfil extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
-    /**
-     * Metoto para mostrar u ocultar el menu
-     * Debemos crear un metodo con este nombre exactamente al cual le pasamos un parametro de tipo MenuItem
-     * @param menu
-     * @return
-     */
-    public boolean onCreateOptionsMenu(Menu menu){
-        //Carpeta res - menu - overflow y pasamos el objeto menu
-        getMenuInflater().inflate(R.menu.navigation_items, menu);
-        return true;
+
+
     }
 
-    /**
-     * Metodo para indicar a cual en cual de las opciones se hizo clic
-     * Debemos crear un metodo con este nombre exactamente al cual le pasamos un parametro de tipo MenuItem
-     * @param item
-     * @return
-     */
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id= item.getItemId();
-
-        // Id de cada opcion del menu
-        if(id == R.id.inicioId){
-            Intent main_C_Menu = new Intent(this, MainActivity.class);
-            startActivity(main_C_Menu);
-        }else if(id == R.id.favoritoId){
-            Intent main_C_Menu = new Intent(this, ActivityFavoritos.class);
-            startActivity(main_C_Menu);
-        }else if(id == R.id.perfilId){
-            Intent main_C_Menu = new Intent(this, ActivityPerfil.class);
-            startActivity(main_C_Menu);
-        }
-        /*else if(id == R.id.profileId){
-            Intent main_C_Menu = new Intent(this, ActivityLogin.class);
-            startActivity(main_C_Menu);
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
 }
