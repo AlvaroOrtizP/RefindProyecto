@@ -1,4 +1,4 @@
-package com.example.refindproyecto.CategoriaMain;
+package com.example.refindproyecto.CategoriaAdapter;
 
 import android.content.Context;
 
@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.refindproyecto.CategoriaMain.Categoria_row;
-import com.example.refindproyecto.CategoriaMain.MyHolder;
+import com.example.refindproyecto.Modelo.Categoria_row;
 import com.example.refindproyecto.R;
 
 import java.util.ArrayList;

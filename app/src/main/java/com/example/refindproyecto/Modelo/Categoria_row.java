@@ -1,4 +1,4 @@
-package com.example.refindproyecto.CategoriaMain;
+package com.example.refindproyecto.Modelo;
 
 public class Categoria_row {
     private String titleCategoria, descripCategoria;

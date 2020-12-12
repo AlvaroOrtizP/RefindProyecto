@@ -1,4 +1,4 @@
-package com.example.refindproyecto.CategoriaMain;
+package com.example.refindproyecto.CategoriaAdapter;
 
 import android.view.View;
 import android.widget.ImageView;

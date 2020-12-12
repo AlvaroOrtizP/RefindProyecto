@@ -6,14 +6,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.refindproyecto.CategoriaMain.Categoria_row;
-import com.example.refindproyecto.CategoriaMain.MyAdapter;
+import com.example.refindproyecto.Modelo.Categoria_row;
+import com.example.refindproyecto.CategoriaAdapter.MyAdapter;
 
 import java.util.ArrayList;
 
