@@ -67,4 +67,5 @@
     <string name="title_activity_anunciante">Map</string>
     <string name="title">Title</string>
     <string name="title_activity_acivity_anuncio">Map</string>
+    <string name="title_activity_anuncio">Map</string>
 </resources>

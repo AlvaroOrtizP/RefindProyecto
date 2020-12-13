@@ -83,10 +83,10 @@ public class ActivityLAnuncios extends AppCompatActivity {
 
 
     public void itemClick(Anuncio_row item) {
-        //Intent intent = new Intent(this, ActivityPerfil.class);
-        //intent.putExtra("itemDetail", item);
-       // startActivity(intent);
-        Toast.makeText(this, item.getTitulo(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, ActivityAnuncio.class);
+        intent.putExtra("datosAnuncio", item);
+        startActivity(intent);
+        //Toast.makeText(this, item.getTitulo(), Toast.LENGTH_LONG).show();
     }
 
 
