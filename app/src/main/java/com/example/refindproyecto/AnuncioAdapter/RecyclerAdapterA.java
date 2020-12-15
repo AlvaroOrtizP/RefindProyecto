@@ -15,12 +15,12 @@ import com.example.refindproyecto.Modelo.Anuncio;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<com.example.refindproyecto.AnuncioAdapter.RecyclerAdapter.RecyclerHolder> {
+public class RecyclerAdapterA extends RecyclerView.Adapter<RecyclerAdapterA.RecyclerHolder> {
     private List<Anuncio> items;
     private List<Anuncio> originalItems;
     private RecyclerItemClick itemClick;
 
-    public RecyclerAdapter(List<Anuncio> items, RecyclerItemClick itemClick) {
+    public RecyclerAdapterA(List<Anuncio> items, RecyclerItemClick itemClick) {
         this.items = items;
         this.itemClick = itemClick;
         this.originalItems = new ArrayList<>();

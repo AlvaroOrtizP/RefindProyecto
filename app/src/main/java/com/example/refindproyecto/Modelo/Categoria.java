@@ -5,6 +5,13 @@ public class Categoria {
     private int id_categoria;
     private int imageCategoria;
 
+    public Categoria(String titleCategoria, String descripCategoria, int id_categoria, int imageCategoria) {
+        this.titleCategoria = titleCategoria;
+        this.descripCategoria = descripCategoria;
+        this.id_categoria = id_categoria;
+        this.imageCategoria = imageCategoria;
+    }
+
     public int getId_categoria() {
         return id_categoria;
     }

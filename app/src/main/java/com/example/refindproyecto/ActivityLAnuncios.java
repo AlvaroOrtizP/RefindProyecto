@@ -3,14 +3,11 @@ package com.example.refindproyecto;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-
 import com.example.refindproyecto.Modelo.Anuncio;
-import com.example.refindproyecto.AnuncioAdapter.RecyclerAdapter;
-
+import com.example.refindproyecto.AnuncioAdapter.RecyclerAdapterA;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +15,15 @@ public class ActivityLAnuncios extends AppCompatActivity {
 
     ImageButton btnInicio, btnFavorito, btnPerfil;
     private RecyclerView rvLista;
-    private RecyclerAdapter adapter;
+    private RecyclerAdapterA adapter;
     private List<Anuncio> items;
+    private int idCategoria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_l_anuncios);
+        idCategoria = (int) getIntent().getExtras().getSerializable("idcat");
 
 
         btnInicio =findViewById(R.id.btnInicio);
@@ -59,21 +58,22 @@ public class ActivityLAnuncios extends AppCompatActivity {
         rvLista.setLayoutManager(manager);
 
         items = getItems();
-        adapter = new RecyclerAdapter(items, this::itemClick);
+        adapter = new RecyclerAdapterA(items, this::itemClick);
         rvLista.setAdapter(adapter);
     }
     private List<Anuncio> getItems() {
-        List<Anuncio> categoriarows = new ArrayList<>();
-        categoriarows.add(new Anuncio("prueba1","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba4","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba5","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
-        categoriarows.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        List<Anuncio> anunciosRow = new ArrayList<>();
+
+        anunciosRow.add(new Anuncio("prueba1","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba4","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba5","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        anunciosRow.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
 
 
-        return categoriarows;
+        return anunciosRow;
     }
 
 
@@ -82,6 +82,7 @@ public class ActivityLAnuncios extends AppCompatActivity {
         intent.putExtra("datosAnuncio", item);
         startActivity(intent);
         //Toast.makeText(this, item.getTitulo(), Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -94,4 +95,5 @@ public class ActivityLAnuncios extends AppCompatActivity {
         adapter.filter(newText);
         return false;
     }
+
 }
