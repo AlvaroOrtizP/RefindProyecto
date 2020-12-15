@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.example.refindproyecto.Modelo.Anuncio_row;
+import com.example.refindproyecto.Modelo.Anuncio;
 import com.example.refindproyecto.AnuncioAdapter.RecyclerAdapter;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class ActivityLAnuncios extends AppCompatActivity {
     ImageButton btnInicio, btnFavorito, btnPerfil;
     private RecyclerView rvLista;
     private RecyclerAdapter adapter;
-    private List<Anuncio_row> items;
+    private List<Anuncio> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +62,22 @@ public class ActivityLAnuncios extends AppCompatActivity {
         adapter = new RecyclerAdapter(items, this::itemClick);
         rvLista.setAdapter(adapter);
     }
-    private List<Anuncio_row> getItems() {
-        List<Anuncio_row> categoriarows = new ArrayList<>();
-        categoriarows.add(new Anuncio_row("Hola mundo1", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo2", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo3", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo4", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo5", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo6", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo7", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo8", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo9", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo10", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo11", "Una", R.drawable.ic_launcher_background));
-        categoriarows.add(new Anuncio_row("Hola mundo12", "Una", R.drawable.ic_launcher_background));
+    private List<Anuncio> getItems() {
+        List<Anuncio> categoriarows = new ArrayList<>();
+        categoriarows.add(new Anuncio("prueba1","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba4","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba5","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba2","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+        categoriarows.add(new Anuncio("prueba3","Esta es la prueba 1", R.drawable.ic_launcher_background, 1));
+
 
         return categoriarows;
     }
 
 
-    public void itemClick(Anuncio_row item) {
+    public void itemClick(Anuncio item) {
         Intent intent = new Intent(this, ActivityAnuncio.class);
         intent.putExtra("datosAnuncio", item);
         startActivity(intent);

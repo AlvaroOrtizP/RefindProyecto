@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.refindproyecto.R;
-import com.example.refindproyecto.Modelo.Anuncio_row;
+import com.example.refindproyecto.Modelo.Anuncio;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<com.example.refindproyecto.AnuncioAdapter.RecyclerAdapter.RecyclerHolder> {
-    private List<Anuncio_row> items;
-    private List<Anuncio_row> originalItems;
+    private List<Anuncio> items;
+    private List<Anuncio> originalItems;
     private RecyclerItemClick itemClick;
 
-    public RecyclerAdapter(List<Anuncio_row> items, RecyclerItemClick itemClick) {
+    public RecyclerAdapter(List<Anuncio> items, RecyclerItemClick itemClick) {
         this.items = items;
         this.itemClick = itemClick;
         this.originalItems = new ArrayList<>();
@@ -36,11 +36,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<com.example.refindproy
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
-        final Anuncio_row item = items.get(position);
+        final Anuncio item = items.get(position);
         holder.imgItem.setImageResource(item.getImgResource());
         holder.tvTitulo.setText(item.getTitulo());
         holder.tvDescripcion.setText(item.getDescripcion());
-
 
         holder.itemView.setOnClickListener(v -> itemClick.itemClick(item));
     }
@@ -64,6 +63,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<com.example.refindproy
         private TextView tvTitulo;
         private TextView tvDescripcion;
 
+
         public RecyclerHolder(@NonNull View itemView_1) {
             super(itemView_1);
 
@@ -74,6 +74,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<com.example.refindproy
     }
 
     public interface RecyclerItemClick {
-        void itemClick(Anuncio_row item);
+        void itemClick(Anuncio item);
     }
 }

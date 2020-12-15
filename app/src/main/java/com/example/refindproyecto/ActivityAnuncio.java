@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.refindproyecto.Modelo.Anuncio_row;
+import com.example.refindproyecto.Modelo.Anuncio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,7 +21,7 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
     private ImageView imgItemDetail;
     private TextView tvTituloDetail;
     private TextView tvDescripcionDetail;
-    private Anuncio_row itemDetail;
+    private Anuncio itemDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void initValues(){
-        itemDetail = (Anuncio_row) getIntent().getExtras().getSerializable("datosAnuncio");
+        itemDetail = (Anuncio) getIntent().getExtras().getSerializable("datosAnuncio");
 
         imgItemDetail.setImageResource(itemDetail.getImgResource());
         tvTituloDetail.setText(itemDetail.getTitulo());

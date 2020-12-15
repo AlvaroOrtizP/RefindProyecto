@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.refindproyecto.Modelo.Categoria_row;
+import com.example.refindproyecto.Modelo.Categoria;
 import com.example.refindproyecto.R;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class MyAdapter  extends RecyclerView.Adapter<MyHolder> {
 
     Context c;
-    ArrayList<Categoria_row> models;
+    ArrayList<Categoria> models;
     //Este array list crea una lista de array con parametros definidos en la clase Categoria_row
 
 
-    public MyAdapter(Context c, ArrayList<Categoria_row> models) {
+    public MyAdapter(Context c, ArrayList<Categoria> models) {
         this.c = c;
         this.models = models;
     }

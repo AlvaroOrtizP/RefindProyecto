@@ -1,7 +1,7 @@
 package com.example.refindproyecto.Modelo;
 
 public class Favorito {
-    //Es un objeto de prueba
+
     private  int cantidadFavoritos;
 
     public int getCantidadFavoritos() {
