@@ -62,9 +62,14 @@ public class MainActivity extends AppCompatActivity {
     private List<Categoria> getItems() {
 
         List<Categoria> categoriarows = new ArrayList<>();
-        categoriarows.add(new Categoria("TIutulo1","Descrf", 1, R.drawable.ic_launcher_background));
-        categoriarows.add(new Categoria("TIutulo2","Descrf", 2, R.drawable.ic_launcher_background));
-        categoriarows.add(new Categoria("TIutulo3","Descrf", 3, R.drawable.ic_launcher_background));
+        categoriarows.add(new Categoria("Hotel","Un viaje increible, con un hotel increible", 1, R.drawable.hotel));
+        categoriarows.add(new Categoria("Taller","Si quieres arreglar tu vehiculo, ven a nuestros talleres unicos", 2, R.drawable.taller));
+        categoriarows.add(new Categoria("Restaurante","Las increibles croquetas en los increibles restaurantes", 3, R.drawable.restaurante));
+        categoriarows.add(new Categoria("Panaderias","Las increibles croquetas en los increibles restaurantes", 4, R.drawable.panaderia));
+        categoriarows.add(new Categoria("Mascotas","Las increibles croquetas en los increibles restaurantes", 5, R.drawable.mascota));
+        categoriarows.add(new Categoria("Peluqueria","Las increibles croquetas en los increibles restaurantes", 6, R.drawable.peluqueria));
+        categoriarows.add(new Categoria("Tiendas","Las increibles croquetas en los increibles restaurantes", 7, R.drawable.tienda));
+        categoriarows.add(new Categoria("Supermercado","Las increibles croquetas en los increibles restaurantes", 8, R.drawable.supermercado));
 
         return categoriarows;
     }
