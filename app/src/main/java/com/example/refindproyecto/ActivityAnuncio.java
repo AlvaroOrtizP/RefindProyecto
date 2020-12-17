@@ -32,7 +32,7 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        datosAnuncio = (Anuncio) getIntent().getExtras().getSerializable("datosAnuncio");
+        datosAnuncio = (Anuncio) getIntent().getExtras().getSerializable("datosanuncio");
         initViews();
         initValues();
     }
@@ -40,11 +40,9 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(datosAnuncio.getLatitud(), datosAnuncio.getLongitud());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng localizacion = new LatLng(datosAnuncio.getLatitud(), datosAnuncio.getLongitud());
+        mMap.addMarker(new MarkerOptions().position(localizacion).title(datosAnuncio.getTitulo()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localizacion, 13));
     }
     private void initViews() {
         imgItemDetail = findViewById(R.id.imgItemDetail);
@@ -53,7 +51,6 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void initValues(){
-
         imgItemDetail.setImageResource(datosAnuncio.getImgResource());
         tvTituloDetail.setText(datosAnuncio.getTitulo());
         tvDescripcionDetail.setText(datosAnuncio.getDescripcion());
