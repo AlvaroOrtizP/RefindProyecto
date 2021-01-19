@@ -68,4 +68,11 @@
     <string name="title">Title</string>
     <string name="title_activity_acivity_anuncio">Map</string>
     <string name="title_activity_anuncio">Map</string>
+
+
+    <!-- String de popup emergente-->
+    <string name="editarPopup">Editar el perfil</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnCancelar">Cancelar</string>
+
 </resources>
