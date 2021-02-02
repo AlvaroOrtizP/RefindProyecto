@@ -74,5 +74,6 @@
     <string name="editarPopup">Editar el perfil</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnCancelar">Cancelar</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
