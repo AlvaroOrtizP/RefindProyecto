@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.refindproyecto.R;
-import com.example.refindproyecto.Modelo.Anuncio;
+import com.example.refindproyecto.POJOS.Anuncio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class RecyclerAdapterA extends RecyclerView.Adapter<RecyclerAdapterA.Recy
     @Override
     public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
         final Anuncio item = items.get(position);
-        holder.imgItem.setImageResource(item.getImgResource());
+       // holder.imgItem.setImageResource(item.getImgResource());
         holder.tvTitulo.setText(item.getTitulo());
         holder.tvDescripcion.setText(item.getDescripcion());
 

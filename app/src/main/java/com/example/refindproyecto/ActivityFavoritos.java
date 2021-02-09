@@ -2,7 +2,6 @@ package com.example.refindproyecto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -12,15 +11,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.refindproyecto.Modelo.Favorito;
 
-import org.w3c.dom.Text;
+import com.example.refindproyecto.POJOS.Anuncio;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class ActivityFavoritos extends AppCompatActivity {
+    private int puerto = 8000;
+    private Socket socket;
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    Favorito favorito = new Favorito();
     TextView tvTitulo;
-
+    int cantidad=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +56,33 @@ public class ActivityFavoritos extends AppCompatActivity {
             startActivity(i);
         });
 
-        favorito.setCantidadFavoritos(5);
-        if(favorito.getCantidadFavoritos()>0){
-            tvTitulo.setText("Ya dispones de anuncios en favortitos. /n A que esperas a por los 50?");
-        }
-        else{
-            tvTitulo.setText("Todavia no tienes ningun Anuncio en favoritos");
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("192.168.1.127", puerto);
+                    OutputStream os = socket.getOutputStream();
+                    DataOutputStream dos = new DataOutputStream(os);
+                    dos.writeUTF("favoritos-1");
 
 
-    }
+
+                    //Pedir Array de Anuncio
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                    ArrayList<Anuncio> listaFavoritos = ( ArrayList<Anuncio>) ois.readObject();
+                    ois.close();
+                    cantidad = listaFavoritos.size();
+
+                    dos.close();
+                    os.close();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+        tvTitulo.setText(cantidad);
+    }/*
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -79,5 +102,5 @@ public class ActivityFavoritos extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
 
-    }
+    }*/
 }

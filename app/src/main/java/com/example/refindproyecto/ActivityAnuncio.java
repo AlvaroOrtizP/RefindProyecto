@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.refindproyecto.Modelo.Anuncio;
+import com.example.refindproyecto.POJOS.Anuncio;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,7 +50,7 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void initValues(){
-        imgItemDetail.setImageResource(datosAnuncio.getImgResource());
+       // imgItemDetail.setImageResource(datosAnuncio.getImgResource());
         tvTituloDetail.setText(datosAnuncio.getTitulo());
         tvDescripcionDetail.setText(datosAnuncio.getDescripcion());
     }

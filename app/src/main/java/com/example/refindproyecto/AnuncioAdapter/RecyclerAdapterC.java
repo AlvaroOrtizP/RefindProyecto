@@ -9,8 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.refindproyecto.Modelo.Anuncio;
-import com.example.refindproyecto.Modelo.Categoria;
+import com.example.refindproyecto.POJOS.Categoria;
 import com.example.refindproyecto.R;
 
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import com.example.refindproyecto.AnuncioAdapter.RecyclerAdapterC;
-import com.example.refindproyecto.Modelo.Categoria;
+import com.example.refindproyecto.POJOS.Categoria;
 import java.util.ArrayList;
 import java.util.List;
 
