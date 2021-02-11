@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.POJOS.Usuario;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +28,12 @@ public class ActivityPerfil extends AppCompatActivity {
     ImageButton btnInicio, btnFavorito, btnPerfil;
     RequestQueue requestQueue;
     //Para el formulario emergente
-    private AlertDialog.Builder dialogBuilder;
-    private AlertDialog dialog;
-    private EditText newNombre, newBiografia;
-    private TextView nombrePerfil, descripcionPerfil, apellidoPerfil;
-    private ImageButton btnNewfoto;
-    private Button btnGuardar, btnCancelar;
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog dialog;
+    EditText newNombre, newBiografia;
+    TextView nombrePerfil, descripcionPerfil, apellidoPerfil;
+    ImageButton btnNewfoto;
+    Button btnGuardar, btnCancelar;
 
 
     @Override
@@ -106,6 +107,7 @@ public class ActivityPerfil extends AppCompatActivity {
         });
     }
     private void obtenerDatosPerfil(String URL){
+        Usuario usuario=null;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -114,8 +116,10 @@ public class ActivityPerfil extends AppCompatActivity {
                     try {
                         //Toast.makeText(getApplicationContext(), "Entra"+i, Toast.LENGTH_SHORT).show();
                         jsonObject = response.getJSONObject(i);
+                        Usuario usuario = new Usuario(jsonObject.getInt("USUARIO_ID"),jsonObject.getString("NOMBRE"),jsonObject.getString("APELLIDO"),jsonObject.getString("BIOGRAFIA"),jsonObject.getInt("SEGUIDORES"),jsonObject.getInt("SIGUIENDO"),jsonObject.getInt("COMENTARIOS"));
                         nombrePerfil.setText(jsonObject.getString("nombre"));
                         apellidoPerfil.setText(jsonObject.getString("apellido"));
+
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
