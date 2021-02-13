@@ -1,46 +1,55 @@
 package com.example.refindproyecto.POJOS;
 
 public class Categoria {
-    private String titleCategoria, descripCategoria;
-    private int id_categoria;
-    private int imageCategoria;
+    private Integer categoriaId;
+    private int FotoPerfil;
+    private String titulo;
+    private String descripcion;
+
+    public Categoria(Integer categoria_id, int fotoPerfil, String titulo, String descripcion) {
+        this.categoriaId = categoria_id;
+        FotoPerfil = fotoPerfil;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+    }
 
     public Categoria(String titleCategoria, String descripCategoria, int id_categoria, int imageCategoria) {
-        this.titleCategoria = titleCategoria;
-        this.descripCategoria = descripCategoria;
-        this.id_categoria = id_categoria;
-        this.imageCategoria = imageCategoria;
+        this.titulo = titleCategoria;
+        this.descripcion = descripCategoria;
+        this.categoriaId = id_categoria;
+        this.FotoPerfil = imageCategoria;
     }
 
-    public int getId_categoria() {
-        return id_categoria;
+    public Integer getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setId_categoria(int id_categoria) {
-        this.id_categoria = id_categoria;
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
-    public String getTitleCategoria() {
-        return titleCategoria;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTitleCategoria(String titleCategoria) {
-        this.titleCategoria = titleCategoria;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public String getDescripCategoria() {
-        return descripCategoria;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripCategoria(String descripCategoria) {
-        this.descripCategoria = descripCategoria;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public int getImageCategoria() {
-        return imageCategoria;
+    public int getFotoPerfil() {
+        return FotoPerfil;
     }
 
-    public void setImageCategoria(int imageCategoria) {
-        this.imageCategoria = imageCategoria;
+    public void setFotoPerfil(int fotoPerfil) {
+        this.FotoPerfil = fotoPerfil;
     }
+
 }

@@ -73,7 +73,7 @@ public class ActivityRegistro extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     String fireId = mAuth.getUid();
                                     crearUsuario("http://192.168.1.127:80/Android/insertar_usuario.php",nombre.getText().toString(), apellido.getText().toString(), correo.getText().toString(),fireId);
-                                    Intent registro = new Intent(getApplicationContext(), MainActivity.class);
+                                    Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
                                     startActivity(registro);
                                 } else {
                                     //Si no pone como minimo 9 digitos en la contraseña falla

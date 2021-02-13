@@ -48,11 +48,11 @@ public class ActivityPerfil extends AppCompatActivity {
         btnFavorito =findViewById(R.id.btnFavorito);
         //btnPerfil =findViewById(R.id.btnPerfil);//Esta desactivado ya que logicamente no te interesa ir del perfil al perfil
         btnInicio.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityPerfil.this, MainActivity.class);
+            Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
             startActivity(i);
         });
         btnFavorito.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityPerfil.this, ActivityFavoritos.class);
+            Intent i = new Intent(ActivityPerfil.this, ActivityListaFav.class);
             startActivity(i);
         });
 

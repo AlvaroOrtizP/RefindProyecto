@@ -1,12 +1,17 @@
 package com.example.refindproyecto.POJOS;
 
-import java.io.Serializable;
-
-public class Anuncio implements Serializable {
-    private static final long serialVersionUID = 1620902735301530288L;
+public class Anuncio {
     private Integer anuncioId;
+    private int FotoPerfil;//Seria string
     private String titulo;
     private String descripcion;
+
+    public Anuncio(Integer anuncioId, int fotoPerfil, String titulo, String descripcion) {
+        this.anuncioId = anuncioId;
+        FotoPerfil = fotoPerfil;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+    }
 
     public Anuncio(Integer anuncioId) {
         this.anuncioId = anuncioId;
@@ -41,4 +46,6 @@ public class Anuncio implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+
 }

@@ -12,12 +12,14 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="3dp"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/btnInicio"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="@color/white"
             app:srcCompat="@drawable/ic_inicio" />
@@ -27,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:layout_marginBottom="2dp"
             android:background="@color/white"
             app:srcCompat="@drawable/ic_favorito" />
 
@@ -35,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:layout_marginBottom="2dp"
             android:background="@color/white"
             app:srcCompat="@drawable/ic_perfil" />
     </LinearLayout>

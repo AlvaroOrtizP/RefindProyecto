@@ -37,9 +37,9 @@ public class RecyclerAdapterC extends RecyclerView.Adapter<RecyclerAdapterC.Recy
     @Override
     public void onBindViewHolder(@NonNull final RecyclerHolder holder, final int position) {
         final Categoria item = items.get(position);
-        holder.imgItem.setImageResource(item.getImageCategoria());
-        holder.tvTitulo.setText(item.getTitleCategoria());
-        holder.tvDescripcion.setText(item.getDescripCategoria());
+        holder.imgItem.setImageResource(item.getFotoPerfil());
+        holder.tvTitulo.setText(item.getTitulo());
+        holder.tvDescripcion.setText(item.getDescripcion());
 
         holder.itemView.setOnClickListener(v -> itemClick.itemClick(item));
     }

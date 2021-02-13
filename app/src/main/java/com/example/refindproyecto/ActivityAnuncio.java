@@ -30,7 +30,7 @@ public class ActivityAnuncio extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        datosAnuncio = (Anuncio) getIntent().getExtras().getSerializable("datosanuncio");
+        //datosAnuncio = (Anuncio) getIntent().getExtras().getSerializable("datosanuncio");
         initViews();
         initValues();
     }

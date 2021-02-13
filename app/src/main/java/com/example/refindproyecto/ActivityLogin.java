@@ -43,7 +43,7 @@ public class ActivityLogin extends AppCompatActivity {
         String fireId = mAuth.getUid();
         if(fireId!=null){
             obtenerUsuario(fireId);
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
             startActivity(i);
         }
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +69,6 @@ public class ActivityLogin extends AppCompatActivity {
         Intent registro = new Intent(this, ActivityRegistro.class);
         startActivity(registro);
     }
-
     public void iniciarSesion (View view){
         if(correo.getText().toString().equals("")|| pass.getText().toString().equals("")){
             Toast.makeText(getApplicationContext(), "Debe rellenar los campos", Toast.LENGTH_SHORT).show();
@@ -84,7 +83,7 @@ public class ActivityLogin extends AppCompatActivity {
                                 String fireId = mAuth.getUid();
                                 obtenerUsuario(fireId);
 
-                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
                                 startActivity(i);
                                 Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
                                         Toast.LENGTH_SHORT).show();
@@ -104,7 +103,8 @@ public class ActivityLogin extends AppCompatActivity {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        Usuario usuario = new Usuario(jsonObject.getInt("usuario_id"),
+                        Usuario usuario = new Usuario(
+                                jsonObject.getInt("usuario_id"),
                                 jsonObject.getString("nombre"),
                                 jsonObject.getString("apellido"),
                                 jsonObject.getString("email"),
@@ -112,8 +112,6 @@ public class ActivityLogin extends AppCompatActivity {
                                 jsonObject.getInt("seguidor"),
                                 jsonObject.getInt("seguidos"),
                                 jsonObject.getInt("comentario"));
-                        Toast.makeText(getApplicationContext(), "EL usuario "+usuario.getNombre(),
-                                Toast.LENGTH_SHORT).show();
                         guardarPreferencias(usuario);
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
