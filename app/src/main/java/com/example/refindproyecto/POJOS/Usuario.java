@@ -4,15 +4,18 @@ public class Usuario {
     private Integer usuarioId;
     private String nombre;
     private String apellido;
+    private String email;
+    private String usuFire;
     private String biografia;
     private Integer seguidores;
     private Integer siguiendo;
     private Integer comentarios;
 
-    public Usuario(Integer usuarioId, String nombre, String apellido, String biografia, Integer seguidores, Integer siguiendo, Integer comentarios) {
+    public Usuario(Integer usuarioId, String nombre, String apellido, String email, String biografia, Integer seguidores, Integer siguiendo, Integer comentarios) {
         this.usuarioId = usuarioId;
         this.nombre = nombre;
         this.apellido = apellido;
+        this.email = email;
         this.biografia = biografia;
         this.seguidores = seguidores;
         this.siguiendo = siguiendo;
@@ -41,6 +44,22 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsuFire() {
+        return usuFire;
+    }
+
+    public void setUsuFire(String usuFire) {
+        this.usuFire = usuFire;
     }
 
     public String getBiografia() {

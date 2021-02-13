@@ -3,7 +3,9 @@ package com.example.refindproyecto;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,27 +13,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.Usuario;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ActivityPerfil extends AppCompatActivity {
+   // private FirebaseAuth mAuth;
     //Para el navbar
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    RequestQueue requestQueue;
+    FloatingActionButton fab;
     //Para el formulario emergente
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
+    //
     EditText newNombre, newBiografia;
-    TextView nombrePerfil, descripcionPerfil, apellidoPerfil;
+    TextView nombrePerfil, biografiaPerfil, apellidoPerfil, seguidores, seguidos, comentarios;
     ImageButton btnNewfoto;
     Button btnGuardar, btnCancelar;
 
@@ -41,12 +37,16 @@ public class ActivityPerfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         nombrePerfil = findViewById(R.id.nombreUsuario);
-        //descripcionPerfil = findViewById(R.id.tvBibliografia);
+        biografiaPerfil = findViewById(R.id.tvBibliografia);
         apellidoPerfil = findViewById(R.id.apellidoUsuario);
+        seguidores = findViewById(R.id.tvNSeguidores);
+        seguidos = findViewById(R.id.tvNSiguiendo);
+        comentarios = findViewById(R.id.tvNComentario);
+        fab = findViewById(R.id.logOut);
 
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
-        btnPerfil =findViewById(R.id.btnPerfil);
+        //btnPerfil =findViewById(R.id.btnPerfil);//Esta desactivado ya que logicamente no te interesa ir del perfil al perfil
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, MainActivity.class);
             startActivity(i);
@@ -55,12 +55,18 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(ActivityPerfil.this, ActivityFavoritos.class);
             startActivity(i);
         });
-        btnPerfil.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityPerfil.this, ActivityPerfil.class);
-            startActivity(i);
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+                startActivity(i);
+            }
         });
-        String URL = "http://192.168.1.127:80/Android/buscar_usuario.php?usuario_id="+2;
-        obtenerDatosPerfil(URL);
+
+        getPreferences();
     }
 
     /**
@@ -90,7 +96,6 @@ public class ActivityPerfil extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,34 +111,19 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         });
     }
-    private void obtenerDatosPerfil(String URL){
-        Usuario usuario=null;
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        //Toast.makeText(getApplicationContext(), "Entra"+i, Toast.LENGTH_SHORT).show();
-                        jsonObject = response.getJSONObject(i);
-                        Usuario usuario = new Usuario(jsonObject.getInt("USUARIO_ID"),jsonObject.getString("NOMBRE"),jsonObject.getString("APELLIDO"),jsonObject.getString("BIOGRAFIA"),jsonObject.getInt("SEGUIDORES"),jsonObject.getInt("SIGUIENDO"),jsonObject.getInt("COMENTARIOS"));
-                        nombrePerfil.setText(jsonObject.getString("nombre"));
-                        apellidoPerfil.setText(jsonObject.getString("apellido"));
 
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
-            }
-        }
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+    /**
+     * Metodo para cargar el archivo de preferencias en los datos del perfil
+     * El archivo usado es "datosUsuario" y se crea en el Login
+     */
+    private void getPreferences(){
+        SharedPreferences preferences =getSharedPreferences("datosUsuario", Context.MODE_PRIVATE);
+        nombrePerfil.setText(preferences.getString("nombre",""));
+        apellidoPerfil.setText(preferences.getString("apellido",""));
+        biografiaPerfil.setText(preferences.getString("biografia",""));
+        seguidores.setText(""+preferences.getInt("seguidores",0));
+        seguidos.setText(""+preferences.getInt("siguiendo",0));
+        comentarios.setText(""+preferences.getInt("comentarios",0));
     }
+
 }
