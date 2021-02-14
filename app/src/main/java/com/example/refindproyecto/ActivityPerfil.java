@@ -9,16 +9,33 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.POJOS.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class ActivityPerfil extends AppCompatActivity {
-   // private FirebaseAuth mAuth;
+    RequestQueue requestQueue;
+    FirebaseAuth mAuth;
+
     //Para el navbar
     ImageButton btnInicio, btnFavorito, btnPerfil;
     FloatingActionButton fab;
@@ -36,6 +53,7 @@ public class ActivityPerfil extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        mAuth = FirebaseAuth.getInstance();
         nombrePerfil = findViewById(R.id.nombreUsuario);
         biografiaPerfil = findViewById(R.id.tvBibliografia);
         apellidoPerfil = findViewById(R.id.apellidoUsuario);
@@ -43,10 +61,28 @@ public class ActivityPerfil extends AppCompatActivity {
         seguidos = findViewById(R.id.tvNSiguiendo);
         comentarios = findViewById(R.id.tvNComentario);
         fab = findViewById(R.id.logOut);
+        Switch swSonido=findViewById(R.id.swSonido);
+
+        if(cargarPreferencias()){
+            swSonido.setChecked(true);
+        }
+        else{
+            swSonido.setChecked(false);
+        }
+
+        swSonido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    activarAudio();
+                }else{
+                    desactivarAudio();
+                }
+            }
+        });
 
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
-        //btnPerfil =findViewById(R.id.btnPerfil);//Esta desactivado ya que logicamente no te interesa ir del perfil al perfil
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
             startActivity(i);
@@ -56,17 +92,19 @@ public class ActivityPerfil extends AppCompatActivity {
             startActivity(i);
         });
 
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-                startActivity(i);
-            }
+        String fireId = mAuth.getUid();
+        obtenerUsuario(fireId);
+        fab.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
         });
 
-        getPreferences();
+
     }
 
     /**
@@ -87,6 +125,8 @@ public class ActivityPerfil extends AppCompatActivity {
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
+
+
 
         //Funciones de los botonoes
         btnNewfoto.setOnClickListener(new View.OnClickListener() {
@@ -111,19 +151,58 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         });
     }
+    private void obtenerUsuario(String fireId){
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest("http://192.168.1.127:80/Android/buscar_usuario.php?usuario_firebase="+fireId, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject = null;
+                Usuario usuario =null;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        usuario = new Usuario(
+                                jsonObject.getInt("usuario_id"),
+                                jsonObject.getString("nombre"),
+                                jsonObject.getString("apellido"),
+                                jsonObject.getString("email"),
+                                jsonObject.getString("bibliografia"),
+                                jsonObject.getInt("seguidor"),
+                                jsonObject.getInt("seguidos"),
+                                jsonObject.getInt("comentario"));
+                    } catch (JSONException e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                nombrePerfil.setText(usuario.getNombre());
+                biografiaPerfil.setText(usuario.getBiografia());
+                apellidoPerfil.setText(usuario.getApellido());
+                seguidores.setText(usuario.getSeguidores().toString());
+                seguidos.setText(usuario.getSiguiendo().toString());
+                comentarios.setText(usuario.getComentarios().toString());
+            }
+        }, error -> Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show()
+        );
+        requestQueue= Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
 
-    /**
-     * Metodo para cargar el archivo de preferencias en los datos del perfil
-     * El archivo usado es "datosUsuario" y se crea en el Login
-     */
-    private void getPreferences(){
-        SharedPreferences preferences =getSharedPreferences("datosUsuario", Context.MODE_PRIVATE);
-        nombrePerfil.setText(preferences.getString("nombre",""));
-        apellidoPerfil.setText(preferences.getString("apellido",""));
-        biografiaPerfil.setText(preferences.getString("biografia",""));
-        seguidores.setText(""+preferences.getInt("seguidores",0));
-        seguidos.setText(""+preferences.getInt("siguiendo",0));
-        comentarios.setText(""+preferences.getInt("comentarios",0));
     }
 
+
+    private void desactivarAudio(){
+        SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putBoolean("sonido",false);
+        editor.commit();
+    }
+    private void activarAudio(){
+        SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putBoolean("sonido",true);
+        editor.commit();
+    }
+    private boolean cargarPreferencias(){
+        SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
+        Boolean sonidoActivado = preferences.getBoolean("sonido",true);
+        return sonidoActivado;
+    }
 }

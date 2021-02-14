@@ -9,7 +9,9 @@
     android:orientation="vertical">
 
 
+
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/editarPerfil"
@@ -21,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.101" />
 
+
     <ImageButton
         android:id="@+id/imgPopup"
         android:layout_width="150dp"
@@ -28,22 +31,20 @@
         android:background="@drawable/ic_casa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
-
-
+        app:layout_constraintVertical_bias="0.323" />
 
     <EditText
         android:id="@+id/popupNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="60dp"
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@+id/imgPopup"
         app:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteX="-16dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <EditText
         android:id="@+id/popupBiografia"
@@ -83,6 +84,8 @@
         app:layout_constraintTop_toBottomOf="@+id/popupBiografia"
         app:layout_constraintVertical_bias="0.391"
         android:layout_marginBottom="20dp"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

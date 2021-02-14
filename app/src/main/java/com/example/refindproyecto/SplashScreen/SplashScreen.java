@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
@@ -30,6 +33,7 @@ public class SplashScreen extends AppCompatActivity {
     long delay=200;
     Handler handler = new Handler();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,11 @@ public class SplashScreen extends AppCompatActivity {
         ivBeat = findViewById(R.id.iv_beat);
         ivBottom = findViewById(R.id.iv_bottom);
         textView = findViewById(R.id.text_view);
+        if(cargarPreferencias()){
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
+            mp.start();
+        }
+
         //TODO: mirar el FLAG_FULLSCREEN
         //Set full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -92,5 +101,10 @@ public class SplashScreen extends AppCompatActivity {
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, delay);
 
+    }
+    private boolean cargarPreferencias(){
+        SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
+        Boolean sonidoActivado = preferences.getBoolean("sonido",true);
+        return sonidoActivado;
     }
 }

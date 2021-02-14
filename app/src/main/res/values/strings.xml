@@ -12,7 +12,7 @@
     <!-- Strings de: Activity : PERFIL -->
     <string name="nombreUsuario">Ej_Alvaro</string>
     <string name="desFotoUsuario">Foto del usuario</string>
-    <string name="editarPerfil">Editar perfil</string>
+    <string name="editarPerfil">Configuración</string>
     <string name="tvSeguidores">Seguidores</string>
     <string name="tvSiguiendo">Siguiendo</string>
     <string name="tvComentario">Comentarios</string>

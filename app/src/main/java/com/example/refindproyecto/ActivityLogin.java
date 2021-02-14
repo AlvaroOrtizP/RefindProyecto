@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,15 +34,31 @@ public class ActivityLogin extends AppCompatActivity {
     private EditText correo, pass;
     private Button iniciarSesion, irRegistro;
     RequestQueue requestQueue;
+    /*SoundPool sp;
+    int sonidoError, sonidoCorrecto;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         correo = findViewById(R.id.emailLogin);
         pass = findViewById(R.id.passLogin);
         mAuth = FirebaseAuth.getInstance();
         iniciarSesion= findViewById(R.id.IniciarSesionLogin);
         irRegistro= findViewById(R.id.irRegistroLogin);
+
+
+        /**
+         * -------------------Sonidos
+         */
+        /*sp=new SoundPool(1, AudioManager.STREAM_MUSIC,1);
+        sonidoError=sp.load(this, R.raw.error,1);
+        sonidoCorrecto=sp.load(this, R.raw.correcto,1);*/
+        /**
+         * ------------------------------------------------
+         */
+
+
         String fireId = mAuth.getUid();
         if(fireId!=null){
             obtenerUsuario(fireId);
@@ -75,50 +94,60 @@ public class ActivityLogin extends AppCompatActivity {
         }
         else{
             mAuth.signInWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                String fireId = mAuth.getUid();
-                                obtenerUsuario(fireId);
-
-                                Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
-                                startActivity(i);
-                                Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                                        Toast.LENGTH_SHORT).show();
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String fireId = mAuth.getUid();
+                            obtenerUsuario(fireId);
+                            //sp.play(sonidoCorrecto,1,1,1,0,0);
+                            if(cargarPreferencias()){
+                                MediaPlayer mp = MediaPlayer.create(this, R.raw.correcto);
+                                mp.start();
                             }
+                            Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
+                            startActivity(i);
+                            Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            /**
+                             * loop
+                             *  -1 siempre repitiendo
+                             *  0 solo una vez
+                             *  1 escucha y de manera automatica se volvera a escuchar
+                             *  rate modificar la velocidad
+                             */
+                            //sp.play(sonidoError,1,1,1,0,0);
+                            if(cargarPreferencias()){
+                                MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
+                                mp.start();
+                            }
+                            Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
+    //Comentar
     private void obtenerUsuario(String fireId){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest("http://192.168.1.127:80/Android/buscar_usuario.php?usuario_firebase="+fireId, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        Usuario usuario = new Usuario(
-                                jsonObject.getInt("usuario_id"),
-                                jsonObject.getString("nombre"),
-                                jsonObject.getString("apellido"),
-                                jsonObject.getString("email"),
-                                jsonObject.getString("bibliografia"),
-                                jsonObject.getInt("seguidor"),
-                                jsonObject.getInt("seguidos"),
-                                jsonObject.getInt("comentario"));
-                        guardarPreferencias(usuario);
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest("http://192.168.1.127:80/Android/buscar_usuario.php?usuario_firebase="+fireId, response -> {
+            JSONObject jsonObject = null;
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    jsonObject = response.getJSONObject(i);
+                    Usuario usuario = new Usuario(
+                            jsonObject.getInt("usuario_id"),
+                            jsonObject.getString("nombre"),
+                            jsonObject.getString("apellido"),
+                            jsonObject.getString("email"),
+                            jsonObject.getString("bibliografia"),
+                            jsonObject.getInt("seguidor"),
+                            jsonObject.getInt("seguidos"),
+                            jsonObject.getInt("comentario"));
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
-        }, new Response.ErrorListener() {
+        },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
@@ -128,20 +157,13 @@ public class ActivityLogin extends AppCompatActivity {
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
-    private void guardarPreferencias(Usuario usuario){
-        //Creamos el repositor donde guardaremos las preferencias
-        SharedPreferences preferences = getSharedPreferences("datosUsuario", Context.MODE_PRIVATE);
-        //Creamos el editor de preferencias
-        SharedPreferences.Editor editor=preferences.edit();
-        editor.putString("nombre",usuario.getNombre());
-        editor.putString("apellido",usuario.getApellido());
-        editor.putString("biografia",usuario.getBiografia());
-        editor.putInt("comentarios",usuario.getComentarios());
-        editor.putInt("seguidores",usuario.getSeguidores());
-        editor.putInt("siguiendo",usuario.getSiguiendo());
 
-        editor.commit();
+    private boolean cargarPreferencias(){
+        SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
+        Boolean sonidoActivado = preferences.getBoolean("sonido",true);
+        return sonidoActivado;
     }
+
 }
 
 

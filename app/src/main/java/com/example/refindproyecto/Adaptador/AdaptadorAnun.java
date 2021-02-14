@@ -1,4 +1,4 @@
-package com.example.refindproyecto.adaptador;
+package com.example.refindproyecto.Adaptador;
 
 
 import android.content.Context;

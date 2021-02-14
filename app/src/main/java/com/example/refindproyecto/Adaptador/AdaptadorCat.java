@@ -1,4 +1,4 @@
-package com.example.refindproyecto.adaptador;
+package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.refindproyecto.ActivityListaAnun;
-import com.example.refindproyecto.ActivityListaCat;
 import com.example.refindproyecto.POJOS.Categoria;
 import com.example.refindproyecto.R;
 import java.util.List;
