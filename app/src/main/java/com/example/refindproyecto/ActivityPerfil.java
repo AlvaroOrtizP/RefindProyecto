@@ -161,7 +161,6 @@ public class ActivityPerfil extends AppCompatActivity {
                     try {
                         jsonObject = response.getJSONObject(i);
                         usuario = new Usuario(
-                                jsonObject.getInt("usuario_id"),
                                 jsonObject.getString("nombre"),
                                 jsonObject.getString("apellido"),
                                 jsonObject.getString("email"),

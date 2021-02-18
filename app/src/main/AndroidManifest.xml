@@ -16,12 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RefindProyecto"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActivityListaFav">
-        </activity>
-        <activity android:name=".ActivityListaAnun"></activity>
-        <activity android:name=".ActivityListaCat">
-
-        </activity>
+        <activity android:name=".ActivityAnuncio"></activity>
+        <activity android:name=".ActivityListaFav"></activity>
+        <activity android:name=".ActivityListaAnun" />
+        <activity android:name=".ActivityListaCat"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,12 +32,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".ActivityAnuncio"
-            android:label="@string/title_activity_anuncio" />
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".SplashScreen.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

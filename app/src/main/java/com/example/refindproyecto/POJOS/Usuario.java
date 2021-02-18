@@ -1,7 +1,6 @@
 package com.example.refindproyecto.POJOS;
 
 public class Usuario {
-    private Integer usuarioId;
     private String nombre;
     private String apellido;
     private String email;
@@ -11,8 +10,7 @@ public class Usuario {
     private Integer siguiendo;
     private Integer comentarios;
 
-    public Usuario(Integer usuarioId, String nombre, String apellido, String email, String biografia, Integer seguidores, Integer siguiendo, Integer comentarios) {
-        this.usuarioId = usuarioId;
+    public Usuario(String nombre, String apellido, String email, String biografia, Integer seguidores, Integer siguiendo, Integer comentarios) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -22,13 +20,6 @@ public class Usuario {
         this.comentarios = comentarios;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 
     public String getNombre() {
         return nombre;

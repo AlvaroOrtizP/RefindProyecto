@@ -2,6 +2,7 @@ package com.example.refindproyecto.Adaptador;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.refindproyecto.ActivityAnuncio;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.R;
 import java.util.List;
@@ -43,9 +46,9 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(context, Perfil.class);
-                //intent.putExtra("categoriaId", categoriaList.get(position).getCategoria_id().toString());
-                //context.startActivity(intent);
+                Intent intent = new Intent(context, ActivityAnuncio.class);
+                intent.putExtra("anuncio_id", anuncioList.get(position).getAnuncioId().toString());
+                context.startActivity(intent);
             }
         });
     }

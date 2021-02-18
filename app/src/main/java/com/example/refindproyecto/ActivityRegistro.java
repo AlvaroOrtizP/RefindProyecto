@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +35,7 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText apellido;
     private EditText pass;
     private EditText confirmacionPass;
+    CheckBox checkBox;
 
 
 
@@ -46,22 +50,32 @@ public class ActivityRegistro extends AppCompatActivity {
         apellido = findViewById(R.id.apellidoRegistro);
         pass = findViewById(R.id.passRegistro);
         confirmacionPass = findViewById(R.id.passComRegistro);
+        checkBox = findViewById(R.id.checkBox);
     }
 
-    @Override
+    /**@Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-    }
+    }*/
     public void registrarUsuario (View view){
         if(correo.getText().toString().equals("") || nombre.getText().toString().equals("") || apellido.getText().toString().equals("") || pass.getText().toString().equals("") || confirmacionPass.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Debe rellenar los campos", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(view, "Debes rellenar todos los campos", Snackbar.LENGTH_LONG);
+            //snackbar.setTextColor(Color.parseColor("#FF0000"));
+            //snackbar.setBackgroundTint(Color.parseColor("#FFB0D9B9"));
+            snackbar.show();
+        }
+        else if(!checkBox.isChecked()){
+            Snackbar snackbar = Snackbar.make(view, "Debes tener mas de 18 para usar esta aplicación", Snackbar.LENGTH_LONG);
+            snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
         }
         else if(!pass.getText().toString().equals(confirmacionPass.getText().toString())){
-            Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(view, "Las contraseñas no coinciden", Snackbar.LENGTH_LONG);
+            snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
         }
         else if(pass.length()<9){
-            Toast.makeText(getApplicationContext(), "La contraseña tiene que tener minimo 9 caracteres", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(view, "La contraseña tiene que tener como minimo 9 caracteres", Snackbar.LENGTH_LONG);
+            snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
         }
         else{
             if(pass.getText().toString().trim().equals(confirmacionPass.getText().toString().trim())){
@@ -77,13 +91,15 @@ public class ActivityRegistro extends AppCompatActivity {
                                     startActivity(registro);
                                 } else {
                                     //Si no pone como minimo 9 digitos en la contraseña falla
-                                    Toast.makeText(getApplicationContext(), "Fallo al registrarse", Toast.LENGTH_SHORT).show();
+                                    Snackbar snackbar = Snackbar.make(view, "Fallo al registrarse", Snackbar.LENGTH_LONG);
+                                    snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
                                 }
                             }
                         });
             }
             else{
-                Toast.makeText(this,"Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(view, "Las contraseñas no coinciden", Snackbar.LENGTH_LONG);
+                snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
             }
         }
 
@@ -96,7 +112,7 @@ public class ActivityRegistro extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "Insercion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Registro correcto", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

@@ -5,6 +5,32 @@ public class Anuncio {
     private int FotoPerfil;//Seria string
     private String titulo;
     private String descripcion;
+    private int latitud;
+    private int longitud;
+
+    public int getFotoPerfil() {
+        return FotoPerfil;
+    }
+
+    public void setFotoPerfil(int fotoPerfil) {
+        FotoPerfil = fotoPerfil;
+    }
+
+    public int getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(int latitud) {
+        this.latitud = latitud;
+    }
+
+    public int getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(int longitud) {
+        this.longitud = longitud;
+    }
 
     public Anuncio(Integer anuncioId, int fotoPerfil, String titulo, String descripcion) {
         this.anuncioId = anuncioId;

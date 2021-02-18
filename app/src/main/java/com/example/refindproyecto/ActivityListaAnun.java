@@ -80,6 +80,8 @@ public class ActivityListaAnun extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
+                startActivity(i);
             }
         }
         );

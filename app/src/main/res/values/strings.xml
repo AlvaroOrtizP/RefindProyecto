@@ -33,8 +33,11 @@
 
     <!-- Strings de: Activity : PERFIL ANUNCIANTE -->
     <string name="nombre_anuncio">IES ATAULFO ARGENTA</string>
+    <string name="informacion">Informacion</string>
+    <string name="comentarios">Comentarios</string>
     <string name="descripcion_anuncio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis sagittis nibh. Ut euismod, dolor et bibendum tincidunt, orci justo efficitur dolor, non rhoncus nibh massa vitae lectus</string>
     <string name="descripcion_flecha">Volver a inicio</string>
+
 
     <!-- Strings de: Activity : LOGIN -->
     <string name="descripcionLogo">Logo de ReFind</string>
@@ -43,6 +46,7 @@
     <string name="iniciarSesionLogin">Iniciar Sesion</string>
     <string name="mensajeParaRegistro">¿Aun no tienes una cuenta?</string>
     <string name="btnRegistro">Registro</string>
+    <string name="check">¿Eres mayor de 18?</string>
 
 
     <!-- Menu contextual AL DEJAR PULSADO-->
@@ -75,5 +79,10 @@
     <string name="btnGuardar">Guardar</string>
     <string name="btnCancelar">Cancelar</string>
     <string name="title_activity_maps">Map</string>
+
+    <!--LISTAS -->
+    <string name="listaCategorias">Categorias</string>
+    <string name="listaAnuncios">Anuncios</string>
+    <string name="listaFavoritos">Favoritos</string>
 
 </resources>
