@@ -2,7 +2,7 @@ package com.example.refindproyecto.POJOS;
 
 public class Anuncio {
     private Integer anuncioId;
-    private int FotoPerfil;//Seria string
+    private int FotoPerfil;
     private String titulo;
     private String descripcion;
     private int latitud;
