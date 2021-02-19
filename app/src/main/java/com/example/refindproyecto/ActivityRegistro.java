@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.POJOS.Url;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActivityRegistro extends AppCompatActivity {
+    Url url;
     private FirebaseAuth mAuth;
     private EditText correo;
     private EditText nombre;
@@ -86,7 +88,7 @@ public class ActivityRegistro extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     String fireId = mAuth.getUid();
-                                    crearUsuario("http://192.168.1.127:80/Android/insertar_usuario.php",nombre.getText().toString(), apellido.getText().toString(), correo.getText().toString(),fireId);
+                                    crearUsuario(url.getUrl()+"insertar_usuario.php",nombre.getText().toString(), apellido.getText().toString(), correo.getText().toString(),fireId);
                                     Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
                                     startActivity(registro);
                                 } else {

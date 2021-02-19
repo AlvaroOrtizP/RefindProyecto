@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.example.refindproyecto.POJOS.Url;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaFav extends AppCompatActivity {
+    Url url;
     private FirebaseAuth mAuth;
     ImageButton btnInicio, btnFavorito, btnPerfil;
     List<Anuncio> anuncioList;
@@ -55,7 +57,7 @@ public class ActivityListaFav extends AppCompatActivity {
     }
     public void init(String usuarioID){
         anuncioList = new ArrayList<>();//http://192.168.1.127/Android/obtener_favoritos.php?usuario_firebase=ihCQe2i9jtaStefSlU2sCLZnwH33
-        obtenerAnuncios("http://192.168.1.127:80/Android/obtener_favoritos.php?usuario_firebase="+usuarioID);
+        obtenerAnuncios(url.getUrl()+"obtener_favoritos.php?usuario_firebase="+usuarioID);
     }
     private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
+import com.example.refindproyecto.POJOS.Url;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActivityAnuncio extends AppCompatActivity {
+    Url url;
     private FirebaseAuth mAuth;
     RequestQueue requestQueue;
     TextView tvTitulo, tvDescripcion;
@@ -47,8 +49,9 @@ public class ActivityAnuncio extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String fireId = mAuth.getUid();
         String anuncioId=getIntent().getStringExtra("anuncio_id").toString();
-        obtenerAnuncio("http://192.168.1.127:80/Android/obtener_anuncio.php?anuncio_id="+anuncioId);
-        saberFav("http://192.168.1.127:80/Android/saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
+
+        obtenerAnuncio(url.getUrl()+"obtener_anuncio.php?anuncio_id="+anuncioId);
+        saberFav(url.getUrl()+"saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +131,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
     private void addFav(String usuarioFire, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_fav.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url.getUrl()+"insertar_fav.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Añadido a Fav", Toast.LENGTH_SHORT).show();
@@ -153,7 +156,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
     private void eliminarFav(String fireId, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/eliminar_fav.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url.getUrl()+"eliminar_fav.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 onFav=false;
