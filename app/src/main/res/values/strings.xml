@@ -85,4 +85,7 @@
     <string name="listaAnuncios">Anuncios</string>
     <string name="listaFavoritos">Favoritos</string>
 
+
+    <!--Errores -->
+    <string name="error18">Debes tener mas de 18 para usar esta aplicación</string>
 </resources>

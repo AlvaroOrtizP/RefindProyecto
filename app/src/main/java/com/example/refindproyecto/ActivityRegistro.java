@@ -68,8 +68,8 @@ public class ActivityRegistro extends AppCompatActivity {
             snackbar.show();
         }
         else if(!checkBox.isChecked()){
-            Snackbar snackbar = Snackbar.make(view, "Debes tener mas de 18 para usar esta aplicación", Snackbar.LENGTH_LONG);
-            snackbar.show();//TODO LOS mesnajes tienen que ir traducidos
+            Snackbar snackbar = Snackbar.make(view, R.string.error18, Snackbar.LENGTH_LONG);
+            snackbar.show();//Mensaje de no menor de 18
         }
         else if(!pass.getText().toString().equals(confirmacionPass.getText().toString())){
             Snackbar snackbar = Snackbar.make(view, "Las contraseñas no coinciden", Snackbar.LENGTH_LONG);
