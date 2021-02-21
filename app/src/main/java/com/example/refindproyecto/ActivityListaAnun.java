@@ -36,7 +36,7 @@ public class ActivityListaAnun extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil =findViewById(R.id.btnPerfil);
-
+        btnInicio.setImageResource(R.drawable.ic_homeb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
             startActivity(i);

@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:layout_marginBottom="2dp"
             android:background="@color/white"
-            app:srcCompat="@drawable/ic_favorito" />
+            app:srcCompat="@drawable/ic_favoritob_off" />
 
         <ImageButton
             android:id="@+id/btnPerfil"

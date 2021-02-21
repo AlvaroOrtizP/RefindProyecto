@@ -7,14 +7,8 @@
     android:background="#FFFFFF"
     tools:context=".ActivityAnuncio">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:srcCompat="@drawable/ic_favorito" />
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -30,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="TODO"
+
             tools:src="@drawable/hotel" />
 
     </LinearLayout>
@@ -58,9 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTituloAnuncio">
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:id="@+id/asd"
@@ -78,8 +71,8 @@
 
                 <TextView
                     android:id="@+id/tvDescripcionDetail"
-                    android:layout_width="320dp"
-                    android:layout_height="100dp"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/descripcion_anuncio"
                     android:textSize="15sp"
@@ -132,8 +125,20 @@
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
 
-        </ScrollView>
+
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imBFav"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="160dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/tvTituloAnuncio"
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_favorito_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

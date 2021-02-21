@@ -90,6 +90,8 @@ public class ActivityPerfil extends AppCompatActivity {
 
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
+        btnPerfil = findViewById(R.id.btnPerfil);
+        btnPerfil.setImageResource(R.drawable.ic_perfilb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
             startActivity(i);
@@ -172,9 +174,9 @@ public class ActivityPerfil extends AppCompatActivity {
                                 jsonObject.getString("apellido"),
                                 jsonObject.getString("email"),
                                 jsonObject.getString("bibliografia"),
-                                jsonObject.getInt("seguidor"),
-                                jsonObject.getInt("seguidos"),
-                                jsonObject.getInt("comentario"));
+                                0,
+                                0,
+                                0);
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
