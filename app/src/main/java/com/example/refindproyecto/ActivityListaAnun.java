@@ -80,7 +80,7 @@ public class ActivityListaAnun extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Esta categoria no tiene anuncios por ahora", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
                 startActivity(i);
             }

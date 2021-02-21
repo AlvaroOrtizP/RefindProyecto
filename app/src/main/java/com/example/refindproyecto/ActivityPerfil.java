@@ -59,15 +59,16 @@ public class ActivityPerfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         mAuth = FirebaseAuth.getInstance();
-        imagenPerfil= findViewById(R.id.fotoUsuario);
-        nombrePerfil = findViewById(R.id.nombreUsuario);
+        imagenPerfil= findViewById(R.id.fotoUsuario);//
+        nombrePerfil = findViewById(R.id.nombreUsuario);//
         biografiaPerfil = findViewById(R.id.tvBibliografia);
-        apellidoPerfil = findViewById(R.id.apellidoUsuario);
-        seguidores = findViewById(R.id.tvNSeguidores);
-        seguidos = findViewById(R.id.tvNSiguiendo);
-        comentarios = findViewById(R.id.tvNComentario);
-        fab = findViewById(R.id.logOut);
-        Switch swSonido=findViewById(R.id.swSonido);
+        apellidoPerfil = findViewById(R.id.apellidoUsuario);//
+        Switch swSonido=findViewById(R.id.swSonido);//
+        //seguidores = findViewById(R.id.tvNSeguidores);
+        //seguidos = findViewById(R.id.tvNSiguiendo);
+        //comentarios = findViewById(R.id.tvNComentario);
+        fab = findViewById(R.id.logOut);//
+
         requestQueue=Volley.newRequestQueue(getApplicationContext());
 
         if(cargarPreferencias()){
@@ -90,8 +91,8 @@ public class ActivityPerfil extends AppCompatActivity {
 
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
-        btnPerfil = findViewById(R.id.btnPerfil);
-        btnPerfil.setImageResource(R.drawable.ic_perfilb);
+        //btnPerfil = findViewById(R.id.btnPerfil);
+        //btnPerfil.setImageResource(R.drawable.ic_perfilb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
             startActivity(i);
@@ -184,9 +185,9 @@ public class ActivityPerfil extends AppCompatActivity {
                 nombrePerfil.setText(usuario.getNombre());
                 biografiaPerfil.setText(usuario.getBiografia());
                 apellidoPerfil.setText(usuario.getApellido());
-                seguidores.setText(usuario.getSeguidores().toString());
-                seguidos.setText(usuario.getSiguiendo().toString());
-                comentarios.setText(usuario.getComentarios().toString());
+                //seguidores.setText(usuario.getSeguidores().toString());
+                //seguidos.setText(usuario.getSiguiendo().toString());
+                //comentarios.setText(usuario.getComentarios().toString());
                 cargarImagen();
             }
         }, error -> Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show()

@@ -27,6 +27,13 @@
 
             tools:src="@drawable/hotel" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_add_coment" />
+
     </LinearLayout>
 
     <TextView
@@ -51,9 +58,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTituloAnuncio">
-
-
-
 
             <LinearLayout
                 android:id="@+id/asd"
@@ -88,19 +92,21 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_marginStart="20dp"
                         android:id="@+id/telefono"
-                        android:layout_marginTop="1dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="3dp"
+
                         android:text="615079123" />
-                    <ImageView
+
+                    <ImageButton
                         android:layout_marginStart="3dp"
-                        android:id="@+id/imageView"
+                        android:id="@+id/bTelefono"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-
+                        android:background="@color/white"
                         app:srcCompat="@drawable/ic_telefono" />
 
                 </LinearLayout>
@@ -125,6 +131,13 @@
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddComent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="320dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_add_coment" />
 
 
     </LinearLayout>
@@ -133,12 +146,13 @@
         android:id="@+id/imBFav"
         android:layout_width="50dp"
         android:layout_height="40dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="4dp"
         android:background="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/tvTituloAnuncio"
-        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:srcCompat="@drawable/ic_favorito_off" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

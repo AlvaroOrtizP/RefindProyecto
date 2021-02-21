@@ -1,12 +1,21 @@
 package com.example.refindproyecto;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,19 +45,24 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityAnuncio extends AppCompatActivity {
+    private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList;
     private FirebaseAuth mAuth;
     ImageView imageView;
     RequestQueue requestQueue;
-    TextView tvTitulo, tvDescripcion;
+    TextView tvTitulo, tvDescripcion, tvTelefono;
+    ImageButton bTelefono;
     Boolean onFav;
     ImageButton fav;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anuncio);
         fav = findViewById(R.id.imBFav);
+        tvTelefono = findViewById(R.id.telefono);
+        bTelefono = findViewById(R.id.bTelefono);
         tvTitulo=findViewById(R.id.tvTituloAnuncio);
         tvDescripcion=findViewById(R.id.tvDescripcionDetail);
         imageView=findViewById(R.id.anuncioFoto);
@@ -59,8 +73,19 @@ public class ActivityAnuncio extends AppCompatActivity {
         init(anuncioId);
         obtenerAnuncio("http://192.168.1.127:80/Android/obtener_anuncio.php?anuncio_id="+anuncioId);
         saberFav("http://192.168.1.127:80/Android/saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
+        bTelefono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
+                    String telefono  = tvTelefono.getText().toString().trim();
+                    call(telefono);
+                }else{
 
+                }
+                ActivityCompat.requestPermissions(ActivityAnuncio.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PERMISSION_CALL);
 
+            }
+        });
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +134,39 @@ public class ActivityAnuncio extends AppCompatActivity {
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_PERMISSION_CALL){
+            if(permissions.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                String telefono= tvTelefono.getText().toString().trim();
+                call(telefono);
+            }
+            else{
+                if(ActivityCompat.shouldShowRequestPermissionRationale(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)){//Por si dio a no en los permisos
+                    new AlertDialog.Builder(this).setMessage("Necesitas activar los permisos de la app")
+                            .setPositiveButton("Vuelva a intentarlo", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(ActivityAnuncio.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PERMISSION_CALL);
+                                }
+                            })
+                            .setNegativeButton("No gracias", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Nada
+                                }
+                            }).show();
+                }else{
+                    Toast.makeText(this, "necesitas activar los permisos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    private void call(String telefono){
+        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel: "+ telefono)));
     }
     private  void obtenerAnuncio(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -242,6 +300,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listadapter);
     }
+
 }
 //Todo si le pones al toas igual funciona
 //context.getApplicationContext()
