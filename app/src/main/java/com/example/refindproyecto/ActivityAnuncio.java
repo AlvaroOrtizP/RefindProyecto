@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,11 +17,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
-import com.example.refindproyecto.POJOS.Url;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,8 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActivityAnuncio extends AppCompatActivity {
-    Url url;
+
     private FirebaseAuth mAuth;
+    ImageView imageView;
     RequestQueue requestQueue;
     TextView tvTitulo, tvDescripcion;
     Boolean onFav;
@@ -46,12 +48,14 @@ public class ActivityAnuncio extends AppCompatActivity {
         fav = findViewById(R.id.floatingActionButton);
         tvTitulo=findViewById(R.id.tvTituloAnuncio);
         tvDescripcion=findViewById(R.id.tvDescripcionDetail);
+        imageView=findViewById(R.id.anuncioFoto);
+        requestQueue= Volley.newRequestQueue(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         String fireId = mAuth.getUid();
         String anuncioId=getIntent().getStringExtra("anuncio_id").toString();
 
-        obtenerAnuncio(url.getUrl()+"obtener_anuncio.php?anuncio_id="+anuncioId);
-        saberFav(url.getUrl()+"saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
+        obtenerAnuncio("http://192.168.1.127:80/Android/obtener_anuncio.php?anuncio_id="+anuncioId);
+        saberFav("http://192.168.1.127:80/Android/saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,13 +81,15 @@ public class ActivityAnuncio extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         anuncio.setTitulo(jsonObject.getString("titulo"));
                         anuncio.setDescripcion(jsonObject.getString("descripcion"));
-                        //anuncio.setFotoPerfil(R.drawable.hotel_campomar);
+                        anuncio.setFotoAnuncio(jsonObject.getString("foto"));
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 tvTitulo.setText(anuncio.getTitulo());
                 tvDescripcion.setText(anuncio.getDescripcion());
+                cargarImagen(anuncio.getFotoAnuncio());
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -131,7 +137,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
     private void addFav(String usuarioFire, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url.getUrl()+"insertar_fav.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_fav.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), "Añadido a Fav", Toast.LENGTH_SHORT).show();
@@ -156,7 +162,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
     private void eliminarFav(String fireId, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url.getUrl()+"eliminar_fav.php", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/eliminar_fav.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 onFav=false;
@@ -179,5 +185,20 @@ public class ActivityAnuncio extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
+    private void cargarImagen(String url){
+        ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/anuncio/"+url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imageView.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getApplication(),"error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestQueue.add(imageRequest);
+    }
 }
+//Todo si le pones al toas igual funciona
+//context.getApplicationContext()

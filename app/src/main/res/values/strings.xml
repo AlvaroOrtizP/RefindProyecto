@@ -37,7 +37,7 @@
     <string name="comentarios">Comentarios</string>
     <string name="descripcion_anuncio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis sagittis nibh. Ut euismod, dolor et bibendum tincidunt, orci justo efficitur dolor, non rhoncus nibh massa vitae lectus</string>
     <string name="descripcion_flecha">Volver a inicio</string>
-
+    <string name="musica">Musica</string>
 
     <!-- Strings de: Activity : LOGIN -->
     <string name="descripcionLogo">Logo de ReFind</string>

@@ -3,6 +3,7 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityAnuncio;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.R;
@@ -22,11 +28,13 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
     private List<Anuncio> anuncioList;
     private LayoutInflater nInflater;
     private Context context;
+    RequestQueue requestImage;
 
     public AdaptadorAnun(List<Anuncio> anuncioList, Context context){
         this.nInflater = LayoutInflater.from(context);
         this.context = context;
         this.anuncioList = anuncioList;
+        requestImage= Volley.newRequestQueue(context.getApplicationContext());
     }
     @Override
     public int getItemCount () {
@@ -71,7 +79,22 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
         void binData (final Anuncio itemAnuncio){
             titulo.setText(itemAnuncio.getTitulo());
             descripcion.setText(itemAnuncio.getDescripcion());
+            cargarImagen(imagenPerfil, "http://192.168.1.127/Android/images/anuncio/"+itemAnuncio.getFotoAnuncio());
             cv.setId(itemAnuncio.getAnuncioId());
         }
+    }
+    private void cargarImagen(ImageView imagenPerfil, String url){
+        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imagenPerfil.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getApplication(),"error", Toast.LENGTH_SHORT).show();
+            }
+        });
+        requestImage.add(imageRequest);
     }
 }

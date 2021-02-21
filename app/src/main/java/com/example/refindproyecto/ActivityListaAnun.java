@@ -16,7 +16,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
-import com.example.refindproyecto.POJOS.Url;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaAnun extends AppCompatActivity {
-    Url url;
+
     List<Anuncio> anuncioList;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
@@ -56,7 +55,7 @@ public class ActivityListaAnun extends AppCompatActivity {
     }
     public void init(String categoriaId){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios(url.getUrl()+"obtener_anuncios.php?categoria_id="+categoriaId);
+        obtenerAnuncios("http://192.168.1.127:80/Android/obtener_anuncios.php?categoria_id="+categoriaId);
     }
     private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -69,7 +68,7 @@ public class ActivityListaAnun extends AppCompatActivity {
                         jsonObject = response.getJSONObject(i);
                         anuncioList.add(new
                                 Anuncio(jsonObject.getInt("anuncio_id"),
-                                R.drawable.hotel_campomar,
+                                jsonObject.getString("foto"),
                                 jsonObject.getString("titulo"),
                                 jsonObject.getString("descripcion")));
                     } catch (JSONException e) {

@@ -2,15 +2,22 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.POJOS.Categoria;
 import com.example.refindproyecto.R;
@@ -20,11 +27,14 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
     private List<Categoria> categoriaList;
     private LayoutInflater nInflater;
     private Context context;
+    RequestQueue requestImage;
+
 
     public AdaptadorCat(List<Categoria> categoriaList, Context context){
         this.nInflater = LayoutInflater.from(context);
         this.context = context;
         this.categoriaList = categoriaList;
+        requestImage=Volley.newRequestQueue(context.getApplicationContext());
     }
     @Override
     public int getItemCount () {
@@ -69,7 +79,22 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
         void binData (final Categoria itemCategoria){
             titulo.setText(itemCategoria.getTitulo());
             descripcion.setText(itemCategoria.getDescripcion());
+            cargarImagen(imagenPerfil, "http://192.168.1.127/Android/images/categoria/"+itemCategoria.getFotoCategoria());
             cv.setId(itemCategoria.getCategoriaId());
         }
+    }
+    private void cargarImagen(ImageView imagenPerfil, String url){
+        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imagenPerfil.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Poner una imagen por defecto
+            }
+        });
+        requestImage.add(imageRequest);
     }
 }

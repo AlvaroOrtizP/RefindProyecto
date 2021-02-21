@@ -2,18 +2,18 @@ package com.example.refindproyecto.POJOS;
 
 public class Anuncio {
     private Integer anuncioId;
-    private int FotoPerfil;
+    private String FotoAnuncio;
     private String titulo;
     private String descripcion;
     private int latitud;
     private int longitud;
 
-    public int getFotoPerfil() {
-        return FotoPerfil;
+    public String getFotoAnuncio() {
+        return FotoAnuncio;
     }
 
-    public void setFotoPerfil(int fotoPerfil) {
-        FotoPerfil = fotoPerfil;
+    public void setFotoAnuncio(String fotoAnuncio) {
+        FotoAnuncio = fotoAnuncio;
     }
 
     public int getLatitud() {
@@ -32,9 +32,9 @@ public class Anuncio {
         this.longitud = longitud;
     }
 
-    public Anuncio(Integer anuncioId, int fotoPerfil, String titulo, String descripcion) {
+    public Anuncio(Integer anuncioId, String fotoPerfil, String titulo, String descripcion) {
         this.anuncioId = anuncioId;
-        FotoPerfil = fotoPerfil;
+        FotoAnuncio = fotoPerfil;
         this.titulo = titulo;
         this.descripcion = descripcion;
     }

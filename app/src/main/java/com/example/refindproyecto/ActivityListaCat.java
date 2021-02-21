@@ -14,7 +14,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Categoria;
 import com.example.refindproyecto.Adaptador.AdaptadorCat;
-import com.example.refindproyecto.POJOS.Url;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaCat extends AppCompatActivity {
-    Url url;
+
     List<Categoria> categoriaList;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
@@ -47,7 +46,7 @@ public class ActivityListaCat extends AppCompatActivity {
     }
     public void init(){
         categoriaList = new ArrayList<>();
-        obtenerCategoria(url.getUrl()+"obtener_categorias.php");
+        obtenerCategoria("http://192.168.1.127:80/Android/obtener_categorias.php");
     }
     private  void obtenerCategoria(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
@@ -57,7 +56,7 @@ public class ActivityListaCat extends AppCompatActivity {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        categoriaList.add(new Categoria(jsonObject.getInt("categoria_id"), R.drawable.hotel, jsonObject.getString("titulo"), jsonObject.getString("descripcion")));
+                        categoriaList.add(new Categoria(jsonObject.getInt("categoria_id"), jsonObject.getString("foto"), jsonObject.getString("titulo"), jsonObject.getString("descripcion")));
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }

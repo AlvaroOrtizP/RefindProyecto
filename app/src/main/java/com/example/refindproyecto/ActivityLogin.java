@@ -9,10 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.refindproyecto.POJOS.Url;
 import com.google.firebase.auth.FirebaseAuth;
 public class ActivityLogin extends AppCompatActivity {
-    Url url = new Url();
+
 
     private FirebaseAuth mAuth;
     private EditText correo, pass;
@@ -20,7 +19,7 @@ public class ActivityLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toast.makeText(getApplicationContext(), url.getUrl(), Toast.LENGTH_SHORT).show();
+
         correo = findViewById(R.id.emailLogin);
         pass = findViewById(R.id.passLogin);
         mAuth = FirebaseAuth.getInstance();
