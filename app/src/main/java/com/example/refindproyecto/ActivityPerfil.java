@@ -9,11 +9,14 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +51,7 @@ public class ActivityPerfil extends AppCompatActivity {
     //
     EditText newNombre, newBiografia;
     TextView nombrePerfil, biografiaPerfil, apellidoPerfil, seguidores, seguidos, comentarios;
-    ImageButton btnNewfoto;
+    ImageView btnNewfoto;
     Button btnGuardar, btnCancelar;
 
 
@@ -126,18 +129,35 @@ public class ActivityPerfil extends AppCompatActivity {
         newBiografia = (EditText)contactPopupView.findViewById(R.id.popupBiografia);
         btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
         btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
-        btnNewfoto = (ImageButton)contactPopupView.findViewById(R.id.imgPopup);
+        btnNewfoto = (ImageView)contactPopupView.findViewById(R.id.imgPopup);
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-
-        //Funciones de los botonoes
-        btnNewfoto.setOnClickListener(new View.OnClickListener() {
+        //findViewById(R.id.spinner);
+        Spinner spinner = (Spinner)contactPopupView.findViewById(R.id.spinner);
+        String [] opciones = {"Customizada ", "Customizada 1", "Customizada 2"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opciones);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                        Toast.LENGTH_SHORT).show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/usuarios/"+position+".png", new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        btnNewfoto.setImageBitmap(response);
+                    }
+                    }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplication(),"No se ha podido cargar la Imagen", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                requestQueue.add(imageRequest);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
         btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -150,8 +170,7 @@ public class ActivityPerfil extends AppCompatActivity {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                        Toast.LENGTH_SHORT).show();
+                dialog.cancel();
             }
         });
     }

@@ -23,68 +23,82 @@
         app:layout_constraintVertical_bias="0.101" />
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imgPopup"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginTop="140dp"
         android:background="@drawable/ic_casa"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.311" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/popupComent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="36dp"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/imgPopup"
-        app:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_editor_absoluteX="25dp" />
 
     <EditText
         android:id="@+id/popupBiografia"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popupComent"
-        app:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_editor_absoluteX="25dp" />
 
     <Button
         android:id="@+id/btnCGuardar"
-        android:text="@string/btnGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btnGuardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintHorizontal_bias="0.241"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popupBiografia"
-        app:layout_constraintVertical_bias="0.391"
-        android:layout_marginBottom="20dp"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:text="@string/btnCancelar"
         android:id="@+id/btnCCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/btnCancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintHorizontal_bias="0.744"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popupBiografia"
-        app:layout_constraintVertical_bias="0.391"
-        android:layout_marginBottom="20dp"/>
+        app:layout_constraintVertical_bias="0.0" />
 
-
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPopup" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
