@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="0.189" />
 
     <EditText
-        android:id="@+id/popupNombre"
+        android:id="@+id/popupComent"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -54,11 +54,11 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popupNombre"
+        app:layout_constraintTop_toBottomOf="@+id/popupComent"
         app:layout_editor_absoluteX="25dp" />
 
     <Button
-        android:id="@+id/btnGuardar"
+        android:id="@+id/btnCGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -72,7 +72,7 @@
         app:layout_constraintVertical_bias="0.4" />
 
     <Button
-        android:id="@+id/btnCancelar"
+        android:id="@+id/btnCCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

@@ -120,6 +120,14 @@
                     android:layout_marginTop="12dp"
                     android:text="@string/comentarios" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddComent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/ic_add_coment" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerViewComen"
                     android:layout_width="416dp"
@@ -127,22 +135,15 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="3dp"
                     app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintVertical_bias="0.0">
-                </androidx.recyclerview.widget.RecyclerView>
+                    app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddComent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="320dp"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_add_coment" />
+
 
 
     </LinearLayout>
 
-    <ImageButton
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imBFav"
         android:layout_width="50dp"
         android:layout_height="40dp"

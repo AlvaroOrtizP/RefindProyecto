@@ -26,9 +26,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,8 +111,6 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });
-
-
     }
 
     /**
@@ -126,17 +122,15 @@ public class ActivityPerfil extends AppCompatActivity {
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
         //Relacionar con los ID
-        newNombre = (EditText)contactPopupView.findViewById(R.id.popupNombre);
+        newNombre = (EditText)contactPopupView.findViewById(R.id.popupComent);
         newBiografia = (EditText)contactPopupView.findViewById(R.id.popupBiografia);
-        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnGuardar);
-        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCancelar);
+        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
         btnNewfoto = (ImageButton)contactPopupView.findViewById(R.id.imgPopup);
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-
-
 
         //Funciones de los botonoes
         btnNewfoto.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +189,6 @@ public class ActivityPerfil extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
     }
-
     private void cargarImagen(){
         String url="https://www.nintenderos.com/wp-content/uploads/2020/11/shiny-jigglypuff-pokemon.jpg";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
@@ -211,7 +204,6 @@ public class ActivityPerfil extends AppCompatActivity {
         });
         requestQueue.add(imageRequest);
     }
-
     private void desactivarAudio(){
         SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();

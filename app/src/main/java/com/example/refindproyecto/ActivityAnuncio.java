@@ -18,10 +18,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -53,7 +57,12 @@ public class ActivityAnuncio extends AppCompatActivity {
     TextView tvTitulo, tvDescripcion, tvTelefono;
     ImageButton bTelefono;
     Boolean onFav;
-    ImageButton fav;
+    LottieAnimationView fav;
+    FloatingActionButton addAnuncio;
+    AlertDialog.Builder dialogBuilder;
+    AlertDialog dialog;
+    Button btnGuardar, btnCancelar;
+    EditText editComent;
 
 
     @Override
@@ -66,6 +75,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         tvTitulo=findViewById(R.id.tvTituloAnuncio);
         tvDescripcion=findViewById(R.id.tvDescripcionDetail);
         imageView=findViewById(R.id.anuncioFoto);
+        addAnuncio = findViewById(R.id.fabAddComent);
         requestQueue= Volley.newRequestQueue(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         String fireId = mAuth.getUid();
@@ -95,9 +105,17 @@ public class ActivityAnuncio extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Se ha quitado de favoritos", Toast.LENGTH_SHORT).show();
                 }else{
                     addFav(fireId,anuncioId);
-                    fav.setImageResource(R.drawable.ic_favorito_on);
+                    fav.setAnimation(R.raw.animacion);
+                    fav.playAnimation();
+                    //fav.setImageResource(R.drawable.ic_favorito_on);
                     Toast.makeText(getApplicationContext(), "Se ha añadido a favoritos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        addAnuncio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                creadorDeComent(v, anuncioId);
             }
         });
     }
@@ -301,6 +319,61 @@ public class ActivityAnuncio extends AppCompatActivity {
         recyclerView.setAdapter(listadapter);
     }
 
+    public void creadorDeComent(View view, String anuncioId){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
+        //Relacionar con los ID
+
+        editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
+        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                crearComent(anuncioId, editComent.getText().toString());
+            }
+        });
+        //Visionado del popup
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void crearComent(String anuncioId, String comentario){
+        //usuario Fire, anuncio Id, texto con el comentario
+        String fireId = mAuth.getUid();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_comentario.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), "Registro correcto", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Fallo aqui "+fireId+", "+anuncioId+" "+ comentario, Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<String, String>();
+
+
+                parametros.put("usuario_fire",fireId);
+                parametros.put("anuncio_id",anuncioId);
+                parametros.put("comentario",comentario);
+                return parametros;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 }
 //Todo si le pones al toas igual funciona
 //context.getApplicationContext()

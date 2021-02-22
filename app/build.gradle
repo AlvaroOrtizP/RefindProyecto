@@ -36,7 +36,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -45,9 +44,9 @@ dependencies {
     //Implementacion para usar el recycler y el card view
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-
+    //implementation 'com.google.android.gms:play-services-ads:19.7.0'
 
     //BD
     implementation 'com.android.volley:volley:1.1.0'
-
+    implementation "com.airbnb.android:lottie:3.6.1"
 }
