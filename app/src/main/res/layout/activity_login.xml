@@ -43,6 +43,7 @@
             android:id="@+id/IniciarSesionLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_marginTop="25dp"
             android:text="@string/iniciarSesionLogin" />
 
@@ -53,7 +54,7 @@
 
             <TextView
                 android:id="@+id/tvListaCat"
-                android:layout_width="181dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/mensajeParaRegistro"
@@ -64,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="toRegistro"
-
+                style="?attr/materialButtonOutlinedStyle"
 
                 android:text="@string/btnRegistro" />
         </LinearLayout>

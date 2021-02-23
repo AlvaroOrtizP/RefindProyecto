@@ -1,3 +1,42 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="alorp" />
+  <dictionary name="alorp">
+    <words>
+      <w>activar</w>
+      <w>actualizar</w>
+      <w>adaptador</w>
+      <w>anun</w>
+      <w>anuncio</w>
+      <w>anuncios</w>
+      <w>cancelar</w>
+      <w>cargar</w>
+      <w>categoria</w>
+      <w>coment</w>
+      <w>comentario</w>
+      <w>customizada</w>
+      <w>desactivar</w>
+      <w>descripcion</w>
+      <w>emergente</w>
+      <w>favorito</w>
+      <w>formulario</w>
+      <w>foto</w>
+      <w>guardar</w>
+      <w>imagen</w>
+      <w>iniciar</w>
+      <w>inicio</w>
+      <w>lista</w>
+      <w>navbar</w>
+      <w>newfoto</w>
+      <w>obtener</w>
+      <w>opciones</w>
+      <w>perfil</w>
+      <w>preferencias</w>
+      <w>registro</w>
+      <w>sesion</w>
+      <w>sonido</w>
+      <w>telefono</w>
+      <w>titulo</w>
+      <w>usuario</w>
+      <w>visionado</w>
+    </words>
+  </dictionary>
 </component>

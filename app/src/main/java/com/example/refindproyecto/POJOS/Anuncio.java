@@ -5,8 +5,7 @@ public class Anuncio {
     private String FotoAnuncio;
     private String titulo;
     private String descripcion;
-    private int latitud;
-    private int longitud;
+    private String telefono;
 
     public String getFotoAnuncio() {
         return FotoAnuncio;
@@ -16,21 +15,14 @@ public class Anuncio {
         FotoAnuncio = fotoAnuncio;
     }
 
-    public int getLatitud() {
-        return latitud;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setLatitud(int latitud) {
-        this.latitud = latitud;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
-    public int getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(int longitud) {
-        this.longitud = longitud;
-    }
 
     public Anuncio(Integer anuncioId, String fotoPerfil, String titulo, String descripcion) {
         this.anuncioId = anuncioId;

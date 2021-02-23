@@ -11,25 +11,21 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="56dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/fotoUsuario"
             android:layout_width="125dp"
             android:layout_height="121dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_marginStart="140dp"
             android:layout_marginBottom="20dp"
             android:contentDescription="@string/logo_Registro"
-            android:src="@drawable/icono_basico_perfil"
-            app:civ_border_color="#99000000"
-            app:civ_border_width="2dp" />
+            app:srcCompat="@drawable/ic_icon_refind" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -41,7 +37,7 @@
                 android:id="@+id/emailRegistro"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:autofillHints="@string/emailRegistro"
                 android:gravity="center"
                 android:hint="@string/emailRegistro"
@@ -53,7 +49,6 @@
                 android:id="@+id/nombreRegistro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:gravity="center"
@@ -64,7 +59,7 @@
                 android:id="@+id/apellidoRegistro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:autofillHints="@string/apellidoRegistro"
                 android:ems="10"
                 android:gravity="center"
@@ -75,7 +70,7 @@
                 android:id="@+id/passRegistro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:autofillHints="@string/passRegistro"
                 android:ems="10"
                 android:gravity="center"
@@ -86,18 +81,23 @@
                 android:id="@+id/passComRegistro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="18dp"
                 android:autofillHints="@string/passRegistro"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/passComRegistro"
                 android:inputType="textPassword" />
 
-            <CheckBox
+            <com.google.android.material.checkbox.MaterialCheckBox
+                style="?attr/checkboxStyle"
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/check" />
+                android:text="@string/check"
+                >
+
+            </com.google.android.material.checkbox.MaterialCheckBox>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,19 +106,18 @@
 
                 <Button
                     android:id="@+id/iniciarSesionRegistro"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="147dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="15dp"
                     android:onClick="irLogin"
                     android:text="@string/iniciarSesionRegistro" />
 
                 <Button
                     android:id="@+id/registrarRegistro"
-                    style="@style/Widget.AppCompat.Button"
-                    android:layout_width="132dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="52dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_marginStart="40dp"
                     android:onClick="registrarUsuario"
                     android:text="@string/registrarRegistro" />
 

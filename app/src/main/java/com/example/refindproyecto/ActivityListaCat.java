@@ -49,26 +49,18 @@ public class ActivityListaCat extends AppCompatActivity {
         obtenerCategoria("http://192.168.1.127:80/Android/obtener_categorias.php");
     }
     private  void obtenerCategoria(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        categoriaList.add(new Categoria(jsonObject.getInt("categoria_id"), jsonObject.getString("foto"), jsonObject.getString("titulo"), jsonObject.getString("descripcion")));
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
+            JSONObject jsonObject;
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    jsonObject = response.getJSONObject(i);
+                    categoriaList.add(new Categoria(jsonObject.getInt("categoria_id"), jsonObject.getString("foto"), jsonObject.getString("titulo"), jsonObject.getString("descripcion")));
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();// e.getMessage()
                 }
-                setRecyclerView(categoriaList);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
-            }
-        }
+            setRecyclerView(categoriaList);
+        }, error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);

@@ -16,18 +16,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:layout_marginStart="15dp"
             android:layout_width="355dp"
             android:layout_height="88dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/FotoPerfil"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/hotel"
-                tools:ignore="VectorDrawableCompat" />
+                android:src="@drawable/icono_basico_perfil"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,11 +37,12 @@
 
                 <TextView
                     android:id="@+id/TextoPublicacion"
+                    android:fontFamily="@font/akaya_kanadaka_regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="@string/autor"
                     android:textColor="#000"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -53,7 +55,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:text="Descripcion"
+                    android:text="@string/comentairo"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>

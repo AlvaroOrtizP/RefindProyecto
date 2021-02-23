@@ -19,7 +19,7 @@
     <string name="tvNSeguidores">0</string>
     <string name="tvNSiguiendo">0</string>
     <string name="tvNComentario">0</string>
-    <string name="tvLinea">Bibliografia de ejemplo, no se que poner</string>
+    <string name="biografiaEjemplo">Bibliografia de ejemplo. Di lo que te gusta</string>
 
     <!-- Strings de: Activity : REGISTRO -->
     <string name="logo_Registro">Logo de Refind</string>
@@ -31,13 +31,16 @@
     <string name="iniciarSesionRegistro">Iniciar Sesion</string>
     <string name="registrarRegistro">Registrarse</string>
 
-    <!-- Strings de: Activity : PERFIL ANUNCIANTE -->
+    <!-- Strings de: Activity : PERFIL -->
     <string name="nombre_anuncio">IES ATAULFO ARGENTA</string>
     <string name="informacion">Informacion</string>
     <string name="comentarios">Comentarios</string>
-    <string name="descripcion_anuncio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis sagittis nibh. Ut euismod, dolor et bibendum tincidunt, orci justo efficitur dolor, non rhoncus nibh massa vitae lectus</string>
+    <string name="descripcion_anuncio">Descripcion de prueba</string>
     <string name="descripcion_flecha">Volver a inicio</string>
     <string name="musica">Musica</string>
+    <string name="favOff">Se ha quitado de favoritos</string>
+    <string name="favOn">Se ha añadido de favoritos</string>
+    <string name="descripcionBSalir">Boton para salir de la sesion</string>
 
     <!-- Strings de: Activity : LOGIN -->
     <string name="descripcionLogo">Logo de ReFind</string>
@@ -45,7 +48,7 @@
     <string name="passLogin">Contraseña</string>
     <string name="iniciarSesionLogin">Iniciar Sesion</string>
     <string name="mensajeParaRegistro">¿Aun no tienes una cuenta?</string>
-    <string name="btnRegistro">Registro</string>
+    <string name="btnRegistro">Registrate</string>
     <string name="check">¿Eres mayor de 18?</string>
 
 
@@ -59,8 +62,6 @@
     <string name="menuFavorito">Favoritos</string>
     <string name="menuPerfil">Perfil</string>
 
-    <!-- Strings de: Activity : MAIN -->
-    <string name="lista">Lista</string>
 
     <!-- Strings de: Activity : MAIN - list_element -->
     <string name="icoImageView">Icono de imagen</string>
@@ -78,15 +79,50 @@
     <string name="editarPopup">Editar el perfil</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnCancelar">Cancelar</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="popNombre">Introduce tu nuevo nombre</string>
+    <string name="popApellido">Introduce tu nuevo apellido</string>
+    <string name="popBiografia">Introduce tu nueva biografai</string>
+
 
     <!--LISTAS -->
     <string name="listaCategorias">Categorias</string>
     <string name="listaAnuncios">Anuncios</string>
     <string name="listaFavoritos">Favoritos</string>
+    <string name="autor">Autor</string>
+    <string name="tCategoria">Titulo de la categoria</string>
+    <string name="dCategoria">Descripcion de la categoria</string>
+    <string name="comentairo">Comentario del autor</string>
+    <string name="tAnuncio">Titulo del anuncio</string>
+    <string name="dAnuncio">Descripcion del anuncio</string>
 
 
+
+    <!--Permisos -->
+    <string name="necesitaPermisos">Necesitas activar los permisos de la app</string>
+    <string name="volverintentar">Vuelva a intentarlo</string>
+    <string name="denegarPermisos">No, gracias</string>
+
+    <!--Exitos -->
+    <string name="bienvenida">Bienvenido</string>
+    <string name="comentarioInsertado">Comentario añadido con exito</string>
+    <string name="addFavoritosOk">Se ha añadido a favoritos con exito</string>
+    <string name="sonidoActivado">Se ha activado el sonido</string>
+    <string name="sonidoDesactivado">Se ha desactivado el sonido</string>
+    <string name="actualizacionCorrecta">Se ha actualizado correctamente</string>
     <!--Errores -->
     <string name="error18">Debes tener mas de 18 para usar esta aplicación</string>
-
+    <string name="errorPassNoIguales">Las contraseñas no coinciden</string>
+    <string name="todosCamposOk">Debes rellenar todos los campos</string>
+    <string name="pass9">La contraseña tiene que tener como minimo 9 caracteres</string>
+    <string name="errorRegistro">Fallo al registrarse</string>
+    <string name="errorLogin">Error al iniciar sesion</string>
+    <string name="errorInsertarComentario">No se ha podido añadir el comentario</string>
+    <string name="errorObtenerComent">No se pudieron obtener los comentarios</string>
+    <string name="errorConexion">Error en la conexion</string>
+    <string name="errorCargarImagen">Error al cargar la imagen</string>
+    <string name="errorQuitarfavo">No se puedo quitar de favoritos</string>
+    <string name="errorAñadirfavo">No se puedo añadir a favoritos</string>
+    <string name="catNoAnuncios">Esta categoria no tiene anuncios todavia</string>
+    <string name="noFavoritos">Todavia no tienes favoritos</string>
+    <string name="errorObtenerDatosUsuario">Error al obtener los datos del usuario</string>
 </resources>

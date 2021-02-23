@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RefindProyecto"
         android:usesCleartextTraffic="true">
-        <activity android:name=".verImagen">
-
-        </activity>
         <activity android:name=".ActivityAnuncio" />
         <activity android:name=".ActivityListaFav" />
         <activity android:name=".ActivityListaAnun" />

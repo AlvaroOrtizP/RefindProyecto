@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,11 +20,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +35,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -44,13 +48,12 @@ public class ActivityPerfil extends AppCompatActivity {
     CircleImageView imagenPerfil;
     //Para el navbar
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    FloatingActionButton fab;
+    FloatingActionButton salir;
     //Para el formulario emergente
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
-    //
-    EditText newNombre, newBiografia;
-    TextView nombrePerfil, biografiaPerfil, apellidoPerfil, seguidores, seguidos, comentarios;
+    EditText newNombre, newBiografia, newApellido;
+    TextView nombrePerfil, biografiaPerfil, apellidoPerfil;
     ImageView btnNewfoto;
     Button btnGuardar, btnCancelar;
 
@@ -60,40 +63,30 @@ public class ActivityPerfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         mAuth = FirebaseAuth.getInstance();
-        imagenPerfil= findViewById(R.id.fotoUsuario);//
-        nombrePerfil = findViewById(R.id.nombreUsuario);//
+        imagenPerfil= findViewById(R.id.fotoUsuario);
+        nombrePerfil = findViewById(R.id.nombreUsuario);
         biografiaPerfil = findViewById(R.id.tvBibliografia);
-        apellidoPerfil = findViewById(R.id.apellidoUsuario);//
-        Switch swSonido=findViewById(R.id.swSonido);//
-        //seguidores = findViewById(R.id.tvNSeguidores);
-        //seguidos = findViewById(R.id.tvNSiguiendo);
-        //comentarios = findViewById(R.id.tvNComentario);
-        fab = findViewById(R.id.logOut);//
-
+        apellidoPerfil = findViewById(R.id.apellidoUsuario);
+        Switch swSonido=findViewById(R.id.swSonido);
+        salir = findViewById(R.id.logOut);
         requestQueue=Volley.newRequestQueue(getApplicationContext());
 
-        if(cargarPreferencias()){
-            swSonido.setChecked(true);
-        }
-        else{
-            swSonido.setChecked(false);
-        }
+        swSonido.setChecked(cargarPreferencias());
 
-        swSonido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    activarAudio();
-                }else{
-                    desactivarAudio();
-                }
+        swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                activarAudio();
+                Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
+            }else{
+                desactivarAudio();
+                Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
 
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
-        //btnPerfil = findViewById(R.id.btnPerfil);
-        //btnPerfil.setImageResource(R.drawable.ic_perfilb);
+        btnPerfil = findViewById(R.id.btnPerfil);
+        btnPerfil.setImageResource(R.drawable.ic_perfilb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
             startActivity(i);
@@ -105,7 +98,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
         String fireId = mAuth.getUid();
         obtenerUsuario(fireId);
-        fab.setOnClickListener(view -> {
+        salir.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=preferences.edit();
@@ -119,14 +112,15 @@ public class ActivityPerfil extends AppCompatActivity {
     /**
      * Metodod creado para usar con el boton editarPerfil
      * Este metodo usa el layout popup para crear un formulario emergente
-     * @param view
      */
     public void createNewContactDialog(View view){
+        Usuario usuario = new Usuario();
+        usuario.setFoto(0);
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        //Relacionar con los ID
-        newNombre = (EditText)contactPopupView.findViewById(R.id.popupComent);
+        newNombre = (EditText)contactPopupView.findViewById(R.id.popupNombre);
         newBiografia = (EditText)contactPopupView.findViewById(R.id.popupBiografia);
+        newApellido = (EditText)contactPopupView.findViewById(R.id.popupApellido);
         btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
         btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
         btnNewfoto = (ImageView)contactPopupView.findViewById(R.id.imgPopup);
@@ -134,45 +128,41 @@ public class ActivityPerfil extends AppCompatActivity {
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-        //findViewById(R.id.spinner);
         Spinner spinner = (Spinner)contactPopupView.findViewById(R.id.spinner);
-        String [] opciones = {"Customizada ", "Customizada 1", "Customizada 2"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opciones);
+        String [] opciones = {"Customizada 1", "Customizada 2", "Customizada 3"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/usuarios/"+position+".png", new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        btnNewfoto.setImageBitmap(response);
-                    }
-                    }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+                ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/usuarios/"+position+".png", response -> {
+                    btnNewfoto.setImageBitmap(response);
+                    imagenPerfil.setImageBitmap(response);
+                    usuario.setFoto(position);
+                }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplication(),"No se ha podido cargar la Imagen", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show();
                     }
                 });
                 requestQueue.add(imageRequest);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
             }
         });
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                        Toast.LENGTH_SHORT).show();
+                usuario.setNombre(newNombre.getText().toString());
+                usuario.setApellido(newApellido.getText().toString());
+                usuario.setBiografia(newBiografia.getText().toString());
+                usuario.setUsuFire(mAuth.getUid());
+                actualizarUsuario(usuario);
             }
         });
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
+        btnCancelar.setOnClickListener(v -> dialog.cancel());
     }
     private void obtenerUsuario(String fireId){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest("http://192.168.1.127:80/Android/buscar_usuario.php?usuario_firebase="+fireId, new Response.Listener<JSONArray>() {
@@ -191,25 +181,37 @@ public class ActivityPerfil extends AppCompatActivity {
                                 0,
                                 0,
                                 0);
+                        usuario.setFoto(jsonObject.getInt("foto"));
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 nombrePerfil.setText(usuario.getNombre());
-                biografiaPerfil.setText(usuario.getBiografia());
+                if(usuario.getBiografia().equals("")){
+                    biografiaPerfil.setText(R.string.biografiaEjemplo);
+                }
+                else{
+                    biografiaPerfil.setText(usuario.getBiografia());
+                }
                 apellidoPerfil.setText(usuario.getApellido());
-                //seguidores.setText(usuario.getSeguidores().toString());
-                //seguidos.setText(usuario.getSiguiendo().toString());
-                //comentarios.setText(usuario.getComentarios().toString());
-                cargarImagen();
+                cargarImagen(usuario.getFoto());
             }
-        }, error -> Toast.makeText(getApplicationContext(), "ERROR DE CONEXION", Toast.LENGTH_SHORT).show()
+        }, error ->{
+            Toast.makeText(getApplicationContext(), R.string.errorObtenerDatosUsuario, Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }
         );
         requestQueue.add(jsonArrayRequest);
 
     }
-    private void cargarImagen(){
-        String url="https://www.nintenderos.com/wp-content/uploads/2020/11/shiny-jigglypuff-pokemon.jpg";
+    private void cargarImagen(int fotoUsuario){
+        String url="http://192.168.1.127/Android/images/usuarios/"+fotoUsuario+".png";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {//6.40
@@ -218,7 +220,7 @@ public class ActivityPerfil extends AppCompatActivity {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplication(),"error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),R.string.errorConexion, Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(imageRequest);
@@ -227,17 +229,43 @@ public class ActivityPerfil extends AppCompatActivity {
         SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putBoolean("sonido",false);
-        editor.commit();
+        //editor.commit();
+        editor.apply();
     }
     private void activarAudio(){
         SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         editor.putBoolean("sonido",true);
-        editor.commit();
+        //editor.commit();
+        editor.apply();
     }
     private boolean cargarPreferencias(){
         SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
         Boolean sonidoActivado = preferences.getBoolean("sonido",true);
         return sonidoActivado;
     }
+    private void actualizarUsuario(Usuario usuario){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/actualizar_usuario.php", response ->{
+            Toast.makeText(getApplicationContext(), R.string.actualizacionCorrecta, Toast.LENGTH_SHORT).show();
+            newNombre.setText(usuario.getNombre());
+            newApellido.setText(usuario.getApellido());
+            newBiografia.setText(usuario.getBiografia());
+        }
+                , error -> Toast.makeText(getApplicationContext(), "asdasdsad", Toast.LENGTH_SHORT).show()){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("usuario_firebase",usuario.getUsuFire());
+                parametros.put("nombre",usuario.getNombre());
+                parametros.put("apellido",usuario.getApellido());
+                parametros.put("biografia",usuario.getBiografia());
+                parametros.put("foto",""+usuario.getFoto());
+                return parametros;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
 }

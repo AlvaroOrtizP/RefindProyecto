@@ -2,6 +2,7 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,9 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         void binData (final Comentario itemComentario){
             nombreUsuario.setText(itemComentario.getNombreUsuario());
             comentario.setText(itemComentario.getComentario());
-            cargarImagen(fotoUsuario, "http://192.168.1.127/Android/images/usuarios/"+itemComentario.getFotoUsuario());
+            String URL="http://192.168.1.127/Android/images/usuarios/"+itemComentario.getFotoUsuario()+".png";
+            cargarImagen(fotoUsuario, URL);//
+            Log.i("AdaptadorComent", URL);
             cv.setId(itemComentario.getComentarioId());
         }
     }

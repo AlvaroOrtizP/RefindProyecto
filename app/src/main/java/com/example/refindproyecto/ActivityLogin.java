@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 public class ActivityLogin extends AppCompatActivity {
 
@@ -32,14 +32,13 @@ public class ActivityLogin extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
             startActivity(i);
         }
-        iniciarSesion.setOnClickListener(v -> iniciarSesion(v));
-        irRegistro.setOnClickListener(v -> toRegistro(v));
+        iniciarSesion.setOnClickListener(this::iniciarSesion);
+        irRegistro.setOnClickListener(this::toRegistro);
 
     }
     @Override
     public void onStart() {
         super.onStart();
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
     }
     public void toRegistro (View view){
         Intent registro = new Intent(this, ActivityRegistro.class);
@@ -47,7 +46,11 @@ public class ActivityLogin extends AppCompatActivity {
     }
     public void iniciarSesion (View view){
         if(correo.getText().toString().equals("")|| pass.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Debe rellenar los campos", Toast.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(view, R.string.todosCamposOk, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+            });
+            snackbar.show();
         }
         else{
             mAuth.signInWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
@@ -57,14 +60,16 @@ public class ActivityLogin extends AppCompatActivity {
                             mp.start();
                             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
                             startActivity(i);
-                            Toast.makeText(getApplicationContext(), "Inicio de sesion correcto.",
+                            Toast.makeText(getApplicationContext(), R.string.bienvenida,
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
                             mp.start();
-
-                            Toast.makeText(getApplicationContext(), "Fallo al iniciar sesion.",
-                                    Toast.LENGTH_SHORT).show();
+                            Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
+                            snackbar.setDuration(10000);
+                            snackbar.setAction("Ok", v -> {
+                            });
+                            snackbar.show();
                         }
                     });
         }
