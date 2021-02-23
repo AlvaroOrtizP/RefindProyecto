@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ReFind</string>
+    <string name="title_activity_perfin_anunciante">Map</string>
+
+
+    <string name="bibliografia">Bibliography</string>
+    <string name="fotoPrueba">photo test</string>
+    <string name="tituloPrueba">title Test</string>
+    <string name="descripcionPrueba">Description Test</string>
+
+
+    <!-- Strings de: Activity : PERFIL -->
+    <string name="nombreUsuario">Ej_Alvaro</string>
+    <string name="desFotoUsuario">User photo</string>
+    <string name="editarPerfil">Setting</string>
+    <string name="tvSeguidores">Followers</string>
+    <string name="tvSiguiendo">Following</string>
+    <string name="tvComentario">Comments</string>
+    <string name="tvNSeguidores">0</string>
+    <string name="tvNSiguiendo">0</string>
+    <string name="tvNComentario">0</string>
+    <string name="biografiaEjemplo">Sample bibliography. Say what you like</string>
+
+    <!-- Strings de: Activity : REGISTRO -->
+    <string name="logo_Registro">Logo Refind</string>
+    <string name="emailRegistro">Email</string>
+    <string name="nombreRegistro">Name</string>
+    <string name="apellidoRegistro">Last name</string>
+    <string name="passRegistro">Password</string>
+    <string name="passComRegistro">Repit password</string>
+    <string name="iniciarSesionRegistro">Login</string>
+    <string name="registrarRegistro">Check in</string>
+
+    <!-- Strings de: Activity : PERFIL -->
+    <string name="nombre_anuncio">IES ATAULFO ARGENTA</string>
+    <string name="informacion">Information</string>
+    <string name="comentarios">Comments</string>
+    <string name="descripcion_anuncio">Test description</string>
+    <string name="descripcion_flecha">Go back to start</string>
+    <string name="musica">Music</string>
+    <string name="favOff">Removed from favorites</string>
+    <string name="favOn">Added from favorites</string>
+    <string name="descripcionBSalir">Button to exit the session</string>
+
+    <!-- Strings de: Activity : LOGIN -->
+    <string name="descripcionLogo">Logo ReFind</string>
+    <string name="email_login">Email </string>
+    <string name="passLogin">Password</string>
+    <string name="iniciarSesionLogin">Login</string>
+    <string name="mensajeParaRegistro">Do not you have an account yet?</string>
+    <string name="btnRegistro">Sign up</string>
+    <string name="check">Are you over 18?</string>
+
+
+    <!-- Menu contextual AL DEJAR PULSADO-->
+    <string name="action_copiar">Copy bibliography</string>
+    <string name="action_editar">Edit bibliography</string>
+    <string name="action_defecto">Default bibliography</string>
+
+    <!-- Strings de: Menu : Navegation_items -->
+    <string name="menuPrincipal">Main</string>
+    <string name="menuFavorito">Favorites</string>
+    <string name="menuPerfil">Profile</string>
+
+
+    <!-- Strings de: Activity : MAIN - list_element -->
+    <string name="icoImageView">Image icon</string>
+    <string name="TituloEjemplo">Title Example</string>
+    <string name="descripcionEjemplo">Description Example
+</string>
+    <string name="statusTextView">Active</string>
+    <string name="title_activity__anunciante">Map</string>
+    <string name="title_activity_anunciante">Map</string>
+    <string name="title">Title</string>
+    <string name="title_activity_acivity_anuncio">Map</string>
+    <string name="title_activity_anuncio">Map</string>
+
+
+    <!-- String de popup emergente-->
+    <string name="editarPopup">Edit profile</string>
+    <string name="btnGuardar">Keep</string>
+    <string name="btnCancelar">Cancel</string>
+    <string name="popNombre">Enter your new name</string>
+    <string name="popApellido">Enter your new last name</string>
+    <string name="popBiografia">Enter your new bio</string>
+
+
+    <!--LISTAS -->
+    <string name="listaCategorias">Categories</string>
+    <string name="listaAnuncios">Anuncios</string>
+    <string name="listaFavoritos">Favorites</string>
+    <string name="autor">Author</string>
+    <string name="tCategoria">Category title</string>
+    <string name="dCategoria">Category description</string>
+    <string name="comentairo">Author is comment</string>
+    <string name="tAnuncio">Ad title</string>
+    <string name="dAnuncio">Description of the ad</string>
+
+
+
+    <!--Permisos -->
+    <string name="necesitaPermisos">You need to activate the app is permissions</string>
+    <string name="volverintentar">Try again</string>
+    <string name="denegarPermisos">No, thanks</string>
+
+    <!--Exitos -->
+    <string name="bienvenida">Welcome</string>
+    <string name="comentarioInsertado">Comment added successfully</string>
+    <string name="addFavoritosOk">Successfully added to favorites</string>
+    <string name="sonidoActivado">Sound has been activated</string>
+    <string name="sonidoDesactivado">Sound has been muted</string>
+    <string name="actualizacionCorrecta">Has been successfully updated </string>
+    <!--Errores -->
+    <string name="error18">You must be over 18 to use this app</string>
+    <string name="errorPassNoIguales">
+Passwords do not match</string>
+    <string name="todosCamposOk">You must fill all the fields</string>
+    <string name="pass9">
+The password must be at least 9 characters long</string>
+    <string name="errorRegistro">Registration failed</string>
+    <string name="errorLogin">Failed to login</string>
+    <string name="errorInsertarComentario">The comment could not be added</string>
+    <string name="errorObtenerComent">
+Comments could not be obtained</string>
+    <string name="errorConexion">Connection error</string>
+    <string name="errorCargarImagen">Image loading failed</string>
+    <string name="errorQuitarfavo">Cannot be removed from favorites</string>
+    <string name="errorAñadirfavo">Can not add to favorites</string>
+    <string name="catNoAnuncios">This category has no ads yet</string>
+    <string name="noFavoritos">You dont have favorites yet</string>
+    <string name="errorObtenerDatosUsuario">Failed to get user data</string>
+
+</resources>

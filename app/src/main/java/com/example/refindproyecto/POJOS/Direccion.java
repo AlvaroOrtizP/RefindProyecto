@@ -1,8 +1,10 @@
 package com.example.refindproyecto.POJOS;
 
 public class Direccion {
-    private static final String URLphp="http://192.168.1.127:80/Android/";
-    private static final String URLimages="http://192.168.1.127:80/Android/images/";
+    private static final String URLphp="http://172.16.2.146:80/Android/";
+    private static final String URLimages="http://172.16.2.146:80/Android/images/";
+    //private static final String URLphp="http://192.168.1.127:80/Android/";
+    //private static final String URLimages="http://192.168.1.127:80/Android/images/";
     public String getCategorias(){
         return URLphp+"obtener_categorias.php";
     }

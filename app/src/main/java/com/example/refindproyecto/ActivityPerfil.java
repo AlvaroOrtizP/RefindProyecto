@@ -104,7 +104,8 @@ public class ActivityPerfil extends AppCompatActivity {
             SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=preferences.edit();
             editor.clear();
-            editor.commit();
+            //editor.commit();
+            editor.apply();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });
@@ -140,12 +141,8 @@ public class ActivityPerfil extends AppCompatActivity {
                     btnNewfoto.setImageBitmap(response);
                     imagenPerfil.setImageBitmap(response);
                     usuario.setFoto(position);
-                }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }, 0, 0, ImageView.ScaleType.CENTER, null,
+                        error -> Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show());
                 requestQueue.add(imageRequest);
             }
             @Override
@@ -153,50 +150,44 @@ public class ActivityPerfil extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
             }
         });
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                usuario.setNombre(newNombre.getText().toString());
-                usuario.setApellido(newApellido.getText().toString());
-                usuario.setBiografia(newBiografia.getText().toString());
-                usuario.setUsuFire(mAuth.getUid());
-                actualizarUsuario(usuario);
-            }
+        btnGuardar.setOnClickListener(v -> {
+            usuario.setNombre(newNombre.getText().toString());
+            usuario.setApellido(newApellido.getText().toString());
+            usuario.setBiografia(newBiografia.getText().toString());
+            usuario.setUsuFire(mAuth.getUid());
+            actualizarUsuario(usuario);
         });
         btnCancelar.setOnClickListener(v -> dialog.cancel());
     }
     private void obtenerUsuario(String fireId){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(direccion.getUsuario()+fireId, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                Usuario usuario =null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        usuario = new Usuario(
-                                jsonObject.getString("nombre"),
-                                jsonObject.getString("apellido"),
-                                jsonObject.getString("email"),
-                                jsonObject.getString("bibliografia"),
-                                0,
-                                0,
-                                0);
-                        usuario.setFoto(jsonObject.getInt("foto"));
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(direccion.getUsuario()+fireId, response -> {
+            JSONObject jsonObject = null;
+            Usuario usuario =null;
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    jsonObject = response.getJSONObject(i);
+                    usuario = new Usuario(
+                            jsonObject.getString("nombre"),
+                            jsonObject.getString("apellido"),
+                            jsonObject.getString("email"),
+                            jsonObject.getString("bibliografia"),
+                            0,
+                            0,
+                            0);
+                    usuario.setFoto(jsonObject.getInt("foto"));
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                nombrePerfil.setText(usuario.getNombre());
-                if(usuario.getBiografia().equals("")){
-                    biografiaPerfil.setText(R.string.biografiaEjemplo);
-                }
-                else{
-                    biografiaPerfil.setText(usuario.getBiografia());
-                }
-                apellidoPerfil.setText(usuario.getApellido());
-                cargarImagen(usuario.getFoto());
             }
+            nombrePerfil.setText(usuario.getNombre());
+            if(usuario.getBiografia().equals("")){
+                biografiaPerfil.setText(R.string.biografiaEjemplo);
+            }
+            else{
+                biografiaPerfil.setText(usuario.getBiografia());
+            }
+            apellidoPerfil.setText(usuario.getApellido());
+            cargarImagen(usuario.getFoto());
         }, error ->{
             Toast.makeText(getApplicationContext(), R.string.errorObtenerDatosUsuario, Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
@@ -213,11 +204,8 @@ public class ActivityPerfil extends AppCompatActivity {
     }
     private void cargarImagen(int fotoUsuario){
         String url=direccion.getImagesUsuario()+fotoUsuario+".png";
-        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {//6.40
-                imagenPerfil.setImageBitmap(response);
-            }
+        ImageRequest imageRequest = new ImageRequest(url, response -> {//6.40
+            imagenPerfil.setImageBitmap(response);
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -248,10 +236,9 @@ public class ActivityPerfil extends AppCompatActivity {
     private void actualizarUsuario(Usuario usuario){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.updateUsuario(), response ->{
             Toast.makeText(getApplicationContext(), R.string.actualizacionCorrecta, Toast.LENGTH_SHORT).show();
-            newNombre.setText(usuario.getNombre());
-            newApellido.setText(usuario.getApellido());
-            newBiografia.setText(usuario.getBiografia());
-            //TODO fatla que cambie sin actualizar la activity
+            nombrePerfil.setText(usuario.getNombre());
+            apellidoPerfil.setText(usuario.getApellido());
+            biografiaPerfil.setText(usuario.getBiografia());
         }
                 , error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()){
             @Override
