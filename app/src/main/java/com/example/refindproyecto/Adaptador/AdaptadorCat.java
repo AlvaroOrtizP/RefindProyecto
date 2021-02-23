@@ -20,6 +20,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.POJOS.Categoria;
+import com.example.refindproyecto.POJOS.Direccion;
 import com.example.refindproyecto.R;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
     private LayoutInflater nInflater;
     private Context context;
     RequestQueue requestImage;
+    Direccion direccion = new Direccion();
 
 
     public AdaptadorCat(List<Categoria> categoriaList, Context context){
@@ -79,7 +81,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
         void binData (final Categoria itemCategoria){
             titulo.setText(itemCategoria.getTitulo());
             descripcion.setText(itemCategoria.getDescripcion());
-            cargarImagen(imagenPerfil, "http://192.168.1.127/Android/images/categoria/"+itemCategoria.getFotoCategoria());
+            cargarImagen(imagenPerfil, direccion.getImagesCategoria()+itemCategoria.getFotoCategoria());
             cv.setId(itemCategoria.getCategoriaId());
         }
     }

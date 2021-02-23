@@ -8,18 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.refindproyecto.POJOS.Direccion;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 public class ActivityLogin extends AppCompatActivity {
-
-
     private FirebaseAuth mAuth;
     private EditText correo, pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         correo = findViewById(R.id.emailLogin);
         pass = findViewById(R.id.passLogin);
         mAuth = FirebaseAuth.getInstance();

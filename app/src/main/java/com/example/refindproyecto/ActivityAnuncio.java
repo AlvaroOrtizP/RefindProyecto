@@ -35,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorComent;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.POJOS.Comentario;
+import com.example.refindproyecto.POJOS.Direccion;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityAnuncio extends AppCompatActivity {
+    Direccion direccion = new Direccion();
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList;
     private FirebaseAuth mAuth;
@@ -79,8 +81,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         String fireId = mAuth.getUid();
         String anuncioId= getIntent().getStringExtra("anuncio_id");
         init(anuncioId);
-        obtenerAnuncio("http://192.168.1.127:80/Android/obtener_anuncio.php?anuncio_id="+anuncioId);
-        saberFav("http://192.168.1.127:80/Android/saberFav.php?usuario_firebase="+fireId+"&anuncio_id="+anuncioId);
+        obtenerAnuncio(direccion.getAnuncio()+anuncioId);
+        saberFav(direccion.saberFav()+fireId+"&anuncio_id="+anuncioId);
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
                 String telefono  = tvTelefono.getText().toString().trim();
@@ -115,7 +117,7 @@ public class ActivityAnuncio extends AppCompatActivity {
 
     public void init(String anuncioId){
         comentarioList = new ArrayList<>();
-        obtenerComentarios("http://192.168.1.127:80/Android/obtener_comentarios.php?anuncio_id="+anuncioId);
+        obtenerComentarios(direccion.getComentarios()+anuncioId);
     }
 
     private  void obtenerComentarios(String URL){
@@ -213,7 +215,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
     private void addFav(String usuarioFire, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_fav.php", response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addFav(), response -> {
             Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
             onFav=true;
         }, error -> Toast.makeText(getApplicationContext(), R.string.errorAñadirfavo, Toast.LENGTH_SHORT).show()){
@@ -229,7 +231,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
     private void eliminarFav(String fireId, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/eliminar_fav.php",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.delFav(),
                 response -> onFav=false, error -> Toast.makeText(getApplicationContext(), R.string.errorQuitarfavo, Toast.LENGTH_SHORT).show()){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -243,7 +245,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
     private void cargarImagen(String url){
-        ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/anuncio/"+url,
+        ImageRequest imageRequest = new ImageRequest(direccion.getImagesAnuncio()+url,
                 response -> imageView.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
                 error -> Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show());
         requestQueue.add(imageRequest);
@@ -272,7 +274,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     private void crearComent(String anuncioId, String comentario){
         //usuario Fire, anuncio Id, texto con el comentario
         String fireId = mAuth.getUid();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_comentario.php",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addComent(),
                 response -> Toast.makeText(getApplicationContext(), R.string.comentarioInsertado, Toast.LENGTH_SHORT).show(), error -> Toast.makeText(getApplicationContext(), R.string.errorInsertarComentario, Toast.LENGTH_SHORT).show()){
             @Override
             protected Map<String, String> getParams()  {//throws AuthFailureError
@@ -289,4 +291,3 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 }
-//Todo si le pones al toas igual funciona

@@ -43,6 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
+    Direccion direccion = new Direccion();
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
     CircleImageView imagenPerfil;
@@ -135,7 +136,7 @@ public class ActivityPerfil extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ImageRequest imageRequest = new ImageRequest("http://192.168.1.127/Android/images/usuarios/"+position+".png", response -> {
+                ImageRequest imageRequest = new ImageRequest(direccion.getImagesUsuario()+position+".png", response -> {
                     btnNewfoto.setImageBitmap(response);
                     imagenPerfil.setImageBitmap(response);
                     usuario.setFoto(position);
@@ -165,7 +166,7 @@ public class ActivityPerfil extends AppCompatActivity {
         btnCancelar.setOnClickListener(v -> dialog.cancel());
     }
     private void obtenerUsuario(String fireId){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest("http://192.168.1.127:80/Android/buscar_usuario.php?usuario_firebase="+fireId, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(direccion.getUsuario()+fireId, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject = null;
@@ -211,7 +212,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     }
     private void cargarImagen(int fotoUsuario){
-        String url="http://192.168.1.127/Android/images/usuarios/"+fotoUsuario+".png";
+        String url=direccion.getImagesUsuario()+fotoUsuario+".png";
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {//6.40
@@ -245,13 +246,13 @@ public class ActivityPerfil extends AppCompatActivity {
         return sonidoActivado;
     }
     private void actualizarUsuario(Usuario usuario){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/actualizar_usuario.php", response ->{
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.updateUsuario(), response ->{
             Toast.makeText(getApplicationContext(), R.string.actualizacionCorrecta, Toast.LENGTH_SHORT).show();
             newNombre.setText(usuario.getNombre());
             newApellido.setText(usuario.getApellido());
             newBiografia.setText(usuario.getBiografia());
         }
-                , error -> Toast.makeText(getApplicationContext(), "asdasdsad", Toast.LENGTH_SHORT).show()){
+                , error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()){
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> parametros = new HashMap<>();

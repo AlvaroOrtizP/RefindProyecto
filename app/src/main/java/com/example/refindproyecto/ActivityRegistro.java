@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.POJOS.Direccion;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ActivityRegistro extends AppCompatActivity {
-
+    Direccion direccion = new Direccion();
     private FirebaseAuth mAuth;
     private EditText correo;
     private EditText nombre;
@@ -101,7 +102,7 @@ public class ActivityRegistro extends AppCompatActivity {
         startActivity(registro_login);
     }
     private void crearUsuario(String nombre, String apellido, String email, String fire){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.1.127:80/Android/insertar_usuario.php", response ->
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addUsuario(), response ->
                 Toast.makeText(getApplicationContext(), R.string.bienvenida+" "+nombre, Toast.LENGTH_SHORT).show(), error -> Toast.makeText(getApplicationContext(), R.string.errorRegistro, Toast.LENGTH_SHORT).show()){
             @Override
             protected Map<String, String> getParams() {

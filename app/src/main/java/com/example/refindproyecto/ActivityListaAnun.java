@@ -12,13 +12,15 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.example.refindproyecto.POJOS.Direccion;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaAnun extends AppCompatActivity {
-
+    Direccion direccion = new Direccion();
     List<Anuncio> anuncioList;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
@@ -48,7 +50,7 @@ public class ActivityListaAnun extends AppCompatActivity {
     }
     public void init(String categoriaId){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios("http://192.168.1.127:80/Android/obtener_anuncios.php?categoria_id="+categoriaId);
+        obtenerAnuncios(direccion.getAnuncios()+categoriaId);
     }
     private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {

@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.example.refindproyecto.POJOS.Direccion;
 import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaFav extends AppCompatActivity {
-
+    Direccion direccion = new Direccion();
     ImageButton btnInicio, btnFavorito, btnPerfil;
     List<Anuncio> anuncioList;
     RequestQueue requestQueue;
@@ -46,7 +47,7 @@ public class ActivityListaFav extends AppCompatActivity {
     }
     public void init(String usuarioID){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios("http://192.168.1.127:80/Android/obtener_favoritos.php?usuario_firebase="+usuarioID);
+        obtenerAnuncios(direccion.getFavoritos()+usuarioID);
     }
     private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {

@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.POJOS.Categoria;
 import com.example.refindproyecto.Adaptador.AdaptadorCat;
+import com.example.refindproyecto.POJOS.Direccion;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListaCat extends AppCompatActivity {
-
+    Direccion direccion = new Direccion();
     List<Categoria> categoriaList;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
@@ -46,7 +47,7 @@ public class ActivityListaCat extends AppCompatActivity {
     }
     public void init(){
         categoriaList = new ArrayList<>();
-        obtenerCategoria("http://192.168.1.127:80/Android/obtener_categorias.php");
+        obtenerCategoria(direccion.getCategorias());
     }
     private  void obtenerCategoria(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
