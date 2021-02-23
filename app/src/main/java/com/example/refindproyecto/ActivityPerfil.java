@@ -251,6 +251,7 @@ public class ActivityPerfil extends AppCompatActivity {
             newNombre.setText(usuario.getNombre());
             newApellido.setText(usuario.getApellido());
             newBiografia.setText(usuario.getBiografia());
+            //TODO fatla que cambie sin actualizar la activity
         }
                 , error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()){
             @Override
