@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".ActivityAnuncio">
+
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/anuncioFoto"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/hotel" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/imBFav"
+                    android:layout_marginStart="140dp"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_favorito_off" />
+
+                <TextView
+                    android:id="@+id/tvTituloAnuncio"
+                    android:fontFamily="@font/akaya_kanadaka_regular"
+                    android:text="@string/nombre_anuncio"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="95dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/informacion"
+                android:fontFamily="@font/akaya_kanadaka_regular"
+                android:layout_width="match_parent"
+                android:layout_marginStart="315dp"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="@string/informacion" />
+
+            <TextView
+                android:id="@+id/tvDescripcionDetail"
+                android:layout_marginStart="25dp"
+                android:layout_gravity="center"
+                android:layout_width="550dp"
+                android:layout_height="wrap_content"
+                android:text="@string/descripcionPrueba" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginStart="280dp"
+                android:layout_marginTop="2dp"
+                android:id="@+id/telefono"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="654785986" />
+
+            <ImageButton
+                android:id="@+id/bTelefono"
+                android:layout_width="1dp"
+                android:layout_marginEnd="335dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                app:srcCompat="@drawable/ic_telefono"
+                />
+        </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="320dp"
+                android:text="@string/comentarios"
+                android:fontFamily="@font/akaya_kanadaka_regular"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerViewComen"
+                android:layout_marginStart="20dp"
+                android:layout_width="680dp"
+                android:layout_height="match_parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAddComent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_add_coment" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
