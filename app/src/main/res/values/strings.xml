@@ -53,9 +53,9 @@
 
 
     <!-- Menu contextual AL DEJAR PULSADO-->
-    <string name="action_copiar">Copiar bibliografia</string>
-    <string name="action_editar">Editar bibliografia</string>
-    <string name="action_defecto">Bibliografia por defecto</string>
+    <string name="action_quitarF">Cancelar</string>
+    <string name="action_ponerF">Llamar</string>
+    <string name="llamando">Cancelada la llamada</string>
 
     <!-- Strings de: Menu : Navegation_items -->
     <string name="menuPrincipal">Inicio</string>

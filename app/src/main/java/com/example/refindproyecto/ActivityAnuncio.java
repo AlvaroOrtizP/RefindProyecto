@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +67,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     EditText editComent;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         tvDescripcion=findViewById(R.id.tvDescripcionDetail);
         imageView=findViewById(R.id.anuncioFoto);
         addAnuncio = findViewById(R.id.fabAddComent);
+        registerForContextMenu(tvTelefono);
         requestQueue= Volley.newRequestQueue(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         String fireId = mAuth.getUid();
@@ -289,5 +293,27 @@ public class ActivityAnuncio extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.menu_contextual, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.opcion1:
+                String telefono  = tvTelefono.getText().toString().trim();
+                call(telefono);
+            case R.id.opcion2:
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+
     }
 }

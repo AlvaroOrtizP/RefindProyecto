@@ -54,9 +54,9 @@
 
 
     <!-- Menu contextual AL DEJAR PULSADO-->
-    <string name="action_copiar">Copy bibliography</string>
-    <string name="action_editar">Edit bibliography</string>
-    <string name="action_defecto">Default bibliography</string>
+    <string name="action_quitarF">Cancel</string>
+    <string name="action_ponerF">Call</string>
+    <string name="llamando">Call canceled</string>
 
     <!-- Strings de: Menu : Navegation_items -->
     <string name="menuPrincipal">Main</string>
