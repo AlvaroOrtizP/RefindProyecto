@@ -50,7 +50,7 @@ dependencies {
     //Implementacion para usar el recycler y el card view
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    //implementation 'com.google.android.gms:play-services-ads:19.7.0'
+   // implementation 'com.google.android.gms:play-services-ads:19.3.0'
 
     //BD
     implementation 'com.android.volley:volley:1.1.0'
