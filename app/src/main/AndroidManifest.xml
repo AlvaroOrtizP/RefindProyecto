@@ -29,10 +29,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityPerfil"
-            android:parentActivityName=".ActivityLogin">
+            android:parentActivityName=".ActivityRegistro">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityLogin"
+                android:value=".ActivityRegistro"
                 />
         </activity>
         <activity android:name=".ActivityRegistro" />
