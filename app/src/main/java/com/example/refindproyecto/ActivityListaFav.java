@@ -10,17 +10,16 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
-import com.example.refindproyecto.POJOS.Direccion;
 import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import POJOS.Anuncio;
+
 public class ActivityListaFav extends AppCompatActivity {
-    Direccion direccion = new Direccion();
     ImageButton btnInicio, btnFavorito, btnPerfil;
     List<Anuncio> anuncioList;
     RequestQueue requestQueue;
@@ -47,9 +46,9 @@ public class ActivityListaFav extends AppCompatActivity {
     }
     public void init(String usuarioID){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios(direccion.getFavoritos()+usuarioID);
+        //obtenerAnuncios(direccion.getFavoritos()+usuarioID);
     }
-    private  void obtenerAnuncios(String URL){
+    /*private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject;
             for (int i = 0; i < response.length(); i++) {
@@ -69,14 +68,14 @@ public class ActivityListaFav extends AppCompatActivity {
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
-    }
+    }*/
 
     private void setRecyclerView(List<Anuncio> anuncioList){
-        AdaptadorAnun adaptadorAnuncio = new AdaptadorAnun(anuncioList, this);
+       // AdaptadorAnun adaptadorAnuncio = new AdaptadorAnun(anuncioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewFav);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adaptadorAnuncio);
+       // recyclerView.setAdapter(adaptadorAnuncio);
     }
 
 

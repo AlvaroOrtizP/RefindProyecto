@@ -28,7 +28,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -39,11 +38,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
-    Direccion direccion = new Direccion();
+
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
     CircleImageView imagenPerfil;
@@ -72,14 +72,14 @@ public class ActivityPerfil extends AppCompatActivity {
         salir = findViewById(R.id.logOut);
         requestQueue=Volley.newRequestQueue(getApplicationContext());
 
-        swSonido.setChecked(cargarPreferencias());
+        //swSonido.setChecked(cargarPreferencias());
 
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-                activarAudio();
+               // activarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
             }else{
-                desactivarAudio();
+                //desactivarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
@@ -98,7 +98,7 @@ public class ActivityPerfil extends AppCompatActivity {
         });
 
         String fireId = mAuth.getUid();
-        obtenerUsuario(fireId);
+        //obtenerUsuario(fireId);
         salir.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
@@ -116,7 +116,7 @@ public class ActivityPerfil extends AppCompatActivity {
      */
     public void createNewContactDialog(View view){
         Usuario usuario = new Usuario();
-        usuario.setFoto(0);
+        usuario.setFoto("0");
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
         newNombre = (EditText)contactPopupView.findViewById(R.id.popupNombre);
@@ -133,13 +133,13 @@ public class ActivityPerfil extends AppCompatActivity {
         String [] opciones = {"Customizada 1", "Customizada 2", "Customizada 3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+         @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ImageRequest imageRequest = new ImageRequest(direccion.getImagesUsuario()+position+".png", response -> {
                     btnNewfoto.setImageBitmap(response);
                     imagenPerfil.setImageBitmap(response);
-                    usuario.setFoto(position);
+                   // usuario.setFoto(position);//TODO
                 }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -153,19 +153,19 @@ public class ActivityPerfil extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
             }
         });
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
+       /* btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 usuario.setNombre(newNombre.getText().toString());
                 usuario.setApellido(newApellido.getText().toString());
                 usuario.setBiografia(newBiografia.getText().toString());
-                usuario.setUsuFire(mAuth.getUid());
+               // usuario.setUsuFire(mAuth.getUid());
                 actualizarUsuario(usuario);
             }
         });
-        btnCancelar.setOnClickListener(v -> dialog.cancel());
-    }
-    private void obtenerUsuario(String fireId){
+        //btnCancelar.setOnClickListener(v -> dialog.cancel());
+    }*/
+   /* private void obtenerUsuario(String fireId){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(direccion.getUsuario()+fireId, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -174,7 +174,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        usuario = new Usuario(
+                       /* usuario = new Usuario(
                                 jsonObject.getString("nombre"),
                                 jsonObject.getString("apellido"),
                                 jsonObject.getString("email"),
@@ -195,7 +195,7 @@ public class ActivityPerfil extends AppCompatActivity {
                     biografiaPerfil.setText(usuario.getBiografia());
                 }
                 apellidoPerfil.setText(usuario.getApellido());
-                cargarImagen(usuario.getFoto());
+               //cargarImagen(usuario.getFoto());
             }
         }, error ->{
             Toast.makeText(getApplicationContext(), R.string.errorObtenerDatosUsuario, Toast.LENGTH_SHORT).show();
@@ -260,7 +260,7 @@ public class ActivityPerfil extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("usuario_firebase",usuario.getUsuFire());
+               // parametros.put("usuario_firebase",usuario.getUsuFire());
                 parametros.put("nombre",usuario.getNombre());
                 parametros.put("apellido",usuario.getApellido());
                 parametros.put("biografia",usuario.getBiografia());
@@ -269,8 +269,7 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        requestQueue.add(stringRequest);*/
     }
-
 
 }

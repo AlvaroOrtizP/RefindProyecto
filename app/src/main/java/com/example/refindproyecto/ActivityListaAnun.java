@@ -10,17 +10,17 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.Anuncio;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
-import com.example.refindproyecto.POJOS.Direccion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import POJOS.Anuncio;
+
 public class ActivityListaAnun extends AppCompatActivity {
-    Direccion direccion = new Direccion();
+
     List<Anuncio> anuncioList;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
@@ -50,9 +50,9 @@ public class ActivityListaAnun extends AppCompatActivity {
     }
     public void init(String categoriaId){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios(direccion.getAnuncios()+categoriaId);
+        //obtenerAnuncios(direccion.getAnuncios()+categoriaId);
     }
-    private  void obtenerAnuncios(String URL){
+   /* private  void obtenerAnuncios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject;
             for (int i = 0; i < response.length(); i++) {
@@ -76,13 +76,13 @@ public class ActivityListaAnun extends AppCompatActivity {
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
-    }
+    }*/
 
     private void setRecyclerView(List<Anuncio> anuncioList){
-        AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
+        //AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewAnu);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listadapter);
+        //recyclerView.setAdapter(listadapter);
     }
 }

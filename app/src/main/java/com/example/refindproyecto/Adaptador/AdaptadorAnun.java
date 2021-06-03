@@ -19,15 +19,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityAnuncio;
-import com.example.refindproyecto.POJOS.Anuncio;
-import com.example.refindproyecto.POJOS.Direccion;
 import com.example.refindproyecto.R;
 import java.util.List;
+
+import POJOS.Anuncio;
 
 
 public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder> {
     private List<Anuncio> anuncioList;
-    Direccion direccion = new Direccion();
     private LayoutInflater nInflater;
     private Context context;
     RequestQueue requestImage;
@@ -81,7 +80,7 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
         void binData (final Anuncio itemAnuncio){
             titulo.setText(itemAnuncio.getTitulo());
             descripcion.setText(itemAnuncio.getDescripcion());
-            cargarImagen(imagenPerfil, direccion.getImagesAnuncio()+itemAnuncio.getFotoAnuncio());
+            //cargarImagen(imagenPerfil, direccion.getImagesAnuncio()+itemAnuncio.getFotoAnuncio());
             cv.setId(itemAnuncio.getAnuncioId());
         }
     }

@@ -17,17 +17,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.Comentario;
-import com.example.refindproyecto.POJOS.Direccion;
 import com.example.refindproyecto.R;
 import java.util.List;
+
+import POJOS.Comentario;
 
 public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHolder>{
     private List<Comentario> comentarioList;
     private LayoutInflater nInflater;
     private Context context;
     RequestQueue requestImage;
-    Direccion direccion = new Direccion();
 
     public AdaptadorComent(List<Comentario> comentarioList, Context context){
         this.nInflater = LayoutInflater.from(context);
@@ -76,12 +75,12 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         }
 
         void binData (final Comentario itemComentario){
-            nombreUsuario.setText(itemComentario.getNombreUsuario());
+           /* nombreUsuario.setText(itemComentario.getNombreUsuario());
             comentario.setText(itemComentario.getComentario());
             String URL=direccion.getImagesUsuario()+itemComentario.getFotoUsuario()+".png";
             cargarImagen(fotoUsuario, URL);//
             Log.i("AdaptadorComent", URL);
-            cv.setId(itemComentario.getComentarioId());
+            cv.setId(itemComentario.getComentarioId());*/
         }
     }
     private void cargarImagen(ImageView imagenPerfil, String url){

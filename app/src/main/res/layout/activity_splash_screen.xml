@@ -20,11 +20,11 @@
         android:padding="16dp">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
             android:id="@+id/iv_heart"
+            android:layout_width="347dp"
+            android:layout_height="169dp"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_casa"/>
+            app:srcCompat="@drawable/ic_casa" />
 
         <TextView
             android:id="@+id/text_view"

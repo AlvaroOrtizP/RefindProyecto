@@ -11,7 +11,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -29,15 +28,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorComent;
-import com.example.refindproyecto.POJOS.Anuncio;
-import com.example.refindproyecto.POJOS.Comentario;
-import com.example.refindproyecto.POJOS.Direccion;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,8 +44,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import POJOS.Anuncio;
+import POJOS.Comentario;
+
 public class ActivityAnuncio extends AppCompatActivity {
-    Direccion direccion = new Direccion();
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList;
     private FirebaseAuth mAuth;
@@ -66,7 +63,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     Button btnGuardar, btnCancelar;
     EditText editComent;
 
-
+/*
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +82,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         String fireId = mAuth.getUid();
         String anuncioId= getIntent().getStringExtra("anuncio_id");
         init(anuncioId);
-        obtenerAnuncio(direccion.getAnuncio()+anuncioId);
-        saberFav(direccion.saberFav()+fireId+"&anuncio_id="+anuncioId);
+        //obtenerAnuncio(direccion.getAnuncio()+anuncioId);
+       // saberFav(direccion.saberFav()+fireId+"&anuncio_id="+anuncioId);
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
                 String telefono  = tvTelefono.getText().toString().trim();
@@ -117,14 +114,14 @@ public class ActivityAnuncio extends AppCompatActivity {
             }
         });
         addAnuncio.setOnClickListener(v -> creadorDeComent(anuncioId));
-    }
+    }*/
 
-    public void init(String anuncioId){
+  /*  public void init(String anuncioId){
         comentarioList = new ArrayList<>();
-        obtenerComentarios(direccion.getComentarios()+anuncioId);
+        //obtenerComentarios(direccion.getComentarios()+anuncioId);
     }
-
-    private  void obtenerComentarios(String URL){
+*/
+   /* private  void obtenerComentarios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject;
             for (int i = 0; i < response.length(); i++) {
@@ -143,7 +140,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
-    }
+    }*/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_PERMISSION_CALL){
@@ -167,9 +164,9 @@ public class ActivityAnuncio extends AppCompatActivity {
     private void call(String telefono){
         startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel: "+ telefono)));
     }
-    private  void obtenerAnuncio(String URL){
+    /*private  void obtenerAnuncio(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-            final Anuncio anuncio = new Anuncio(1,"", "");
+           // final Anuncio anuncio = new Anuncio(1,"", "");
             @Override
             public void onResponse(JSONArray response) {
                 JSONObject jsonObject;
@@ -197,7 +194,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         }
         );
         requestQueue.add(jsonArrayRequest);
-    }
+    }*/
     private  void saberFav(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject = null;
@@ -218,7 +215,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
-    private void addFav(String usuarioFire, String anuncioId){
+   /* private void addFav(String usuarioFire, String anuncioId){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addFav(), response -> {
             Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
             onFav=true;
@@ -315,5 +312,5 @@ public class ActivityAnuncio extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 }

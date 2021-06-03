@@ -8,23 +8,21 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.refindproyecto.POJOS.Categoria;
-import com.example.refindproyecto.Adaptador.AdaptadorCat;
-import com.example.refindproyecto.POJOS.Direccion;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import Cliente.RefindCliente;
+import POJOS.Categoria;
+
 public class ActivityListaCat extends AppCompatActivity {
-    Direccion direccion = new Direccion();
-    List<Categoria> categoriaList;
+
+    List<Categoria> categoriaList = null;
+    List<POJOS.Categoria> categoriaLista;
     RequestQueue requestQueue;
     ImageButton btnInicio, btnFavorito, btnPerfil;
     @Override
@@ -47,9 +45,11 @@ public class ActivityListaCat extends AppCompatActivity {
     }
     public void init(){
         categoriaList = new ArrayList<>();
-        obtenerCategoria(direccion.getCategorias());
+        categoriaList = new ArrayList<>();
+        obtenerCategorias();
+        //obtenerCategoria(direccion.getCategorias());
     }
-    private  void obtenerCategoria(String URL){
+    private void obtenerCategoria(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject;
             for (int i = 0; i < response.length(); i++) {
@@ -60,17 +60,28 @@ public class ActivityListaCat extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();// e.getMessage()
                 }
             }
-            setRecyclerView(categoriaList);
+            //setRecyclerView(categoriaList);
         }, error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()
         );
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }
-    private void setRecyclerView(List<Categoria> categoriaList){
-        AdaptadorCat listadapter = new AdaptadorCat(categoriaList, this);
+    private void obtenerCategorias(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                categoriaLista = refindCliente.obtenerCategorias();
+            }
+        });
+        thread.start();
+        setRecyclerView(categoriaLista);
+    }
+    private void setRecyclerView(List<POJOS.Categoria> categoriaList){
+        //AdaptadorCat listadapter = new AdaptadorCat(categoriaList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerCat);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listadapter);
+        //recyclerView.setAdapter(listadapter);
     }
 }
