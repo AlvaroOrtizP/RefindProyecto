@@ -44,15 +44,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Cliente.RefindCliente;
 import POJOS.Anuncio;
 import POJOS.Comentario;
+import POJOS.Usuario;
 
 public class ActivityAnuncio extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList;
     private FirebaseAuth mAuth;
     ImageView imageView;
-    RequestQueue requestQueue;
     TextView tvTitulo, tvDescripcion, tvTelefono;
     ImageButton bTelefono;
     Boolean onFav;
@@ -62,9 +63,10 @@ public class ActivityAnuncio extends AppCompatActivity {
     AlertDialog dialog;
     Button btnGuardar, btnCancelar;
     EditText editComent;
-
-/*
-
+    List<Anuncio> anuncioList;
+    Anuncio anuncio = new Anuncio();
+    String saberFavorito = "";
+    Usuario usuario = new Usuario();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,13 +79,35 @@ public class ActivityAnuncio extends AppCompatActivity {
         imageView=findViewById(R.id.anuncioFoto);
         addAnuncio = findViewById(R.id.fabAddComent);
         registerForContextMenu(tvTelefono);
-        requestQueue= Volley.newRequestQueue(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
-        String fireId = mAuth.getUid();
-        String anuncioId= getIntent().getStringExtra("anuncio_id");
-        init(anuncioId);
-        //obtenerAnuncio(direccion.getAnuncio()+anuncioId);
-       // saberFav(direccion.saberFav()+fireId+"&anuncio_id="+anuncioId);
+        anuncio.setAnuncioId(1);
+        usuario.setUsuarioFirebase(mAuth.getUid());
+        String anuncioId= getIntent().getStringExtra("anuncio_id");//Obtenenemos un String con el identificador del anuncio
+
+
+        if(anuncioId!=null){
+            try{
+                anuncio.setAnuncioId(Integer.valueOf(anuncioId));
+
+                if(saberFavorito(anuncio, usuario)){
+                    onFav=true;
+                    fav.setImageResource(R.drawable.ic_favorito_on);
+                }
+                else{
+                    onFav=false;
+                    fav.setImageResource(R.drawable.ic_favorito_off);
+                }
+            }catch (NumberFormatException ex){
+                //TODO caso de error
+                anuncio.setAnuncioId(1);//El anuncio 1 sera el anuncio de error
+            }
+
+        }
+        init(anuncio);
+
+
+
+
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
                 String telefono  = tvTelefono.getText().toString().trim();
@@ -94,34 +118,40 @@ public class ActivityAnuncio extends AppCompatActivity {
         });
         fav.setOnClickListener(view -> {
             if(onFav){
-                eliminarFav(fireId,anuncioId);
+                eliminarFav();
+                onFav=false;
                 fav.setImageResource(R.drawable.ic_favorito_off);
                 Snackbar snackbar = Snackbar.make(view, R.string.favOff, Snackbar.LENGTH_LONG);
                 snackbar.setDuration(10000);
                 snackbar.setAction("Ok", v -> {
+
                 });
                 snackbar.show();
             }else{
-                addFav(fireId,anuncioId);
+                addFav();
+                onFav=true;
                 fav.setAnimation(R.raw.animacion);
                 fav.playAnimation();
-                //fav.setImageResource(R.drawable.ic_favorito_on);
+                fav.setImageResource(R.drawable.ic_favorito_on);
                 Snackbar snackbar = Snackbar.make(view, R.string.favOn, Snackbar.LENGTH_LONG);
                 snackbar.setDuration(10000);
                 snackbar.setAction("Ok", v -> {
                 });
                 snackbar.show();
+
             }
         });
-        addAnuncio.setOnClickListener(v -> creadorDeComent(anuncioId));
-    }*/
+        //addAnuncio.setOnClickListener(v -> creadorDeComent(anuncioId));
+    }
 
-  /*  public void init(String anuncioId){
+
+   public void init(Anuncio anuncio){
         comentarioList = new ArrayList<>();
+        obtenerAnuncio();
         //obtenerComentarios(direccion.getComentarios()+anuncioId);
     }
-*/
-   /* private  void obtenerComentarios(String URL){
+
+    /*private  void obtenerComentarios(String URL){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
             JSONObject jsonObject;
             for (int i = 0; i < response.length(); i++) {
@@ -141,6 +171,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
     }*/
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_PERMISSION_CALL){
@@ -164,115 +195,87 @@ public class ActivityAnuncio extends AppCompatActivity {
     private void call(String telefono){
         startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel: "+ telefono)));
     }
-    /*private  void obtenerAnuncio(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
-           // final Anuncio anuncio = new Anuncio(1,"", "");
+
+
+    private Boolean saberFavorito(Anuncio anuncio, Usuario usuario){
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        anuncio.setTitulo(jsonObject.getString("titulo"));
-                        anuncio.setDescripcion(jsonObject.getString("descripcion"));
-                        anuncio.setFotoAnuncio(jsonObject.getString("foto"));
-                        anuncio.setTelefono(jsonObject.getString("telefono"));
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
+            }
+        });
+        thread.start();
+        if(!saberFavorito.equals("")){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Funciona
+     */
+    private void obtenerAnuncio(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                anuncio = refindCliente.obtenerAnuncio(anuncio);
                 tvTitulo.setText(anuncio.getTitulo());
                 tvDescripcion.setText(anuncio.getDescripcion());
                 tvTelefono.setText(anuncio.getTelefono());
-                cargarImagen(anuncio.getFotoAnuncio());
+            }
+        });
+        thread.start();
+    }
 
-            }
-        }, error -> {
-            Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ActivityAnuncio.this, ActivityListaCat.class);
-            startActivity(i);
-        }
-        );
-        requestQueue.add(jsonArrayRequest);
-    }*/
-    private  void saberFav(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
-            JSONObject jsonObject = null;
-            if(response.length()>0)
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    onFav=true;
-                    fav.setImageResource(R.drawable.ic_favorito_on);
-                } catch (JSONException e) {
-                }
-            }
-        }, error -> {
-            onFav=false;
-            fav.setImageResource(R.drawable.ic_favorito_off);
-        }
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+    /**
+     * Funciona
+     * @return
+     */
+   private boolean addFav(){
+       saberFavorito = "";
+       Thread thread = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+               saberFavorito = refindCliente.crearFavorito(usuario, anuncio);
+           }
+       });
+       thread.start();
+       if(saberFavorito.equals("TRUE")){
+           onFav=true;
+           Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       return false;
     }
-   /* private void addFav(String usuarioFire, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addFav(), response -> {
-            Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
-            onFav=true;
-        }, error -> Toast.makeText(getApplicationContext(), R.string.errorAñadirfavo, Toast.LENGTH_SHORT).show()){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("usuario_firebase", usuarioFire);
-                parametros.put("anuncio_id", anuncioId);
-                return parametros;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+   private boolean eliminarFav(){
+       saberFavorito = "";
+       Thread thread = new Thread(new Runnable() {
+           @Override
+           public void run() {
+               RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+               saberFavorito = refindCliente.eliminarFavorito(usuario, anuncio);
+           }
+       });
+       thread.start();
+       if(saberFavorito.equals("TRUE")){
+           onFav=false;
+           Toast.makeText(getApplicationContext(), "Se quito de favoritos", Toast.LENGTH_SHORT).show();
+           return true;
+       }
+       return false;
     }
-    private void eliminarFav(String fireId, String anuncioId){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.delFav(),
-                response -> onFav=false, error -> Toast.makeText(getApplicationContext(), R.string.errorQuitarfavo, Toast.LENGTH_SHORT).show()){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("usuario_firebase",fireId);
-                parametros.put("anuncio_id",anuncioId);
-                return parametros;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-    private void cargarImagen(String url){
+
+
+    /*private void cargarImagen(String url){
         ImageRequest imageRequest = new ImageRequest(direccion.getImagesAnuncio()+url,
                 response -> imageView.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
                 error -> Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show());
         requestQueue.add(imageRequest);
-    }
-    private void setRecyclerView(List<Comentario> comentarioList){
-        AdaptadorComent listadapter = new AdaptadorComent(comentarioList, this);
-        RecyclerView recyclerView = findViewById(R.id.RecyclerViewComen);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(listadapter);
-    }
-    public void creadorDeComent(String anuncioId){
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
-        editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
-        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
-        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
-        btnGuardar.setOnClickListener(v -> crearComent(anuncioId, editComent.getText().toString()));
-        //Visionado del popup
-        dialogBuilder.setView(contactPopupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
-        btnCancelar.setOnClickListener(v -> dialog.cancel());
-    }
-    private void crearComent(String anuncioId, String comentario){
+    }*/
+    /*private void crearComent(String anuncioId, String comentario){
         //usuario Fire, anuncio Id, texto con el comentario
         String fireId = mAuth.getUid();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addComent(),
@@ -290,8 +293,29 @@ public class ActivityAnuncio extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }
+    }*/
+    /*public void creadorDeComent(String anuncioId){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
+        editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
+        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
+        btnGuardar.setOnClickListener(v -> crearComent(anuncioId, editComent.getText().toString()));
+        //Visionado del popup
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
 
+        btnCancelar.setOnClickListener(v -> dialog.cancel());
+    }*/
+
+    private void setRecyclerView(List<Comentario> comentarioList){
+        AdaptadorComent listadapter = new AdaptadorComent(comentarioList, this);
+        RecyclerView recyclerView = findViewById(R.id.RecyclerViewComen);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listadapter);
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -312,5 +336,5 @@ public class ActivityAnuncio extends AppCompatActivity {
         }
 
 
-    }*/
+    }
 }

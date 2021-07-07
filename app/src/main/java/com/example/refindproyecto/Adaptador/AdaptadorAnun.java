@@ -3,7 +3,6 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityAnuncio;
 import com.example.refindproyecto.R;
 import java.util.List;
@@ -29,13 +22,12 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
     private List<Anuncio> anuncioList;
     private LayoutInflater nInflater;
     private Context context;
-    RequestQueue requestImage;
 
     public AdaptadorAnun(List<Anuncio> anuncioList, Context context){
         this.nInflater = LayoutInflater.from(context);
         this.context = context;
         this.anuncioList = anuncioList;
-        requestImage= Volley.newRequestQueue(context.getApplicationContext());
+        //requestImage= Volley.newRequestQueue(context.getApplicationContext());
     }
     @Override
     public int getItemCount () {
@@ -62,8 +54,8 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
         });
     }
 
-    public void setItems(List<Anuncio> categoriaList){
-        this.anuncioList =categoriaList;
+    public void setItems(List<Anuncio> anuncioList){
+        this.anuncioList =anuncioList;
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imagenPerfil;
@@ -84,7 +76,7 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
             cv.setId(itemAnuncio.getAnuncioId());
         }
     }
-    private void cargarImagen(ImageView imagenPerfil, String url){
+    /*private void cargarImagen(ImageView imagenPerfil, String url){
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -97,5 +89,5 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
             }
         });
         requestImage.add(imageRequest);
-    }
+    }*/
 }

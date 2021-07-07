@@ -6,24 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Toast;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.refindproyecto.Adaptador.AdaptadorCat;
 import java.util.ArrayList;
 import java.util.List;
-
 import Cliente.RefindCliente;
 import POJOS.Categoria;
 
-public class ActivityListaCat extends AppCompatActivity {
 
+public class ActivityListaCat extends AppCompatActivity {
     List<Categoria> categoriaList = null;
-    List<POJOS.Categoria> categoriaLista;
-    RequestQueue requestQueue;
+    Categoria categoria = null;
+    String categoriaT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,43 +38,44 @@ public class ActivityListaCat extends AppCompatActivity {
     }
     public void init(){
         categoriaList = new ArrayList<>();
-        categoriaList = new ArrayList<>();
         obtenerCategorias();
-        //obtenerCategoria(direccion.getCategorias());
-    }
-    private void obtenerCategoria(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
-            JSONObject jsonObject;
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    categoriaList.add(new Categoria(jsonObject.getInt("categoria_id"), jsonObject.getString("foto"), jsonObject.getString("titulo"), jsonObject.getString("descripcion")));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();// e.getMessage()
-                }
-            }
-            //setRecyclerView(categoriaList);
-        }, error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
     }
     private void obtenerCategorias(){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio 
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                categoriaLista = refindCliente.obtenerCategorias();
+                categoriaT = refindCliente.obtenerCategoria();
+                //NumberFormatException
+                Integer id=0;
+                String[] arrayCat = categoriaT.split("/");
+                for (int i = 0; i <= arrayCat.length - 1; i++) {
+                    if (arrayCat[i].equals("-")) {
+                        i++;
+                    }
+                    id = Integer.valueOf(arrayCat[i]);
+                    categoria = new Categoria();
+                    categoria.setCategoriaId(id);
+                    i++;
+                    categoria.setTitulo(arrayCat[i]);
+                    i++;
+                    categoria.setDescripcion(arrayCat[i]);
+                    i++;
+                    categoria.setFoto(arrayCat[i]);
+                    i++;
+                    categoriaList.add(categoria);
+                }
             }
         });
         thread.start();
-        setRecyclerView(categoriaLista);
+        setRecyclerView(categoriaList);
     }
     private void setRecyclerView(List<POJOS.Categoria> categoriaList){
-        //AdaptadorCat listadapter = new AdaptadorCat(categoriaList, this);
+        AdaptadorCat listadapter = new AdaptadorCat(categoriaList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerCat);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(listadapter);
+        recyclerView.setAdapter(listadapter);
     }
 }

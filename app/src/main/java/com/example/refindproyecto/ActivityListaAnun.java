@@ -17,12 +17,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import Cliente.RefindCliente;
 import POJOS.Anuncio;
+import POJOS.Categoria;
 
 public class ActivityListaAnun extends AppCompatActivity {
 
     List<Anuncio> anuncioList;
-    RequestQueue requestQueue;
+    Anuncio anuncio = null;
+    Categoria categoria = new Categoria();
+    String anuncioT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,45 +48,48 @@ public class ActivityListaAnun extends AppCompatActivity {
             Intent i = new Intent(ActivityListaAnun.this, ActivityPerfil.class);
             startActivity(i);
         });
-
-        String s= getIntent().getStringExtra("categoriaId");
-        init(s);
+        categoria.setCategoriaId(Integer.valueOf(getIntent().getStringExtra("categoriaId")));
+        init(categoria);
     }
-    public void init(String categoriaId){
+    public void init(Categoria categoriaId){
         anuncioList = new ArrayList<>();
-        //obtenerAnuncios(direccion.getAnuncios()+categoriaId);
+        obtenerAnuncios(categoriaId);
     }
-   /* private  void obtenerAnuncios(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
-            JSONObject jsonObject;
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    anuncioList.add(new
-                            Anuncio(jsonObject.getInt("anuncio_id"),
-                            jsonObject.getString("foto"),
-                            jsonObject.getString("titulo"),
-                            jsonObject.getString("descripcion")));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+    private void obtenerAnuncios(Categoria categoriaId){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                anuncioT = refindCliente.obtenerAnuncios(categoria);
+                String[] arrayAnuncio = anuncioT.split("/");
+                Integer id=0;
+                for (int i = 0; i <= arrayAnuncio.length - 1; i++) {
+                    anuncio = new Anuncio();
+                    if (arrayAnuncio[i].equals("-")) {
+                        i++;
+                    }
+                    id = Integer.valueOf(arrayAnuncio[i]);
+                    anuncio.setAnuncioId(id);
+                    i++;
+                    anuncio.setTitulo(arrayAnuncio[i]);
+                    i++;
+                    anuncio.setDescripcion(arrayAnuncio[i]);
+                    i = i + 3;
+                    anuncio.setTelefono(arrayAnuncio[i]);
+                    i++;
+                    anuncio.setFoto(arrayAnuncio[i]);
+                    anuncioList.add(anuncio);
                 }
             }
-            setRecyclerView(anuncioList);
-        }, error -> {
-            Toast.makeText(getApplicationContext(), R.string.catNoAnuncios, Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
-            startActivity(i);
-        }
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-    }*/
-
+        });
+        thread.start();
+        setRecyclerView(anuncioList);
+    }
     private void setRecyclerView(List<Anuncio> anuncioList){
-        //AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
+        AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewAnu);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(listadapter);
+        recyclerView.setAdapter(listadapter);
     }
 }

@@ -69,8 +69,45 @@ public class ActivityRegistro extends AppCompatActivity {
         usuario.setBiografia("");
         usuario.setCreador(0);
         usuario.setFoto("0");
+        usuario.setPass(pass.getText().toString());
 
-        if(comprobarDatos.comprobarDatosLogin(usuario, view,  pass.getText().toString(), confirmacionPass.getText().toString(), isChecked)){
+        boolean comprobar = true;
+        if(usuario == null || usuario.getEmail().equals("") || usuario.getNombre().equals("") || usuario.getApellido().equals("") || usuario.getPass().equals("") || confirmacionPass.equals("")){
+            Snackbar snackbar = Snackbar.make(view, R.string.todosCamposOk, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+
+            });
+            snackbar.show();
+            comprobar = false;
+        }
+        else if(!isChecked){
+            Snackbar snackbar = Snackbar.make(view, R.string.error18, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+            });
+            snackbar.show();
+            comprobar = false;
+        }
+        else if(!usuario.getPass().equals(confirmacionPass.getText().toString())){
+            Snackbar snackbar = Snackbar.make(view, R.string.errorPassNoIguales, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+            });
+            snackbar.show();
+            comprobar = false;
+        }
+        else if(pass.length()<9){
+            Snackbar snackbar = Snackbar.make(view, R.string.pass9, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+            });
+            snackbar.show();
+            comprobar = false;
+        }
+
+
+        if(comprobar){
             mAuth.createUserWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
                     .addOnCompleteListener(this, task -> {
 
@@ -94,11 +131,6 @@ public class ActivityRegistro extends AppCompatActivity {
                             snackbar.show();
                         }
                     });
-        }
-        else{
-            Snackbar snackbar = Snackbar.make(view, "Error aqui", Snackbar.LENGTH_LONG);
-            snackbar.setDuration(10000);
-            snackbar.show();
         }
     }
 

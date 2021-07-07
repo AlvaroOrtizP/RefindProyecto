@@ -47,7 +47,8 @@ public class ActivityLogin extends AppCompatActivity {
     }
     public void iniciarSesion (View view){
         usuario.setEmail(correo.getText().toString());
-        if(usuario.getEmail() != null || pass.getText() != null || usuario.getEmail().equals("")  || pass.getText().toString().equals("")){
+        usuario.setPass(pass.getText().toString());
+        if(usuario.getEmail() == null || usuario.getPass() == null || usuario.getEmail().equals("")  || usuario.getPass().equals("")){
             Snackbar snackbar = Snackbar.make(view, R.string.todosCamposOk, Snackbar.LENGTH_LONG);
             snackbar.setDuration(10000);
             snackbar.setAction("Ok", v -> {

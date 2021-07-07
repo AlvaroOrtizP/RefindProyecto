@@ -9,33 +9,24 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.R;
 import java.util.List;
-
 import POJOS.Categoria;
 
 public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> {
     private List<Categoria> categoriaList;
     private LayoutInflater nInflater;
     private Context context;
-    RequestQueue requestImage;
-
 
     public AdaptadorCat(List<Categoria> categoriaList, Context context){
         this.nInflater = LayoutInflater.from(context);
         this.context = context;
         this.categoriaList = categoriaList;
-        requestImage=Volley.newRequestQueue(context.getApplicationContext());
+        //requestImage= Volley.newRequestQueue(context.getApplicationContext());
     }
     @Override
     public int getItemCount () {
@@ -52,19 +43,17 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, final int position){
         holder.cv.setAnimation(AnimationUtils.loadAnimation(context, R.anim.transicion_cardview));
         holder.binData(categoriaList.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ActivityListaAnun.class);
-                intent.putExtra("categoriaId", categoriaList.get(position).getCategoriaId().toString());
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityListaAnun.class);
+            intent.putExtra("categoriaId", categoriaList.get(position).getCategoriaId().toString());
+            context.startActivity(intent);
         });
     }
 
     public void setItems(List<Categoria> categoriaList){
         this.categoriaList =categoriaList;
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imagenPerfil;
         TextView titulo, descripcion;
@@ -84,7 +73,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
-    private void cargarImagen(ImageView imagenPerfil, String url){
+    /*private void cargarImagen(ImageView imagenPerfil, String url){
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -97,5 +86,5 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             }
         });
         requestImage.add(imageRequest);
-    }
+    }*/
 }

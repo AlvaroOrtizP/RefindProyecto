@@ -6,23 +6,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Toast;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.google.firebase.auth.FirebaseAuth;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import Cliente.RefindCliente;
 import POJOS.Anuncio;
+import POJOS.Categoria;
+import POJOS.Usuario;
 
 public class ActivityListaFav extends AppCompatActivity {
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    List<Anuncio> anuncioList;
-    RequestQueue requestQueue;
+    Usuario usuario = new Usuario();
+    ArrayList<Anuncio> anuncioList = new ArrayList<>();
+    String anuncioT = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,42 +38,53 @@ public class ActivityListaFav extends AppCompatActivity {
             startActivity(i);
         });
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        String fireId = mAuth.getUid();
-        init(fireId);
+        usuario.setUsuarioFirebase(mAuth.getUid());
+        init(usuario);
 
     }
-    public void init(String usuarioID){
+    public void init(Usuario usuario){
         anuncioList = new ArrayList<>();
-        //obtenerAnuncios(direccion.getFavoritos()+usuarioID);
+        obtenerAnuncios(usuario);
     }
-    /*private  void obtenerAnuncios(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
-            JSONObject jsonObject;
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    anuncioList.add(new Anuncio(
-                            jsonObject.getInt("anuncio_id"),
-                            jsonObject.getString("foto"),
-                            jsonObject.getString("titulo"),
-                            jsonObject.getString("descripcion")));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+    private void obtenerAnuncios(Usuario usuario){
+       Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                anuncioT = refindCliente.obtenerFavoritos(usuario);
+                String[] anuncioArray = anuncioT.split("/");
+                Anuncio anuncio = null;
+                Integer id=0;
+                for (int i = 0; i <= anuncioArray.length - 1; i++) {
+                    anuncio = new Anuncio();
+                    if (anuncioArray[i].equals("-")) {
+                        i++;
+                    }
+                    id = Integer.valueOf(anuncioArray[i]);
+                    anuncio.setAnuncioId(id);
+                    i++;
+                    anuncio.setTitulo(anuncioArray[i]);
+                    i++;
+                    anuncio.setDescripcion(anuncioArray[i]);
+                    i=i+3;
+                    anuncio.setTelefono(anuncioArray[i]);
+                    i++;
+                    anuncio.setFoto(anuncioArray[i]);
+                    anuncioList.add(anuncio);
                 }
             }
-            setRecyclerView(anuncioList);
-        }, error -> Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show()
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-    }*/
+        });
+        thread.start();
+        setRecyclerView(anuncioList);
+    }
 
     private void setRecyclerView(List<Anuncio> anuncioList){
-       // AdaptadorAnun adaptadorAnuncio = new AdaptadorAnun(anuncioList, this);
+        AdaptadorAnun adaptadorAnuncio = new AdaptadorAnun(anuncioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewFav);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-       // recyclerView.setAdapter(adaptadorAnuncio);
+        recyclerView.setAdapter(adaptadorAnuncio);
     }
 
 
