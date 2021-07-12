@@ -75,12 +75,12 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         }
 
         void binData (final Comentario itemComentario){
-           /* nombreUsuario.setText(itemComentario.getNombreUsuario());
-            comentario.setText(itemComentario.getComentario());
-            String URL=direccion.getImagesUsuario()+itemComentario.getFotoUsuario()+".png";
+            nombreUsuario.setText(itemComentario.getUsuario().getNombre());
+            comentario.setText(itemComentario.getTexto());
+            /*String URL=direccion.getImagesUsuario()+itemComentario.getFotoUsuario()+".png";
             cargarImagen(fotoUsuario, URL);//
-            Log.i("AdaptadorComent", URL);
-            cv.setId(itemComentario.getComentarioId());*/
+            Log.i("AdaptadorComent", URL);*/
+            cv.setId(itemComentario.getComentarioId());
         }
     }
     private void cargarImagen(ImageView imagenPerfil, String url){

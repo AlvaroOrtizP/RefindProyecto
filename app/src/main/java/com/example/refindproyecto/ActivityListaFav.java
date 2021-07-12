@@ -56,22 +56,27 @@ public class ActivityListaFav extends AppCompatActivity {
                 String[] anuncioArray = anuncioT.split("/");
                 Anuncio anuncio = null;
                 Integer id=0;
-                for (int i = 0; i <= anuncioArray.length - 1; i++) {
-                    anuncio = new Anuncio();
-                    if (anuncioArray[i].equals("-")) {
+                if(!anuncioT.equals("")){
+                    for (int i = 0; i <= anuncioArray.length - 1; i++) {
+                        anuncio = new Anuncio();
+                        if (anuncioArray[i].equals("-")) {
+                            i++;
+                        }
+                        id = Integer.valueOf(anuncioArray[i]);
+                        anuncio.setAnuncioId(id);
                         i++;
+                        anuncio.setTitulo(anuncioArray[i]);
+                        i++;
+                        anuncio.setDescripcion(anuncioArray[i]);
+                        i=i+3;
+                        anuncio.setTelefono(anuncioArray[i]);
+                        i++;
+                        anuncio.setFoto(anuncioArray[i]);
+                        anuncioList.add(anuncio);
                     }
-                    id = Integer.valueOf(anuncioArray[i]);
-                    anuncio.setAnuncioId(id);
-                    i++;
-                    anuncio.setTitulo(anuncioArray[i]);
-                    i++;
-                    anuncio.setDescripcion(anuncioArray[i]);
-                    i=i+3;
-                    anuncio.setTelefono(anuncioArray[i]);
-                    i++;
-                    anuncio.setFoto(anuncioArray[i]);
-                    anuncioList.add(anuncio);
+                }
+                else{
+                    //TODO: mensaje de que no existen favoritos
                 }
             }
         });

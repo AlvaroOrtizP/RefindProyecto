@@ -56,20 +56,16 @@ public class ActivityPerfil extends AppCompatActivity {
         apellidoPerfil = findViewById(R.id.apellidoUsuario);
         Switch swSonido=findViewById(R.id.swSonido);
         salir = findViewById(R.id.logOut);
-        //requestQueue=Volley.newRequestQueue(getApplicationContext());
-
-        //swSonido.setChecked(cargarPreferencias());
-
+        swSonido.setChecked(cargarPreferencias());
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
-               // activarAudio();
+                activarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
             }else{
-                //desactivarAudio();
+                desactivarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
-
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil = findViewById(R.id.btnPerfil);
@@ -82,13 +78,11 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaFav.class);
             startActivity(i);
         });
-
         usuario.setUsuarioFirebase(mAuth.getUid());
         usuario = obtenerDatosUsuario();
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());
-        apellidoPerfil.setText(usuario.getNombre());
-
+        apellidoPerfil.setText(usuario.getApellido());
         Toast.makeText(getApplicationContext(),usuario.getNombre(), Toast.LENGTH_SHORT);
         salir.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
@@ -160,6 +154,8 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         });*/
     }
+
+
     private Usuario obtenerDatosUsuario(){
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -169,6 +165,12 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
         return usuario;
     }
 
@@ -263,6 +265,8 @@ public class ActivityPerfil extends AppCompatActivity {
         return sonidoActivado;
     }
 
+
+
     /*private void actualizarUsuario(Usuario usuario){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.updateUsuario(), response ->{
             Toast.makeText(getApplicationContext(), R.string.actualizacionCorrecta, Toast.LENGTH_SHORT).show();
@@ -288,6 +292,4 @@ public class ActivityPerfil extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);*/
-
-
 }

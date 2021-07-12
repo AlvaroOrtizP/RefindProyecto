@@ -83,6 +83,12 @@ public class ActivityListaAnun extends AppCompatActivity {
             }
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
         setRecyclerView(anuncioList);
     }
     private void setRecyclerView(List<Anuncio> anuncioList){
