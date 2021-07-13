@@ -419,8 +419,6 @@ public class ActivityAnuncio extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
-
-
     }
 
     public void creadorDeComent(){
@@ -441,7 +439,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         comentarioNuevo = new Comentario();
         comentarioNuevo.setAnuncio(anuncio);
         comentarioNuevo.setUsuario(usuario);
-        //TODO: obtener el texto y cerrar ventana
+        //TODO: obtener el texto
         comentarioNuevo.setTexto(editComent.getText().toString());
         Thread thread = new Thread(new Runnable() {
             @Override
