@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
-
 import Cliente.RefindCliente;
 import POJOS.Anuncio;
-import POJOS.Categoria;
 import POJOS.Usuario;
 
 public class ActivityListaFav extends AppCompatActivity {
+
     ImageButton btnInicio, btnFavorito, btnPerfil;
     Usuario usuario = new Usuario();
     ArrayList<Anuncio> anuncioList = new ArrayList<>();
@@ -41,13 +41,14 @@ public class ActivityListaFav extends AppCompatActivity {
         usuario.setUsuarioFirebase(mAuth.getUid());
         init(usuario);
 
+
     }
     public void init(Usuario usuario){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios(usuario);
+        obtenerAnunciosFavortios(usuario);
     }
 
-    private void obtenerAnuncios(Usuario usuario){
+    private void obtenerAnunciosFavortios(Usuario usuario){
        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,12 +76,17 @@ public class ActivityListaFav extends AppCompatActivity {
                         anuncioList.add(anuncio);
                     }
                 }
-                else{
-                    //TODO: mensaje de que no existen favoritos
-                }
             }
         });
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
+        }
+        if(anuncioT.equals("")){
+            Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show();
+        }
         setRecyclerView(anuncioList);
     }
 
@@ -91,6 +97,4 @@ public class ActivityListaFav extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adaptadorAnuncio);
     }
-
-
 }
