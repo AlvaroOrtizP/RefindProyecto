@@ -53,7 +53,9 @@ import POJOS.Usuario;
 
 /**
  * TODO: Eliminar partes que no se utilizan al terminar el proyecto
- *
+ * TODO; mejorar layout de activity y de popup
+ * Todo: El texto del comentario no puede ser null
+ * TODO: ordenar comentarios por fecha revisar la sql para ver que falla
  * Estructura del codigo:
  *      - 1 Creacion de variables
  *      - 2 onCreate
@@ -95,6 +97,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     Usuario usuario = new Usuario();
     Anuncio anuncio = new Anuncio();
     Comentario comentario = null;
+    Comentario comentarioNuevo = null;
     String anuncioId = "";
     String[] arrayComen = comentarioT.split("/");
 
@@ -173,7 +176,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         });
 
 
-        //addAnuncio.setOnClickListener(v -> creadorDeComent(anuncioId));
+        addAnuncio.setOnClickListener(v -> creadorDeComent());
         //TODO: falta añadir nuevo anuncio
     }
 
@@ -416,43 +419,45 @@ public class ActivityAnuncio extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
-
-
     }
 
-    /*public void creadorDeComent(String anuncioId){
+    public void creadorDeComent(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
         editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
         btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
         btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
-        btnGuardar.setOnClickListener(v -> crearComent(anuncioId, editComent.getText().toString()));
+        btnGuardar.setOnClickListener(v -> crearComent());
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
 
         btnCancelar.setOnClickListener(v -> dialog.cancel());
-    }*/
-        /*private void crearComent(String anuncioId, String comentario){
-        //usuario Fire, anuncio Id, texto con el comentario
-        String fireId = mAuth.getUid();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.addComent(),
-                response -> Toast.makeText(getApplicationContext(), R.string.comentarioInsertado, Toast.LENGTH_SHORT).show(), error -> Toast.makeText(getApplicationContext(), R.string.errorInsertarComentario, Toast.LENGTH_SHORT).show()){
+    }
+    private void crearComent(){
+        comentarioNuevo = new Comentario();
+        comentarioNuevo.setAnuncio(anuncio);
+        comentarioNuevo.setUsuario(usuario);
+        //TODO: obtener el texto
+        comentarioNuevo.setTexto(editComent.getText().toString());
+        Thread thread = new Thread(new Runnable() {
             @Override
-            protected Map<String, String> getParams()  {//throws AuthFailureError
-                Map<String, String> parametros = new HashMap<>();
-
-
-                parametros.put("usuario_fire",fireId);
-                parametros.put("anuncio_id",anuncioId);
-                parametros.put("comentario",comentario);
-                return parametros;
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                refindCliente.crearComentario(comentarioNuevo);
             }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }*/
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
+        Intent i = new Intent(ActivityAnuncio.this, ActivityAnuncio.class);
+        startActivity(i);
+    }
 
     /**
      * -----------------------------------------------------------
