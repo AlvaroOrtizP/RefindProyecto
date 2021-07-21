@@ -12,21 +12,27 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.R;
 import java.util.List;
 import POJOS.Categoria;
+import POJOS.Indicador;
 
 public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> {
     private List<Categoria> categoriaList;
     private LayoutInflater nInflater;
     private Context context;
+    private RequestQueue requestImage;
 
     public AdaptadorCat(List<Categoria> categoriaList, Context context){
         this.nInflater = LayoutInflater.from(context);
         this.context = context;
         this.categoriaList = categoriaList;
-        //requestImage= Volley.newRequestQueue(context.getApplicationContext());
+        requestImage= Volley.newRequestQueue(context.getApplicationContext());
     }
     @Override
     public int getItemCount () {
@@ -69,11 +75,12 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
         void binData (final Categoria itemCategoria){
             titulo.setText(itemCategoria.getTitulo());
             descripcion.setText(itemCategoria.getDescripcion());
-           // cargarImagen(imagenPerfil, direccion.getImagesCategoria()+itemCategoria.getFotoCategoria());
+            cargarImagen(imagenPerfil, Indicador.IMAGEN_CATEGORIA+itemCategoria.getFoto());
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
-    /*private void cargarImagen(ImageView imagenPerfil, String url){
+    //Hacer con web service
+    private void cargarImagen(ImageView imagenPerfil, String url){
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -86,5 +93,5 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             }
         });
         requestImage.add(imageRequest);
-    }*/
+    }
 }
