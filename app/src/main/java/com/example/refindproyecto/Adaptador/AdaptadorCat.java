@@ -79,7 +79,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
-    //Hacer con web service
+
     private void cargarImagen(ImageView imagenPerfil, String url){
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override

@@ -1,6 +1,7 @@
 package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,10 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.ActivityPerfil;
 import com.example.refindproyecto.R;
 import java.util.List;
 
 import POJOS.Comentario;
+import POJOS.Indicador;
 
 public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHolder>{
     private List<Comentario> comentarioList;
@@ -52,7 +55,7 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Perfil.class);
+                Intent intent = new Intent(context, ActivityPerfil.class);
                 intent.putExtra("categoriaId", comentarioList.get(position).getComentarioId().toString());
                 context.startActivity(intent);
             }
@@ -77,9 +80,7 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         void binData (final Comentario itemComentario){
             nombreUsuario.setText(itemComentario.getUsuario().getNombre());
             comentario.setText(itemComentario.getTexto());
-            /*String URL=direccion.getImagesUsuario()+itemComentario.getFotoUsuario()+".png";
-            cargarImagen(fotoUsuario, URL);//
-            Log.i("AdaptadorComent", URL);*/
+            //cargarImagen(imagenPerfil, Indicador.IMAGEN_CATEGORIA+itemCategoria.getFoto());
             cv.setId(itemComentario.getComentarioId());
         }
     }
