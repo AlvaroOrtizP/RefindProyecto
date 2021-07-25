@@ -15,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import com.example.refindproyecto.Auxiliar.Auxiliar;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +39,6 @@ public class ActivityRegistro extends AppCompatActivity {
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
 
-    Auxiliar comprobarDatos = new Auxiliar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

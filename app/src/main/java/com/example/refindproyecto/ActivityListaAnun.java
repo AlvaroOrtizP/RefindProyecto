@@ -53,9 +53,9 @@ public class ActivityListaAnun extends AppCompatActivity {
     }
     public void init(Categoria categoriaId){
         anuncioList = new ArrayList<>();
-        obtenerAnuncios(categoriaId);
+        obtenerAnuncios();
     }
-    private void obtenerAnuncios(Categoria categoriaId){
+    private void obtenerAnuncios(){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

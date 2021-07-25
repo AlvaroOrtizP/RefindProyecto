@@ -11,6 +11,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -28,6 +29,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -48,6 +50,7 @@ import Cliente.RefindCliente;
 import POJOS.Anuncio;
 import POJOS.Categoria;
 import POJOS.Comentario;
+import POJOS.Indicador;
 import POJOS.Usuario;
 
 
@@ -100,6 +103,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     Comentario comentarioNuevo = null;
     String anuncioId = "";
     String[] arrayComen = comentarioT.split("/");
+    RequestQueue requestImage = Volley.newRequestQueue(this.getApplicationContext());
 
     /**
      * -----------------------------------------------------------
@@ -139,7 +143,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         obtenerAnuncio();
         comprobarFavorito();
         obtenerComentarios();
-
+        //cargarImagen(imageView, Indicador.IMAGEN_CATEGORIA+anuncio.getFoto()); TODO: esta parte falla
         // 2.5
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
@@ -464,10 +468,18 @@ public class ActivityAnuncio extends AppCompatActivity {
      *                          7 CARGAR FOTO DEL ANUNCIO
      * -----------------------------------------------------------
      */
-    /*private void cargarImagen(String url){
-        ImageRequest imageRequest = new ImageRequest(direccion.getImagesAnuncio()+url,
-                response -> imageView.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null,
-                error -> Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show());
-        requestQueue.add(imageRequest);
-    }*/
+    private void cargarImagen(ImageView imagenPerfil, String imagen){
+        ImageRequest imageRequest = new ImageRequest(imagen, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imagenPerfil.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Poner una imagen por defecto
+            }
+        });
+        requestImage.add(imageRequest);
+    }
 }
