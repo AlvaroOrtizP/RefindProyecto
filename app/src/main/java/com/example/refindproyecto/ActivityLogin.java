@@ -12,39 +12,78 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import POJOS.Usuario;
 
+
+/**
+ * Estructura del codigo:
+ *  - 1 Creacion de variables
+ *  - 2 onCreate
+ *      2.1 Vincular variables con objetos del layout
+ *      2.2 Funcionalidad de botones
+ *      2.3 Llamadas a metodos
+ *  - 3 Iniciar aplicacion
+ *  - 4 Funcionalidad de botones
+ *      4.1 Ir al registro
+ *      4.2 Iniciar sesion
+ */
 public class ActivityLogin extends AppCompatActivity {
+    /**
+     * -----------------------------------------------------------
+     *                          1 CREACION DE VARIABLES
+     * -----------------------------------------------------------
+     */
     private FirebaseAuth mAuth;
     private EditText correo, pass;
-    Usuario usuario = new Usuario();
+    Usuario usuario = null;
+
+    /**
+     * -----------------------------------------------------------
+     *                          2 ONCREATE
+     * -----------------------------------------------------------
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        usuario = new Usuario();
         correo = findViewById(R.id.emailLogin);
         pass = findViewById(R.id.passLogin);
         mAuth = FirebaseAuth.getInstance();
         Button iniciarSesion = findViewById(R.id.IniciarSesionLogin);
         Button irRegistro = findViewById(R.id.irRegistroLogin);
 
-
-        String fireId = mAuth.getUid();
-        if(fireId!=null){
+        if(mAuth.getUid()!=null){
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
             startActivity(i);
         }
+        //Llamada a metodos
         iniciarSesion.setOnClickListener(this::iniciarSesion);
         irRegistro.setOnClickListener(this::toRegistro);
 
     }
+    //Probar a eliminar este metodo
+    /**
+     * -----------------------------------------------------------
+     *                          3 Inciar aplicacion
+     * -----------------------------------------------------------
+     */
     @Override
     public void onStart() {
         super.onStart();
     }
+
+    /**
+     * -----------------------------------------------------------
+     *                          4 Funcionalidades de botones
+     * -----------------------------------------------------------
+     */
+    //Ir al registro
     public void toRegistro (View view){
         Intent registro = new Intent(this, ActivityRegistro.class);
         startActivity(registro);
     }
+
+
+    //Iniciar sesion
     public void iniciarSesion (View view){
         usuario.setEmail(correo.getText().toString());
         usuario.setPass(pass.getText().toString());

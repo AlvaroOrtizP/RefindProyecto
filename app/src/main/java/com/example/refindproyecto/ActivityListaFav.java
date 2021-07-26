@@ -15,14 +15,33 @@ import Cliente.RefindCliente;
 import POJOS.Anuncio;
 import POJOS.Usuario;
 
+/**
+ * Estructura del codigo:
+ *  - 1 Creacion de variables
+ *  - 2 onCreate
+ *      2.1 Vincular variables con objetos del layout
+ *      2.2 Funcionalidad de botones
+ *      2.3 Llamadas a metodos
+ *  - 3 Obtener favoritos
+ */
 public class ActivityListaFav extends AppCompatActivity {
-
+    /**
+     * -----------------------------------------------------------
+     *                          1 CREACION DE VARIABLES
+     * -----------------------------------------------------------
+     */
     ImageButton btnInicio, btnFavorito, btnPerfil;
     Usuario usuario = new Usuario();
     ArrayList<Anuncio> anuncioList = new ArrayList<>();
     String anuncioT = "";
+    /**
+     * -----------------------------------------------------------
+     *                          2 ONCREATE
+     * -----------------------------------------------------------
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_fav);
         btnInicio =findViewById(R.id.btnInicio);
@@ -39,16 +58,20 @@ public class ActivityListaFav extends AppCompatActivity {
         });
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         usuario.setUsuarioFirebase(mAuth.getUid());
-        init(usuario);
-
-
-    }
-    public void init(Usuario usuario){
         anuncioList = new ArrayList<>();
-        obtenerAnunciosFavortios(usuario);
+
+        //Llamadas a metodos
+        obtenerFavortios(usuario);
+
+
     }
 
-    private void obtenerAnunciosFavortios(Usuario usuario){
+    /**
+     * -----------------------------------------------------------
+     *                          3 Obtener Favoritos
+     * -----------------------------------------------------------
+     */
+    private void obtenerFavortios(Usuario usuario){
        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

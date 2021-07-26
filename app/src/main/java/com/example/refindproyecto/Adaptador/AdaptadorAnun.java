@@ -77,7 +77,6 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
             descripcion = itemView.findViewById(R.id.descripcion);
             cv = itemView.findViewById(R.id.cv);
         }
-        //D:\ProgramaGen\Programas\Xampp\htdocs\Android\images
         void binData (final Anuncio itemAnuncio){
             titulo.setText(itemAnuncio.getTitulo());
             descripcion.setText(itemAnuncio.getDescripcion());

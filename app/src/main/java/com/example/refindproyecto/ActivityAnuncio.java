@@ -25,30 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorComent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import Cliente.RefindCliente;
 import POJOS.Anuncio;
-import POJOS.Categoria;
 import POJOS.Comentario;
 import POJOS.Indicador;
 import POJOS.Usuario;
@@ -103,7 +92,8 @@ public class ActivityAnuncio extends AppCompatActivity {
     Comentario comentarioNuevo = null;
     String anuncioId = "";
     String[] arrayComen = comentarioT.split("/");
-    RequestQueue requestImage = Volley.newRequestQueue(this.getApplicationContext());
+    RequestQueue requestImage;
+
 
     /**
      * -----------------------------------------------------------
@@ -124,7 +114,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         imageView=findViewById(R.id.anuncioFoto);
         addAnuncio = findViewById(R.id.fabAddComent);
         registerForContextMenu(tvTelefono);
-
+        requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
         mAuth = FirebaseAuth.getInstance();
         usuario.setUsuarioFirebase(mAuth.getUid());
@@ -143,7 +133,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         obtenerAnuncio();
         comprobarFavorito();
         obtenerComentarios();
-        //cargarImagen(imageView, Indicador.IMAGEN_CATEGORIA+anuncio.getFoto()); TODO: esta parte falla
+        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncio.getFoto());// TODO: esta parte falla
         // 2.5
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
@@ -208,26 +198,6 @@ public class ActivityAnuncio extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    /*private  void obtenerComentarios(String URL){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URL, response -> {
-            JSONObject jsonObject;
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    comentarioList.add(new Comentario(jsonObject.getInt("comentario_id"), jsonObject.getString("foto"), jsonObject.getString("nombre"), jsonObject.getString("comentario")));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), R.string.errorObtenerComent, Toast.LENGTH_SHORT).show();
-                }
-            }
-            setRecyclerView(comentarioList);
-        }, error -> {
-            comentarioList.add(new Comentario(1, "usuario.png", "No existen comentarios", "Danos tu opinion"));
-            setRecyclerView(comentarioList);
-        }
-        );
-        requestQueue= Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-    }*/
     /**
      * -----------------------------------------------------------
      *                          4 FAVORITOS

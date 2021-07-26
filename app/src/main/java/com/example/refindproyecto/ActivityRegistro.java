@@ -24,7 +24,7 @@ import POJOS.Usuario;
 
 
 public class ActivityRegistro extends AppCompatActivity {
-
+//TODO: falta organizar
     private FirebaseAuth mAuth;
     private EditText correo;
     private EditText nombre;
@@ -178,4 +178,11 @@ public class ActivityRegistro extends AppCompatActivity {
         Intent registro_login = new Intent(this, ActivityLogin.class);
         startActivity(registro_login);
     }
+
+    /**
+     * Colocar todo
+     * Solucionar todo
+     * Indicar que es lo que falta
+     * Revisar todos las partes
+     */
 }

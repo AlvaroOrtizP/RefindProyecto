@@ -29,6 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
+    //TODO faltan cosas
     Usuario usuario = new Usuario();
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
@@ -83,7 +84,6 @@ public class ActivityPerfil extends AppCompatActivity {
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());
         apellidoPerfil.setText(usuario.getApellido());
-        Toast.makeText(getApplicationContext(),usuario.getNombre(), Toast.LENGTH_SHORT);
         salir.setOnClickListener(view -> {
             FirebaseAuth.getInstance().signOut();
             SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);

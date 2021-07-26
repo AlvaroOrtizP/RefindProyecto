@@ -6,28 +6,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Toast;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-
 import Cliente.RefindCliente;
 import POJOS.Anuncio;
 import POJOS.Categoria;
 
-public class ActivityListaAnun extends AppCompatActivity {
 
+/**
+ * Estructura del codigo:
+ *      - 1 Creacion de variables
+ *      - 2 ONCREATE
+ *          2.1 Vincular variables con objetos del layout
+ *          2.2 Llamada a metodos
+ *      - 3 OBTENER ANUNCIOS
+ */
+public class ActivityListaAnun extends AppCompatActivity {
+    /**
+     * -----------------------------------------------------------
+     *                          1 CREACION DE VARIABLES
+     * -----------------------------------------------------------
+     */
     List<Anuncio> anuncioList;
     Anuncio anuncio = null;
     Categoria categoria = new Categoria();
     String anuncioT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
+
+    /**
+     * -----------------------------------------------------------
+     *                          2 ONCREATE
+     * -----------------------------------------------------------
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +60,18 @@ public class ActivityListaAnun extends AppCompatActivity {
             startActivity(i);
         });
         categoria.setCategoriaId(Integer.valueOf(getIntent().getStringExtra("categoriaId")));
-        init(categoria);
-    }
-    public void init(Categoria categoriaId){
         anuncioList = new ArrayList<>();
+
+        //Llamada a metodos
         obtenerAnuncios();
+
     }
+
+    /**
+     * -----------------------------------------------------------
+     *                          3 OBTENER ANUNCIOS
+     * -----------------------------------------------------------
+     */
     private void obtenerAnuncios(){
         Thread thread = new Thread(new Runnable() {
             @Override
