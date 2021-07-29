@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="createNewContactDialog"
+    android:onClick="crearPopup"
     tools:context=".ActivityPerfil">
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_marginStart="9dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:onClick="createNewContactDialog"
+        android:onClick="crearPopup"
         android:text="@string/editarPerfil"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

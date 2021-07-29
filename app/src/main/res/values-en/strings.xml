@@ -130,5 +130,5 @@ Comments could not be obtained</string>
     <string name="catNoAnuncios">This category has no ads yet</string>
     <string name="noFavoritos">You dont have favorites yet</string>
     <string name="errorObtenerDatosUsuario">Failed to get user data</string>
-
+    <string name="errorCargarCategoria">Failed to get categories</string>
 </resources>

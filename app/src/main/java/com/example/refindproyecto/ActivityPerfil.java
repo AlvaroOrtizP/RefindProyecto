@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,11 +20,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import Cliente.RefindCliente;
+import POJOS.Indicador;
 import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -81,6 +85,7 @@ public class ActivityPerfil extends AppCompatActivity {
         });
         usuario.setUsuarioFirebase(mAuth.getUid());
         usuario = obtenerDatosUsuario();
+        cargarImagen(imagenPerfil, usuario);
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());
         apellidoPerfil.setText(usuario.getApellido());
@@ -93,28 +98,29 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });
+        // Quitar la llamada desde la vista al popup
     }
 
     /**
-     * Metodod creado para usar con el boton editarPerfil
+     * Metodo creado para usar con el boton editarPerfil
      * Este metodo usa el layout popup para crear un formulario emergente
      */
-    public void createNewContactDialog(View view) {
+    public void crearPopup(View view) {
         Usuario usuario = new Usuario();
-        usuario.setFoto("0");
+        usuario.setFoto("0");//TODO cambiar esto
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        newNombre = (EditText) contactPopupView.findViewById(R.id.popupNombre);
-        newBiografia = (EditText) contactPopupView.findViewById(R.id.popupBiografia);
-        newApellido = (EditText) contactPopupView.findViewById(R.id.popupApellido);
-        btnGuardar = (Button) contactPopupView.findViewById(R.id.btnCGuardar);
-        btnCancelar = (Button) contactPopupView.findViewById(R.id.btnCCancelar);
-        btnNewfoto = (ImageView) contactPopupView.findViewById(R.id.imgPopup);
+        newNombre = contactPopupView.findViewById(R.id.popupNombre);
+        newBiografia = contactPopupView.findViewById(R.id.popupBiografia);
+        newApellido = contactPopupView.findViewById(R.id.popupApellido);
+        btnGuardar = contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = contactPopupView.findViewById(R.id.btnCCancelar);
+        btnNewfoto = contactPopupView.findViewById(R.id.imgPopup);
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-        Spinner spinner = (Spinner) contactPopupView.findViewById(R.id.spinner);
+        Spinner spinner = contactPopupView.findViewById(R.id.spinner);
         String[] opciones = {"Customizada 1", "Customizada 2", "Customizada 3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         spinner.setAdapter(adapter);
@@ -127,16 +133,20 @@ public class ActivityPerfil extends AppCompatActivity {
                 usuario.setNombre(newNombre.getText().toString());
                 usuario.setApellido(newApellido.getText().toString());
                 usuario.setBiografia(newBiografia.getText().toString());
-                // usuario.setUsuFire(mAuth.getUid());
-                //actualizarUsuario(usuario);
+                //usuario.setUsuFire(mAuth.getUid());
+                actualizarUsuario(usuario);
             }
         });
 
-
-       /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /**
+         * -----------------------------------------------------------
+         *                          3 Popup eleccion de fotos
+         * -----------------------------------------------------------
+         */
+       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ImageRequest imageRequest = new ImageRequest(direccion.getImagesUsuario()+position+".png", response -> {
+                ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO +position+".png", response -> {
                     btnNewfoto.setImageBitmap(response);
                     imagenPerfil.setImageBitmap(response);
                     // usuario.setFoto(position);//TODO
@@ -152,16 +162,21 @@ public class ActivityPerfil extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
     }
 
-
+    /**
+     * -----------------------------------------------------------
+     *                          3 OBTENER DATOS USUARIO
+     * -----------------------------------------------------------
+     */
     private Usuario obtenerDatosUsuario(){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 usuario = refindCliente.obtenerUsuario(usuario);
+
             }
         });
         thread.start();
@@ -173,78 +188,27 @@ public class ActivityPerfil extends AppCompatActivity {
         }
         return usuario;
     }
-
-
-
-
-
-
-
-
-     /*private void obtenerUsuario(String fireId){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(direccion.getUsuario()+fireId, new Response.Listener<JSONArray>() {
+    private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
+        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getFoto(), new Response.Listener<Bitmap>() {
             @Override
-            public void onResponse(JSONArray response) {
-                JSONObject jsonObject = null;
-                Usuario usuario =null;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        usuario = new Usuario(
-                                jsonObject.getString("nombre"),
-                                jsonObject.getString("apellido"),
-                                jsonObject.getString("email"),
-                                jsonObject.getString("bibliografia"),
-                                0,
-                                0,
-                                0);
-                        usuario.setFoto(jsonObject.getInt("foto"));
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                nombrePerfil.setText(usuario.getNombre());
-                if(usuario.getBiografia().equals("")){
-                    biografiaPerfil.setText(R.string.biografiaEjemplo);
-                }
-                else{
-                    biografiaPerfil.setText(usuario.getBiografia());
-                }
-                apellidoPerfil.setText(usuario.getApellido());
-               //cargarImagen(usuario.getFoto());
-            }
-        }, error ->{
-            Toast.makeText(getApplicationContext(), R.string.errorObtenerDatosUsuario, Toast.LENGTH_SHORT).show();
-            FirebaseAuth.getInstance().signOut();
-            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.clear();
-            editor.commit();
-            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivity(i);
-        }
-        );
-        requestQueue.add(jsonArrayRequest);
-
-    }*/
-
-
-   /*private void cargarImagen(int fotoUsuario){
-        String url=direccion.getImagesUsuario()+fotoUsuario+".png";
-        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {//6.40
+            public void onResponse(Bitmap response) {
                 imagenPerfil.setImageBitmap(response);
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplication(),R.string.errorConexion, Toast.LENGTH_SHORT).show();
+
             }
         });
         requestQueue.add(imageRequest);
-    }*/
+    }
 
+
+    /**
+     * -----------------------------------------------------------
+     *                          3 AUDIO
+     * -----------------------------------------------------------
+     */
     private void desactivarAudio(){
         SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
@@ -259,6 +223,12 @@ public class ActivityPerfil extends AppCompatActivity {
         //editor.commit();
         editor.apply();
     }
+
+    /**
+     * -----------------------------------------------------------
+     *                          3 PREFERENCIAS
+     * -----------------------------------------------------------
+     */
     private boolean cargarPreferencias(){
         SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
         Boolean sonidoActivado = preferences.getBoolean("sonido",true);
@@ -266,30 +236,22 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-
-    /*private void actualizarUsuario(Usuario usuario){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, direccion.updateUsuario(), response ->{
-            Toast.makeText(getApplicationContext(), R.string.actualizacionCorrecta, Toast.LENGTH_SHORT).show();
-            nombrePerfil = findViewById(R.id.nombreUsuario);
-            biografiaPerfil = findViewById(R.id.tvBibliografia);
-            apellidoPerfil = findViewById(R.id.apellidoUsuario);
-            nombrePerfil.setText(usuario.getNombre());
-            apellidoPerfil.setText(usuario.getApellido());
-            biografiaPerfil.setText(usuario.getBiografia());
-            //TODO fatla que cambie sin actualizar la activity
-        }
-                , error -> Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show()){
+    //Crear metodo socket de actualizar usuario
+    private void actualizarUsuario(Usuario newUsuario) {
+        Thread thread = new Thread(new Runnable() {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> parametros = new HashMap<>();
-               // parametros.put("usuario_firebase",usuario.getUsuFire());
-                parametros.put("nombre",usuario.getNombre());
-                parametros.put("apellido",usuario.getApellido());
-                parametros.put("biografia",usuario.getBiografia());
-                parametros.put("foto",""+usuario.getFoto());
-                return parametros;
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                usuario = refindCliente.actualizarUsuario(newUsuario);
             }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);*/
+        });
+        thread.start();
+        nombrePerfil = findViewById(R.id.nombreUsuario);
+        biografiaPerfil = findViewById(R.id.tvBibliografia);
+        apellidoPerfil = findViewById(R.id.apellidoUsuario);
+        nombrePerfil.setText(usuario.getNombre());
+        apellidoPerfil.setText(usuario.getApellido());
+        biografiaPerfil.setText(usuario.getBiografia());
+        //TODO caso de no ser correcta
+    }
 }
