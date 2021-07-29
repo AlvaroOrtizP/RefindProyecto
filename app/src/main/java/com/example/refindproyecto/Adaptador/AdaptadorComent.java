@@ -2,7 +2,6 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,6 +19,7 @@ import com.example.refindproyecto.R;
 import java.util.List;
 
 import POJOS.Comentario;
+import POJOS.Indicador;
 
 public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHolder>{
     private List<Comentario> comentarioList;
@@ -52,7 +51,7 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Perfil.class);
+                Intent intent = new Intent(context, ActivityPerfil.class);
                 intent.putExtra("categoriaId", comentarioList.get(position).getComentarioId().toString());
                 context.startActivity(intent);
             }
@@ -63,12 +62,12 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         this.comentarioList = comentarioList;
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView fotoUsuario;
+        ImageView imagen;
         TextView nombreUsuario, comentario;
         CardView cv;
         ViewHolder(View itemView) {
             super(itemView);
-            fotoUsuario = itemView.findViewById(R.id.FotoPerfil);
+            imagen = itemView.findViewById(R.id.FotoPerfil);
             nombreUsuario = itemView.findViewById(R.id.TextoPublicacion);
             comentario = itemView.findViewById(R.id.descripcion);
             cv = itemView.findViewById(R.id.cvComentario);
@@ -77,17 +76,15 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         void binData (final Comentario itemComentario){
             nombreUsuario.setText(itemComentario.getUsuario().getNombre());
             comentario.setText(itemComentario.getTexto());
-            /*String URL=direccion.getImagesUsuario()+itemComentario.getFotoUsuario()+".png";
-            cargarImagen(fotoUsuario, URL);//
-            Log.i("AdaptadorComent", URL);*/
+            cargarImagen(imagen, Indicador.IMAGEN_USUARIO+itemComentario.getUsuario().getFoto());
             cv.setId(itemComentario.getComentarioId());
         }
     }
-    private void cargarImagen(ImageView imagenPerfil, String url){
+    private void cargarImagen(ImageView imagen, String url){
         ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                imagenPerfil.setImageBitmap(response);
+                imagen.setImageBitmap(response);
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override

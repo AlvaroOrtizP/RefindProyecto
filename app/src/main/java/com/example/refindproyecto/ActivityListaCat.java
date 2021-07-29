@@ -107,7 +107,7 @@ public class ActivityListaCat extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          4 Mandar datos al Recycler
+     *                          4 Manda datos al Recycler
      * -----------------------------------------------------------
      */
     private void setRecyclerView(List<POJOS.Categoria> categoriaList){

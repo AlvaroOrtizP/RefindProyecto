@@ -15,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import com.example.refindproyecto.Auxiliar.Auxiliar;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +24,7 @@ import POJOS.Usuario;
 
 
 public class ActivityRegistro extends AppCompatActivity {
-
+//TODO: falta organizar
     private FirebaseAuth mAuth;
     private EditText correo;
     private EditText nombre;
@@ -41,7 +39,6 @@ public class ActivityRegistro extends AppCompatActivity {
     private final static String CHANNEL_ID = "NOTIFICACION";
     private final static int NOTIFICACION_ID = 0;
 
-    Auxiliar comprobarDatos = new Auxiliar();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,4 +178,11 @@ public class ActivityRegistro extends AppCompatActivity {
         Intent registro_login = new Intent(this, ActivityLogin.class);
         startActivity(registro_login);
     }
+
+    /**
+     * Colocar todo
+     * Solucionar todo
+     * Indicar que es lo que falta
+     * Revisar todos las partes
+     */
 }
