@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
-    //TODO faltan cosas
+    //TODO Organizar codigo
     Usuario usuario = new Usuario();
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
@@ -131,11 +131,7 @@ public class ActivityPerfil extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuario.setNombre(newNombre.getText().toString());
-                usuario.setApellido(newApellido.getText().toString());
-                usuario.setBiografia(newBiografia.getText().toString());
-                //usuario.setUsuFire(mAuth.getUid());
-                actualizarUsuario(usuario);
+                actualizarUsuario();
             }
         });
 
@@ -189,6 +185,12 @@ public class ActivityPerfil extends AppCompatActivity {
         }
         return usuario;
     }
+
+    /**
+     * -----------------------------------------------------------
+     *                          3 CARGAR IMAGEN
+     * -----------------------------------------------------------
+     */
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
         String prueba = Indicador.IMAGEN_USUARIO+usuario.getFoto();
         ImageRequest imageRequest = new ImageRequest(prueba, new Response.Listener<Bitmap>() {
@@ -238,13 +240,20 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-    //Crear metodo socket de actualizar usuario
-    private void actualizarUsuario(Usuario newUsuario) {
+    /**
+     * -----------------------------------------------------------
+     *                          3 ACTUALIZAR USUARIO
+     * -----------------------------------------------------------
+     */
+    private void actualizarUsuario() {
+        usuario.setNombre(newNombre.getText().toString());
+        usuario.setApellido(newApellido.getText().toString());
+        usuario.setBiografia(newBiografia.getText().toString());
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                usuario = refindCliente.actualizarUsuario(newUsuario);
+                usuario = refindCliente.actualizarUsuario(usuario);
             }
         });
         thread.start();
@@ -254,6 +263,10 @@ public class ActivityPerfil extends AppCompatActivity {
         nombrePerfil.setText(usuario.getNombre());
         apellidoPerfil.setText(usuario.getApellido());
         biografiaPerfil.setText(usuario.getBiografia());
-        //TODO caso de no ser correcta
+        dialog.cancel();
     }
+
+    /**
+     *  Todo: mejorar el diseño del popup
+     */
 }
