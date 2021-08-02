@@ -60,6 +60,7 @@ public class ActivityPerfil extends AppCompatActivity {
         biografiaPerfil = findViewById(R.id.tvBibliografia);
         apellidoPerfil = findViewById(R.id.apellidoUsuario);
         Switch swSonido=findViewById(R.id.swSonido);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
         salir = findViewById(R.id.logOut);
         swSonido.setChecked(cargarPreferencias());
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -189,7 +190,8 @@ public class ActivityPerfil extends AppCompatActivity {
         return usuario;
     }
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
-        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getFoto(), new Response.Listener<Bitmap>() {
+        String prueba = Indicador.IMAGEN_USUARIO+usuario.getFoto();
+        ImageRequest imageRequest = new ImageRequest(prueba, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 imagenPerfil.setImageBitmap(response);
