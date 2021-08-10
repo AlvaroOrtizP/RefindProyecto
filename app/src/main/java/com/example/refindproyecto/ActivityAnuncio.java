@@ -79,7 +79,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     ImageButton bTelefono;
     Boolean onFav;
     LottieAnimationView fav;
-    FloatingActionButton addAnuncio;
+    FloatingActionButton addComentario;
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
     Button btnGuardar, btnCancelar;
@@ -112,7 +112,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         tvTitulo=findViewById(R.id.tvTituloAnuncio);
         tvDescripcion=findViewById(R.id.tvDescripcionDetail);
         imageView=findViewById(R.id.anuncioFoto);
-        addAnuncio = findViewById(R.id.fabAddComent);
+        addComentario = findViewById(R.id.fabAddComent);
         registerForContextMenu(tvTelefono);
         requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
@@ -170,7 +170,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         });
 
 
-        addAnuncio.setOnClickListener(v -> creadorDeComent());
+        addComentario.setOnClickListener(v -> creadorDeComent());
         //TODO: falta añadir nuevo anuncio
     }
 

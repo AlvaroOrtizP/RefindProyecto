@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import Cliente.RefindCliente;
@@ -33,6 +35,7 @@ public class ActivityListaAnun extends AppCompatActivity {
     Categoria categoria = new Categoria();
     String anuncioT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
+    FloatingActionButton addComentario;
 
     /**
      * -----------------------------------------------------------
@@ -46,6 +49,7 @@ public class ActivityListaAnun extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil =findViewById(R.id.btnPerfil);
+        addComentario = findViewById(R.id.addAnuncio);
         btnInicio.setImageResource(R.drawable.ic_homeb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
@@ -57,6 +61,10 @@ public class ActivityListaAnun extends AppCompatActivity {
         });
         btnPerfil.setOnClickListener(v -> {
             Intent i = new Intent(ActivityListaAnun.this, ActivityPerfil.class);
+            startActivity(i);
+        });
+        addComentario.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityListaAnun.this, ActivityNewAnuncio.class);
             startActivity(i);
         });
         categoria.setCategoriaId(Integer.valueOf(getIntent().getStringExtra("categoriaId")));

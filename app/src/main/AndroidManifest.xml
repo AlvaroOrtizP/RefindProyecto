@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RefindProyecto"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ActivityNewAnuncio"></activity>
         <activity android:name=".ActivityAnuncio" />
         <activity android:name=".ActivityListaFav" />
         <activity android:name=".ActivityListaAnun" />
@@ -25,15 +26,16 @@
         <activity android:name=".SplashScreen.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityPerfil"
+        <activity
+            android:name=".ActivityPerfil"
             android:parentActivityName=".ActivityRegistro">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActivityRegistro"
-                />
+                android:value=".ActivityRegistro" />
         </activity>
         <activity android:name=".ActivityRegistro" />
         <activity android:name=".ActivityLogin" />
