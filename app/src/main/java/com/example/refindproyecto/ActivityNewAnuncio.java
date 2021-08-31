@@ -28,7 +28,7 @@ public class ActivityNewAnuncio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_anuncio);
-        aceptar.findViewById(R.id.aceptarNewAnuncio);
+        aceptar.findViewById(R.id.aceptarNewAnuncio);//Error de runtime exception
         cancelar.findViewById(R.id.cancelarrNewAnuncio);
         mAuth = FirebaseAuth.getInstance();
         aceptar.setOnClickListener(new View.OnClickListener() {
