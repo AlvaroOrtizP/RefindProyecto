@@ -68,7 +68,7 @@ public class ActivityListaCat extends AppCompatActivity {
             public void run() {
                 //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio 
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                categoriaT = refindCliente.obtenerCategoria();
+                categoriaT = refindCliente.obtenerCategorias();
                 //NumberFormatException
                 Integer id=0;
                 String[] arrayCat = categoriaT.split("/");
@@ -77,6 +77,7 @@ public class ActivityListaCat extends AppCompatActivity {
                         if (arrayCat[i].equals("-")) {
                             i++;
                         }
+                        //Error de numero. Tiene que estar en la forma de formatear
                         id = Integer.valueOf(arrayCat[i]);
                         categoria = new Categoria();
                         categoria.setCategoriaId(id);
@@ -91,6 +92,7 @@ public class ActivityListaCat extends AppCompatActivity {
                     }
                 }
                 else{
+                    //TODO: añadir campo en las tablas con el tipo de imagen JPG, PNG ...
                     //TODO: mensaje de que no existen categorias
                 }
             }

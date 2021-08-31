@@ -76,7 +76,7 @@ public class ActivityListaFav extends AppCompatActivity {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                anuncioT = refindCliente.obtenerFavoritos(usuario);
+                //anuncioT = refindCliente.obtenerFavoritos(usuario);
                 String[] anuncioArray = anuncioT.split("/");
                 Anuncio anuncio = null;
                 Integer id=0;
