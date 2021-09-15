@@ -35,7 +35,7 @@ public class ActivityListaAnun extends AppCompatActivity {
     Categoria categoria = new Categoria();
     String anuncioT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    FloatingActionButton addComentario;
+    FloatingActionButton addAnuncio;
 
     /**
      * -----------------------------------------------------------
@@ -49,7 +49,7 @@ public class ActivityListaAnun extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil =findViewById(R.id.btnPerfil);
-        addComentario = findViewById(R.id.addAnuncio);
+        addAnuncio = findViewById(R.id.addAnuncio);
         btnInicio.setImageResource(R.drawable.ic_homeb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityListaAnun.this, ActivityListaCat.class);
@@ -63,8 +63,9 @@ public class ActivityListaAnun extends AppCompatActivity {
             Intent i = new Intent(ActivityListaAnun.this, ActivityPerfil.class);
             startActivity(i);
         });
-        addComentario.setOnClickListener(v -> {
+        addAnuncio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityListaAnun.this, ActivityNewAnuncio.class);
+            i.putExtra("categoriaIdAnuncio", categoria.getCategoriaId());
             startActivity(i);
         });
         categoria.setCategoriaId(Integer.valueOf(getIntent().getStringExtra("categoriaId")));
