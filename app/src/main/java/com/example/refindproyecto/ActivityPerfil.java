@@ -193,6 +193,7 @@ public class ActivityPerfil extends AppCompatActivity {
      */
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
         String prueba = Indicador.IMAGEN_USUARIO+usuario.getFoto();
+
         ImageRequest imageRequest = new ImageRequest(prueba, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {

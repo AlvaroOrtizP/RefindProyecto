@@ -81,6 +81,7 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
             titulo.setText(itemAnuncio.getTitulo());
             descripcion.setText(itemAnuncio.getDescripcion());
             cargarImagen(imagenPerfil, Indicador.IMAGEN_ANUNCIO+itemAnuncio.getFoto());
+
             cv.setId(itemAnuncio.getAnuncioId());
         }
     }

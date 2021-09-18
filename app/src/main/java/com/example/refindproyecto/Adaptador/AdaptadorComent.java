@@ -77,6 +77,7 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
             nombreUsuario.setText(itemComentario.getUsuario().getNombre());
             comentario.setText(itemComentario.getTexto());
             cargarImagen(imagen, Indicador.IMAGEN_USUARIO+itemComentario.getUsuario().getFoto());
+            
             cv.setId(itemComentario.getComentarioId());
         }
     }

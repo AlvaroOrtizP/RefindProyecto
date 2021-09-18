@@ -76,6 +76,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             titulo.setText(itemCategoria.getTitulo());
             descripcion.setText(itemCategoria.getDescripcion());
             cargarImagen(imagenPerfil, Indicador.IMAGEN_CATEGORIA+itemCategoria.getFoto());
+
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
