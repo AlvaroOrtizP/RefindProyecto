@@ -113,7 +113,7 @@
     <string name="errorPassNoIguales">Las contraseñas no coinciden</string>
     <string name="todosCamposOk">Debes rellenar todos los campos</string>
     <string name="pass9">La contraseña tiene que tener como minimo 9 caracteres</string>
-    <string name="errorRegistro">Fallo al registrarse</string>
+    <string name="errorRegistro">Correo ya en uso</string>
     <string name="errorLogin">Error al iniciar sesion</string>
     <string name="errorInsertarComentario">No se ha podido añadir el comentario</string>
     <string name="errorObtenerComent">No se pudieron obtener los comentarios</string>

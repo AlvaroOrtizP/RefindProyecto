@@ -33,27 +33,48 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
-    //TODO Organizar codigo
+    /**
+     * -----------------------------------------------------------
+     *                          1 CREACION DE VARIABLES
+     * -----------------------------------------------------------
+     */
     Usuario usuario = new Usuario();
     RequestQueue requestQueue;
     FirebaseAuth mAuth;
     CircleImageView imagenPerfil;
-    //Para el navbar
-    ImageButton btnInicio, btnFavorito, btnPerfil;
     FloatingActionButton salir;
-    //Para el formulario emergente
+    TextView nombrePerfil, biografiaPerfil, apellidoPerfil;
+    /**
+     * -----------------------------------------------------------
+     *                          1.1 Para el navbar
+     * -----------------------------------------------------------
+     */
+    ImageButton btnInicio, btnFavorito, btnPerfil;
+    /**
+     * -----------------------------------------------------------
+     *                          1.2 Para el formulario emergente
+     * -----------------------------------------------------------
+     */
     AlertDialog.Builder dialogBuilder;
     AlertDialog dialog;
     EditText newNombre, newBiografia, newApellido;
-    TextView nombrePerfil, biografiaPerfil, apellidoPerfil;
     ImageView btnNewfoto;
     Button btnGuardar, btnCancelar;
 
-
+    /**
+     * -----------------------------------------------------------
+     *                          2 ONCREATE
+     * -----------------------------------------------------------
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        /**
+         * -----------------------------------------------------------
+         *                          2.1 Enlazar variables
+         * -----------------------------------------------------------
+         */
         mAuth = FirebaseAuth.getInstance();
         imagenPerfil= findViewById(R.id.fotoUsuario);
         nombrePerfil = findViewById(R.id.nombreUsuario);
