@@ -118,7 +118,7 @@ Passwords do not match</string>
     <string name="todosCamposOk">You must fill all the fields</string>
     <string name="pass9">
 The password must be at least 9 characters long</string>
-    <string name="errorRegistro">Registration failed</string>
+    <string name="errorRegistroCorreoDupli">Registration failed</string>
     <string name="errorLogin">Failed to login</string>
     <string name="errorInsertarComentario">The comment could not be added</string>
     <string name="errorObtenerComent">

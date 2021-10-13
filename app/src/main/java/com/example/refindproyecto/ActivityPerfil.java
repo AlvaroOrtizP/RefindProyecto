@@ -83,8 +83,18 @@ public class ActivityPerfil extends AppCompatActivity {
         Switch swSonido=findViewById(R.id.swSonido);
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         salir = findViewById(R.id.logOut);
-        swSonido.setChecked(cargarPreferencias());
+        btnInicio =findViewById(R.id.btnInicio);
+        btnFavorito =findViewById(R.id.btnFavorito);
+        btnPerfil = findViewById(R.id.btnPerfil);
+
+        /**
+         * -----------------------------------------------------------
+         *                          2.2 Funciones check
+         * -----------------------------------------------------------
+         */
+        swSonido.setChecked(cargarPreferencias());//7 PREFERENCIAS
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //6 AUDIO
             if(isChecked){
                 activarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
@@ -93,9 +103,11 @@ public class ActivityPerfil extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
-        btnInicio =findViewById(R.id.btnInicio);
-        btnFavorito =findViewById(R.id.btnFavorito);
-        btnPerfil = findViewById(R.id.btnPerfil);
+        /**
+         * -----------------------------------------------------------
+         *                          2.3 Funciones botones
+         * -----------------------------------------------------------
+         */
         btnPerfil.setImageResource(R.drawable.ic_perfilb);
         btnInicio.setOnClickListener(v -> {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaCat.class);
@@ -105,9 +117,15 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaFav.class);
             startActivity(i);
         });
+
+        /**
+         * -----------------------------------------------------------
+         *                          2.4 Carga de datos del usuario
+         * -----------------------------------------------------------
+         */
         usuario.setUsuarioFirebase(mAuth.getUid());
-        usuario = obtenerDatosUsuario();
-        cargarImagen(imagenPerfil, usuario);
+        usuario = obtenerDatosUsuario();//4 OBTENER DATOS USUARIO
+        cargarImagen(imagenPerfil, usuario);//5 CARGAR IMAGEN
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());
         apellidoPerfil.setText(usuario.getApellido());
@@ -122,6 +140,13 @@ public class ActivityPerfil extends AppCompatActivity {
         });
         // Quitar la llamada desde la vista al popup
     }
+
+
+    /**
+     * -----------------------------------------------------------
+     *                          3 CREAR POPUP
+     * -----------------------------------------------------------
+     */
 
     /**
      * Metodo creado para usar con el boton editarPerfil
@@ -152,7 +177,7 @@ public class ActivityPerfil extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actualizarUsuario();
+                actualizarUsuario();//8 ACTUALIZAR USUARIO
             }
         });
 
@@ -185,7 +210,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          3 OBTENER DATOS USUARIO
+     *                          4 OBTENER DATOS USUARIO
      * -----------------------------------------------------------
      */
     private Usuario obtenerDatosUsuario(){
@@ -209,7 +234,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          3 CARGAR IMAGEN
+     *                          5 CARGAR IMAGEN
      * -----------------------------------------------------------
      */
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
@@ -223,7 +248,7 @@ public class ActivityPerfil extends AppCompatActivity {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                //TODO excepcion
             }
         });
         requestQueue.add(imageRequest);
@@ -232,7 +257,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          3 AUDIO
+     *                          6 AUDIO
      * -----------------------------------------------------------
      */
     private void desactivarAudio(){
@@ -252,7 +277,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          3 PREFERENCIAS
+     *                          7 PREFERENCIAS
      * -----------------------------------------------------------
      */
     private boolean cargarPreferencias(){
@@ -264,7 +289,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      * -----------------------------------------------------------
-     *                          3 ACTUALIZAR USUARIO
+     *                          8 ACTUALIZAR USUARIO
      * -----------------------------------------------------------
      */
     private void actualizarUsuario() {
@@ -277,7 +302,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 usuario = refindCliente.actualizarUsuario(usuario);
             }
-        });
+        });//todo EXCEPCION
         thread.start();
         nombrePerfil = findViewById(R.id.nombreUsuario);
         biografiaPerfil = findViewById(R.id.tvBibliografia);
@@ -290,5 +315,8 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /**
      *  Todo: mejorar el diseño del popup
+     *  TODO generar javadoc
+     *  TODO sigo con netbeans en actualizar usuario
+     *
      */
 }

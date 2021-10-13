@@ -19,6 +19,7 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import Cliente.RefindCliente;
+import POJOS.Indicador;
 import POJOS.Usuario;
 
 /**
@@ -163,7 +164,7 @@ public class ActivityRegistro extends AppCompatActivity {
                             //En caso correcto se registraria en la base de datos los datos del usuario
                             if (task.isSuccessful()) {
                                 usuario.setUsuarioFirebase(mAuth.getUid());
-                                usuario.setError(crearUsuario(usuario));
+                                usuario.setError(crearUsuario(usuario, view));
 
                                 //Se manda la notificacion
                                 setPendingIntent();
@@ -179,13 +180,13 @@ public class ActivityRegistro extends AppCompatActivity {
                                 Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
                                 startActivity(registro);
                             } else {//En caso de error en la identificacion del usuario saldria por aqui
-                                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistro, Snackbar.LENGTH_LONG);
+                                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
                                 snackbar.setDuration(10000);
                                 snackbar.show();
                             }
                         });
             }catch (Exception e){
-                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistro, Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
                 snackbar.setDuration(10000);
                 snackbar.show();
             }
@@ -197,12 +198,17 @@ public class ActivityRegistro extends AppCompatActivity {
      *                           4 Funcion de crear
      * -----------------------------------------------------------
      */
-    private String crearUsuario(Usuario usuario){
+    private String crearUsuario(Usuario usuario, View view){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 usuario.setError(refindCliente.crearUsuario(usuario));
+                if(!usuario.getError().equals(Indicador.USUARIO_CORREO_DUP)){
+                    Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
+                    snackbar.setDuration(10000);
+                    snackbar.show();
+                }
             }
         });
         thread.start();
@@ -256,5 +262,8 @@ public class ActivityRegistro extends AppCompatActivity {
         startActivity(registro_login);
     }
 
-
+    /**
+     * TODO borrar todos los datos y comprobar que no se pueden registrar usuarios con el mismo correo
+     * TODO Textos correctos
+     */
 }

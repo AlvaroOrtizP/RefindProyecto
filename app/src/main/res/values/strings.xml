@@ -109,11 +109,12 @@
     <string name="sonidoDesactivado">Se ha desactivado el sonido</string>
     <string name="actualizacionCorrecta">Se ha actualizado correctamente</string>
     <!--Errores -->
+
     <string name="error18">Debes tener mas de 18 para usar esta aplicación</string>
     <string name="errorPassNoIguales">Las contraseñas no coinciden</string>
     <string name="todosCamposOk">Debes rellenar todos los campos</string>
     <string name="pass9">La contraseña tiene que tener como minimo 9 caracteres</string>
-    <string name="errorRegistro">Correo ya en uso</string>
+    <string name="errorRegistroCorreoDupli">Correo ya en uso</string>
     <string name="errorLogin">Error al iniciar sesion</string>
     <string name="errorInsertarComentario">No se ha podido añadir el comentario</string>
     <string name="errorObtenerComent">No se pudieron obtener los comentarios</string>
