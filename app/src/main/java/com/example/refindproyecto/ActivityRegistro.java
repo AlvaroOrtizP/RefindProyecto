@@ -1,6 +1,7 @@
 package com.example.refindproyecto;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -15,9 +16,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
@@ -164,21 +170,45 @@ public class ActivityRegistro extends AppCompatActivity {
                             //En caso correcto se registraria en la base de datos los datos del usuario
                             if (task.isSuccessful()) {
                                 usuario.setUsuarioFirebase(mAuth.getUid());
-                                usuario.setError(crearUsuario(usuario, view));
 
-                                //Se manda la notificacion
-                                setPendingIntent();
-                                createNotificacionChanel();
-                                createNotification();
+                                    usuario.setError(crearUsuario(usuario, view));
 
-                                //Se muestra al usuario el mensaje de correcto
-                                Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
-                                snackbar.setDuration(10000);
-                                snackbar.show();
+                                /**
+                                 * En caso de que el atributo error se encuentre vacio se procede al funcionamiento normal de la aplicacion
+                                 * En caso contrario se elimina el registro de la base de datos
+                                 */
+                                if(usuario.getError().equals("")){
+                                        //Se manda la notificacion
+                                        setPendingIntent();
+                                        createNotificacionChanel();
+                                        createNotification();
 
-                                //Se manda al usuario a la activity de Categorias
-                                Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
-                                startActivity(registro);
+                                        //Se muestra al usuario el mensaje de correcto
+                                        Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
+                                        snackbar.setDuration(10000);
+                                        snackbar.show();
+
+                                        //Se manda al usuario a la activity de Categorias
+                                        Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
+                                        startActivity(registro);
+                                    }else{
+                                        //Se elimina el usuario de la BBDD de Firebase
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        user.delete()
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
+                                                            snackbar.setDuration(10000);
+                                                            snackbar.show();
+                                                        }
+                                                    }
+                                                });
+                                    Snackbar snackbar = Snackbar.make(view, R.string.errorConexion, Snackbar.LENGTH_LONG);
+                                    snackbar.setDuration(10000);
+                                    snackbar.show();
+                                    }
                             } else {//En caso de error en la identificacion del usuario saldria por aqui
                                 Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
                                 snackbar.setDuration(10000);
