@@ -171,13 +171,13 @@ public class ActivityRegistro extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 usuario.setUsuarioFirebase(mAuth.getUid());
 
-                                    usuario.setError(crearUsuario(usuario, view));
+                                usuario.setError(crearUsuario(usuario, view));
 
                                 /**
-                                 * En caso de que el atributo error se encuentre vacio se procede al funcionamiento normal de la aplicacion
+                                 * En caso de que el atributo error se encuentre el String OK se procede al funcionamiento normal de la aplicacion
                                  * En caso contrario se elimina el registro de la base de datos
                                  */
-                                if(usuario.getError().equals("")){
+                                if("OK".equals(usuario.getError())){
                                         //Se manda la notificacion
                                         setPendingIntent();
                                         createNotificacionChanel();
@@ -191,23 +191,23 @@ public class ActivityRegistro extends AppCompatActivity {
                                         //Se manda al usuario a la activity de Categorias
                                         Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
                                         startActivity(registro);
-                                    }else{
+                                }else{
                                         //Se elimina el usuario de la BBDD de Firebase
-                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                        user.delete()
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (!task.isSuccessful()) {
-                                                            Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
-                                                            snackbar.setDuration(10000);
-                                                            snackbar.show();
-                                                        }
-                                                    }
-                                                });
-                                    Snackbar snackbar = Snackbar.make(view, R.string.errorConexion, Snackbar.LENGTH_LONG);
-                                    snackbar.setDuration(10000);
-                                    snackbar.show();
+                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                     user.delete()
+                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                 @Override
+                                                 public void onComplete(@NonNull Task<Void> task) {
+                                                     if (!task.isSuccessful()) {
+                                                         Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
+                                                         snackbar.setDuration(10000);
+                                                         snackbar.show();
+                                                     }
+                                                 }
+                                             });
+                                        Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
+                                        snackbar.setDuration(10000);
+                                        snackbar.show();
                                     }
                             } else {//En caso de error en la identificacion del usuario saldria por aqui
                                 Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
