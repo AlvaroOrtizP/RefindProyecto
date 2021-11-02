@@ -32,6 +32,26 @@ import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
+/**
+ * Estructura del codigo:
+ *  - 1 Creacion de variables
+ *      1.1 Para el navbar
+ *      1.2 Para el formulario emergente
+ *  - 2 onCreate
+ *      2.1 Enlazar variables
+ *      2.2 Funciones check
+ *      2.3 Funciones botones
+ *      2.4 Carga de datos del usuario
+ *  - 3 CREAR POPUP
+ *      3.1 Popup eleccion de fotos
+ *  - 4 OBTENER DATOS USUARIO
+ *  - 5 CARGAR IMAGEN
+ *  - 6 AUDIO
+ *  - 7 PREFERENCIAS
+ *  - 8 ACTUALIZAR USUARIO
+ */
+
+
 public class ActivityPerfil extends AppCompatActivity {
     /**
      * -----------------------------------------------------------
@@ -125,6 +145,15 @@ public class ActivityPerfil extends AppCompatActivity {
          */
         usuario.setUsuarioFirebase(mAuth.getUid());
         usuario = obtenerDatosUsuario();//4 OBTENER DATOS USUARIO
+        if(!usuario.getError().equals("")){//TODO: probar esto
+            FirebaseAuth.getInstance().signOut();
+            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor=preferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }
         cargarImagen(imagenPerfil, usuario);//5 CARGAR IMAGEN
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());
@@ -183,7 +212,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
         /**
          * -----------------------------------------------------------
-         *                          3 Popup eleccion de fotos
+         *                          3.1 Popup eleccion de fotos
          * -----------------------------------------------------------
          */
        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -219,7 +248,6 @@ public class ActivityPerfil extends AppCompatActivity {
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 usuario = refindCliente.obtenerUsuario(usuario);
-
             }
         });
         thread.start();
@@ -316,7 +344,6 @@ public class ActivityPerfil extends AppCompatActivity {
     /**
      *  Todo: mejorar el diseño del popup
      *  TODO generar javadoc
-     *  TODO sigo con netbeans en actualizar usuario
      *
      */
 }
