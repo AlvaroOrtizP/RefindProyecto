@@ -30,7 +30,7 @@ import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
-
+//pruebaportatil
 
 /**
  * Estructura del codigo:
