@@ -117,7 +117,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
         mAuth = FirebaseAuth.getInstance();
-        usuario.setUsuarioFirebase(mAuth.getUid());
+        //usuario.setUsuarioId(mAuth.getUid());
 
         // 2.3
         anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio

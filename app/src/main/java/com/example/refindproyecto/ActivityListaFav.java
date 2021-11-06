@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class ActivityListaFav extends AppCompatActivity {
     Usuario usuario = new Usuario();
     ArrayList<Anuncio> anuncioList = new ArrayList<>();
     String anuncioT = "";
+    ProcedimientoPreferencias pF = null;
     /**
      * -----------------------------------------------------------
      *                          2 ONCREATE
@@ -56,8 +58,13 @@ public class ActivityListaFav extends AppCompatActivity {
             Intent i = new Intent(ActivityListaFav.this, ActivityPerfil.class);
             startActivity(i);
         });
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        usuario.setUsuarioFirebase(mAuth.getUid());
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
         anuncioList = new ArrayList<>();
 
         //Llamadas a metodos

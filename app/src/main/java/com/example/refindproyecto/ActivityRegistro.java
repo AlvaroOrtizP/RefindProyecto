@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -60,6 +61,8 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText confirmacionPass;
     Boolean isChecked=false;
     MaterialCheckBox checkBox;
+
+    ProcedimientoPreferencias pF =null;
     /**
      * -----------------------------------------------------------
      *                          1.1 Notificaciones
@@ -164,33 +167,33 @@ public class ActivityRegistro extends AppCompatActivity {
          * -----------------------------------------------------------
          */
         if(comprobar){
-            try{
-                mAuth.createUserWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
-                        .addOnCompleteListener(this, task -> {
-                            //En caso correcto se registraria en la base de datos los datos del usuario
-                            if (task.isSuccessful()) {
-                                usuario.setUsuarioFirebase(mAuth.getUid());
+            usuario.setPass(usuario.encriptar(usuario.getPass()));
+            usuario.setError(crearUsuario(usuario, view));
+            if("OK".equals(usuario.getError())){
+                pF = new ProcedimientoPreferencias(this.getApplicationContext());
+                pF.guardarIdentificador(usuario);//guardo el identificador
 
-                                usuario.setError(crearUsuario(usuario, view));
+                //Se manda la notificacion
+                setPendingIntent();
+                createNotificacionChanel();
+                createNotification();
 
-                                /**
-                                 * En caso de que el atributo error se encuentre el String OK se procede al funcionamiento normal de la aplicacion
-                                 * En caso contrario se elimina el registro de la base de datos
-                                 */
-                                if("OK".equals(usuario.getError())){
-                                        //Se manda la notificacion
-                                        setPendingIntent();
-                                        createNotificacionChanel();
-                                        createNotification();
+                //Se manda al usuario a la activity de Categorias
+                Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
+                startActivity(registro);
 
-                                        //Se muestra al usuario el mensaje de correcto
-                                        Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
-                                        snackbar.setDuration(10000);
-                                        snackbar.show();
+            }else{
+                Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
+                snackbar.setDuration(10000);
+                snackbar.show();
+            }
+    // probar que guarda el usuario igual en la siguiente ventana da error comprobar al igual que el login
+            //usar los snac para ver que va tod bien sin los intent
 
-                                        //Se manda al usuario a la activity de Categorias
-                                        Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
-                                        startActivity(registro);
+
+            /**try{
+
+
                                 }else{
                                         //Se elimina el usuario de la BBDD de Firebase
                                      FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -205,9 +208,7 @@ public class ActivityRegistro extends AppCompatActivity {
                                                      }
                                                  }
                                              });
-                                        Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
-                                        snackbar.setDuration(10000);
-                                        snackbar.show();
+
                                     }
                             } else {//En caso de error en la identificacion del usuario saldria por aqui
                                 Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
@@ -215,11 +216,12 @@ public class ActivityRegistro extends AppCompatActivity {
                                 snackbar.show();
                             }
                         });
+
             }catch (Exception e){
                 Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
                 snackbar.setDuration(10000);
                 snackbar.show();
-            }
+            }*/
         }
     }
 
@@ -235,7 +237,8 @@ public class ActivityRegistro extends AppCompatActivity {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 usuario.setError(refindCliente.crearUsuario(usuario));
                 if(!usuario.getError().equals(Indicador.USUARIO_CORREO_DUP)){
-                    Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
+                    //Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
                     snackbar.setDuration(10000);
                     snackbar.show();
                 }

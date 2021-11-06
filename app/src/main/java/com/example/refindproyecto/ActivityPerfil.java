@@ -31,7 +31,7 @@ import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
-//pruebaportatil
+
 
 /**
  * Estructura del codigo:
@@ -81,6 +81,7 @@ public class ActivityPerfil extends AppCompatActivity {
     EditText newNombre, newBiografia, newApellido;
     ImageView btnNewfoto;
     Button btnGuardar, btnCancelar;
+    ProcedimientoPreferencias pF = null;
 
     /**
      * -----------------------------------------------------------
@@ -96,7 +97,6 @@ public class ActivityPerfil extends AppCompatActivity {
          *                          2.1 Enlazar variables
          * -----------------------------------------------------------
          */
-        mAuth = FirebaseAuth.getInstance();
         imagenPerfil= findViewById(R.id.fotoUsuario);
         nombrePerfil = findViewById(R.id.nombreUsuario);
         biografiaPerfil = findViewById(R.id.tvBibliografia);
@@ -108,8 +108,14 @@ public class ActivityPerfil extends AppCompatActivity {
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil = findViewById(R.id.btnPerfil);
         Context context = this.getApplicationContext();
-        ProcedimientoPreferencias procedimientoPreferencias = new ProcedimientoPreferencias(context);
-
+        ProcedimientoPreferencias procedimientoPreferencias = null;
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
         /**
          * -----------------------------------------------------------
          *                          2.2 Funciones check
@@ -128,6 +134,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
+
         /**
          * -----------------------------------------------------------
          *                          2.3 Funciones botones
@@ -148,14 +155,12 @@ public class ActivityPerfil extends AppCompatActivity {
          *                          2.4 Carga de datos del usuario
          * -----------------------------------------------------------
          */
-        usuario.setUsuarioFirebase(mAuth.getUid());
+
         usuario = obtenerDatosUsuario();//4 OBTENER DATOS USUARIO
-        if(!usuario.getError().equals("")){//TODO: probar esto
-            FirebaseAuth.getInstance().signOut();
-            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.clear();
-            editor.commit();
+
+        if(!usuario.getError().equals("OK")){//TODO: probar esto
+            pF.desactivarUsuario();
+            pF.activarAudio();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         }
@@ -164,11 +169,11 @@ public class ActivityPerfil extends AppCompatActivity {
         biografiaPerfil.setText(usuario.getNombre());
         apellidoPerfil.setText(usuario.getApellido());
         salir.setOnClickListener(view -> {
-            FirebaseAuth.getInstance().signOut();
-            SharedPreferences preferences=getSharedPreferences("sonido",Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor=preferences.edit();
-            editor.clear();
-            editor.commit();
+
+            //TODO comprobar que se eliminan preferencias
+            pF.desactivarAudio();
+            pF.desactivarUsuario();
+            int prueba = pF.obtenerIdentificador();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });

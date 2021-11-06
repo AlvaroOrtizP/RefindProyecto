@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.refindproyecto.Adaptador.AdaptadorCat;
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class ActivityListaCat extends AppCompatActivity {
     Categoria categoria = null;
     String categoriaT = "";
     ImageButton btnInicio, btnFavorito, btnPerfil;
-
     /**
      * -----------------------------------------------------------
      *                          2 ONCREATE
@@ -59,6 +59,7 @@ public class ActivityListaCat extends AppCompatActivity {
             Intent i = new Intent(ActivityListaCat.this, ActivityPerfil.class);
             startActivity(i);
         });
+
         obtenerCategorias();
     }
 

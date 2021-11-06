@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.firebase.auth.FirebaseAuth;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -43,7 +44,7 @@ public class ActivityNewAnuncio extends AppCompatActivity {
     Button aceptar, cancelar;
     Spinner categoriaAnuncio;
     Anuncio anuncio = null;
-    private FirebaseAuth mAuth;
+    ProcedimientoPreferencias pF = null;
 
     //PAYPAL Inicio
     private static final int MODO_PAYPAL = 1;
@@ -64,18 +65,24 @@ public class ActivityNewAnuncio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_anuncio);
-        mAuth = FirebaseAuth.getInstance();
         aceptar = findViewById(R.id.aceptarNewAnuncio);
         cancelar = findViewById(R.id.cancelarrNewAnuncio);
         Categoria categoria = new Categoria();
         categoria.setCategoriaId(Integer.valueOf(getIntent().getIntExtra("categoriaIdAnuncio", 0)));
         configPaypal();
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Usuario usuario = new Usuario();
-                usuario.setUsuarioFirebase(mAuth.getUid());
+
+                if(pF.obtenerIdentificador() == 0){
+                    Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+                    startActivity(i);
+                }else{
+                    usuario.setUsuarioId(pF.obtenerIdentificador());
+                }
 
                 nombreAnuncio = findViewById(R.id.nombreNewAnuncio);
                 telefonoAnuncio = findViewById(R.id.telefonoNewAnuncio);

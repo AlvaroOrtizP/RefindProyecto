@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+
+import Cliente.RefindCliente;
 import POJOS.Usuario;
 
 
@@ -34,7 +38,7 @@ public class ActivityLogin extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText correo, pass;
     Usuario usuario = null;
-
+    ProcedimientoPreferencias pF = null;
     /**
      * -----------------------------------------------------------
      *                          2 ONCREATE
@@ -47,11 +51,13 @@ public class ActivityLogin extends AppCompatActivity {
         usuario = new Usuario();
         correo = findViewById(R.id.emailLogin);
         pass = findViewById(R.id.passLogin);
-        mAuth = FirebaseAuth.getInstance();
         Button iniciarSesion = findViewById(R.id.IniciarSesionLogin);
         Button irRegistro = findViewById(R.id.irRegistroLogin);
 
-        if(mAuth.getUid()!=null){
+
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() != 0){
+
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
             startActivity(i);
         }
@@ -82,11 +88,11 @@ public class ActivityLogin extends AppCompatActivity {
         startActivity(registro);
     }
 
-
     //Iniciar sesion
     public void iniciarSesion (View view){
         usuario.setEmail(correo.getText().toString());
         usuario.setPass(pass.getText().toString());
+
         if(usuario.getEmail() == null || usuario.getPass() == null || usuario.getEmail().equals("")  || usuario.getPass().equals("")){
             Snackbar snackbar = Snackbar.make(view, R.string.todosCamposOk, Snackbar.LENGTH_LONG);
             snackbar.setDuration(10000);
@@ -95,30 +101,56 @@ public class ActivityLogin extends AppCompatActivity {
             snackbar.show();
         }
         else{
-            mAuth.signInWithEmailAndPassword(correo.getText().toString().trim(), pass.getText().toString().trim())
-                    .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()) {
-                            MediaPlayer mp = MediaPlayer.create(this, R.raw.correcto);
-                            mp.start();
-
-                            Toast.makeText(getApplicationContext(), R.string.bienvenida,
-                                    Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
-                            startActivity(i);
-
-                        } else {
-                            MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
-                            mp.start();
-                            Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
-                            snackbar.setDuration(10000);
-                            snackbar.setAction("Ok", v -> {
-                            });
-                            snackbar.show();
-                        }
-                    });
+            usuario.setPass(usuario.encriptar(usuario.getPass()));
+            usuario = comprobarUsuarioBD(usuario);
+            comprobacionFinal(view, usuario);
         }
     }
 
+    private Usuario comprobarUsuarioBD(Usuario usuarioComprobar){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                usuario = refindCliente.comprobarUsuario(usuarioComprobar);
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
+    private void comprobacionFinal(View view, Usuario usuarioALTA){
+        if(usuarioALTA.getUsuarioId() != null && usuarioALTA.getUsuarioId() >0){
+            //sonido de correcto
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.correcto);
+            mp.start();
+            //Mensaje de bienvenido
+            Toast.makeText(getApplicationContext(), R.string.bienvenida,
+                    Toast.LENGTH_SHORT).show();
+            pF = new ProcedimientoPreferencias(this.getApplicationContext());
+            pF.guardarIdentificador(usuarioALTA);
+            //Pasar de activity
+            Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
+            startActivity(i);
+        }else{
+            //Audio de error
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
+            mp.start();
+            //Mensaje de error TODO comprobar que se ejecuta el del metodo comprobarUsuario
+            Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
+            snackbar.setDuration(10000);
+            snackbar.setAction("Ok", v -> {
+            });
+            snackbar.show();
+        }
+    }
 }
 
 
+//todo cambiar los snack por la clase Error

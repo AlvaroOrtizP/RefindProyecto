@@ -102,6 +102,7 @@ public class SplashScreen extends AppCompatActivity {
         handler.postDelayed(runnable, delay);
 
     }
+
     private boolean cargarPreferencias(){
         SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
         Boolean sonidoActivado = preferences.getBoolean("sonido",true);
