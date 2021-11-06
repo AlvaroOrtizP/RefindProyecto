@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import Cliente.RefindCliente;
@@ -106,6 +107,8 @@ public class ActivityPerfil extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil = findViewById(R.id.btnPerfil);
+        Context context = this.getApplicationContext();
+        ProcedimientoPreferencias procedimientoPreferencias = new ProcedimientoPreferencias(context);
 
         /**
          * -----------------------------------------------------------
@@ -116,10 +119,12 @@ public class ActivityPerfil extends AppCompatActivity {
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
             //6 AUDIO
             if(isChecked){
-                activarAudio();
+                procedimientoPreferencias.activarAudio();
+                //activarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
             }else{
-                desactivarAudio();
+                procedimientoPreferencias.desactivarAudio();
+                //desactivarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
