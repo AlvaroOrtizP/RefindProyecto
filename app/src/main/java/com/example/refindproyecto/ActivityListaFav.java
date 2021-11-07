@@ -83,29 +83,34 @@ public class ActivityListaFav extends AppCompatActivity {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                //anuncioT = refindCliente.obtenerFavoritos(usuario);
-                String[] anuncioArray = anuncioT.split("/");
-                Anuncio anuncio = null;
-                Integer id=0;
-                if(!anuncioT.equals("")){
-                    for (int i = 0; i <= anuncioArray.length - 1; i++) {
-                        anuncio = new Anuncio();
-                        if (anuncioArray[i].equals("-")) {
+                try{
+                    anuncioT = refindCliente.obtenerFavoritos(usuario);
+                    String[] anuncioArray = anuncioT.split("/");
+                    Anuncio anuncio = null;
+                    Integer id=0;
+                    if(!anuncioT.equals("")){
+                        for (int i = 0; i <= anuncioArray.length - 1; i++) {
+                            anuncio = new Anuncio();
+                            if (anuncioArray[i].equals("-")) {
+                                i++;
+                            }
+                            id = Integer.valueOf(anuncioArray[i]);
+                            anuncio.setAnuncioId(id);
                             i++;
+                            anuncio.setTitulo(anuncioArray[i]);
+                            i++;
+                            anuncio.setDescripcion(anuncioArray[i]);
+                            i=i+3;
+                            anuncio.setTelefono(anuncioArray[i]);
+                            i++;
+                            anuncio.setFoto(anuncioArray[i]);
+                            anuncioList.add(anuncio);
                         }
-                        id = Integer.valueOf(anuncioArray[i]);
-                        anuncio.setAnuncioId(id);
-                        i++;
-                        anuncio.setTitulo(anuncioArray[i]);
-                        i++;
-                        anuncio.setDescripcion(anuncioArray[i]);
-                        i=i+3;
-                        anuncio.setTelefono(anuncioArray[i]);
-                        i++;
-                        anuncio.setFoto(anuncioArray[i]);
-                        anuncioList.add(anuncio);
                     }
+                }catch (Exception e){
+                    Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
         thread.start();

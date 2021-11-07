@@ -44,10 +44,10 @@ public class SplashScreen extends AppCompatActivity {
         ivBeat = findViewById(R.id.iv_beat);
         ivBottom = findViewById(R.id.iv_bottom);
         textView = findViewById(R.id.text_view);
-        if(cargarPreferencias()){
-            MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
-            mp.start();
-        }
+
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
+        mp.start();
+
 
         //TODO: mirar el FLAG_FULLSCREEN
         //Set full screen
@@ -103,9 +103,4 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
-    private boolean cargarPreferencias(){
-        SharedPreferences preferences=getSharedPreferences("sonido", Context.MODE_PRIVATE);
-        Boolean sonidoActivado = preferences.getBoolean("sonido",true);
-        return sonidoActivado;
-    }
 }

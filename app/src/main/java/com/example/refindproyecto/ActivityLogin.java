@@ -56,6 +56,7 @@ public class ActivityLogin extends AppCompatActivity {
 
 
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        int prueba = pF.obtenerIdentificador();
         if(pF.obtenerIdentificador() != 0){
 
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);

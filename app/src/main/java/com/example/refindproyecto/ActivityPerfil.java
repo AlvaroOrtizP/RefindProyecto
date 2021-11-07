@@ -125,11 +125,13 @@ public class ActivityPerfil extends AppCompatActivity {
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
             //6 AUDIO
             if(isChecked){
-                procedimientoPreferencias.activarAudio();
+                pF.activarAudio();
+                //procedimientoPreferencias.activarAudio();
                 //activarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
             }else{
-                procedimientoPreferencias.desactivarAudio();
+                pF.desactivarAudio();
+                //procedimientoPreferencias.desactivarAudio();
                 //desactivarAudio();
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
