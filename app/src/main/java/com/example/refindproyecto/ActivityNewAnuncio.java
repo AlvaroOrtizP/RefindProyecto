@@ -13,9 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
-import com.google.firebase.auth.FirebaseAuth;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -23,11 +21,8 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-
 import org.json.JSONException;
-
 import java.math.BigDecimal;
-
 import Cliente.RefindCliente;
 import POJOS.Anuncio;
 import POJOS.Categoria;
@@ -71,45 +66,42 @@ public class ActivityNewAnuncio extends AppCompatActivity {
         categoria.setCategoriaId(Integer.valueOf(getIntent().getIntExtra("categoriaIdAnuncio", 0)));
         configPaypal();
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
-        aceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        aceptar.setOnClickListener(v -> {
 
-                Usuario usuario = new Usuario();
+            Usuario usuario = new Usuario();
 
-                if(pF.obtenerIdentificador() == 0){
-                    Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-                    startActivity(i);
-                }else{
-                    usuario.setUsuarioId(pF.obtenerIdentificador());
-                }
-
-                nombreAnuncio = findViewById(R.id.nombreNewAnuncio);
-                telefonoAnuncio = findViewById(R.id.telefonoNewAnuncio);
-                descripcionAnuncio = findViewById(R.id.descripNewAnuncio);
-                anuncio = new Anuncio(null, nombreAnuncio.getText().toString(), descripcionAnuncio.getText().toString(), categoria, usuario, telefonoAnuncio.getText().toString(), "asd");
-                //TODO con el objeto anuncio comprobar que no existe otro igual en la misma categoria
-
-                //todo compruebo que la imagen es nueva
-                //Creo anuncio
-
-                //Cambiar MODO_PAYPAL a 1 para que se haga el paypal
-                if(MODO_PAYPAL == 1){
-                    makePayment();
-                }
-
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-
-                        anuncio = refindCliente.crearAnuncio(anuncio);
-                    }
-                });
-                thread.start();
-                //TODO volver a la pantalla de lista anuncios
-                //Subo imagen
+            if(pF.obtenerIdentificador() == 0){
+                Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+                startActivity(i);
+            }else{
+                usuario.setUsuarioId(pF.obtenerIdentificador());
             }
+
+            nombreAnuncio = findViewById(R.id.nombreNewAnuncio);
+            telefonoAnuncio = findViewById(R.id.telefonoNewAnuncio);
+            descripcionAnuncio = findViewById(R.id.descripNewAnuncio);
+            anuncio = new Anuncio(null, nombreAnuncio.getText().toString(), descripcionAnuncio.getText().toString(), categoria, usuario, telefonoAnuncio.getText().toString(), "asd");
+            //TODO con el objeto anuncio comprobar que no existe otro igual en la misma categoria
+
+            //todo compruebo que la imagen es nueva
+            //Creo anuncio
+
+            //Cambiar MODO_PAYPAL a 1 para que se haga el paypal
+            if(MODO_PAYPAL == 1){
+                makePayment();
+            }
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+
+                    anuncio = refindCliente.crearAnuncio(anuncio);
+                }
+            });
+            thread.start();
+            //TODO volver a la pantalla de lista anuncios
+            //Subo imagen
         });
     }
 

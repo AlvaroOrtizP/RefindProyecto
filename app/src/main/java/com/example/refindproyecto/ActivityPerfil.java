@@ -26,7 +26,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
@@ -61,7 +60,6 @@ public class ActivityPerfil extends AppCompatActivity {
      */
     Usuario usuario = new Usuario();
     RequestQueue requestQueue;
-    FirebaseAuth mAuth;
     CircleImageView imagenPerfil;
     FloatingActionButton salir;
     TextView nombrePerfil, biografiaPerfil, apellidoPerfil;
@@ -92,7 +90,7 @@ public class ActivityPerfil extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        /**
+        /*
          * -----------------------------------------------------------
          *                          2.1 Enlazar variables
          * -----------------------------------------------------------
@@ -175,7 +173,6 @@ public class ActivityPerfil extends AppCompatActivity {
             //TODO comprobar que se eliminan preferencias
             pF.desactivarAudio();
             pF.desactivarUsuario();
-            int prueba = pF.obtenerIdentificador();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });
@@ -215,14 +212,11 @@ public class ActivityPerfil extends AppCompatActivity {
         btnCancelar.setOnClickListener(v -> dialog.cancel());
 
 
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                actualizarUsuario();//8 ACTUALIZAR USUARIO
-            }
+        btnGuardar.setOnClickListener(v -> {
+            actualizarUsuario();//8 ACTUALIZAR USUARIO
         });
 
-        /**
+        /*
          * -----------------------------------------------------------
          *                          3.1 Popup eleccion de fotos
          * -----------------------------------------------------------

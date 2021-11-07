@@ -116,8 +116,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         registerForContextMenu(tvTelefono);
         requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
-        mAuth = FirebaseAuth.getInstance();
-        //usuario.setUsuarioId(mAuth.getUid());
+        //usuario.setUsuarioId(mAuth.getUid()); todo añadir id usuario
 
         // 2.3
         anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio

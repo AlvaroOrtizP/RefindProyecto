@@ -8,11 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-
 import Cliente.RefindCliente;
 import POJOS.Usuario;
 
@@ -30,12 +27,11 @@ import POJOS.Usuario;
  *      4.2 Iniciar sesion
  */
 public class ActivityLogin extends AppCompatActivity {
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
      */
-    private FirebaseAuth mAuth;
     private EditText correo, pass;
     Usuario usuario = null;
     ProcedimientoPreferencias pF = null;
@@ -56,7 +52,6 @@ public class ActivityLogin extends AppCompatActivity {
 
 
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
-        int prueba = pF.obtenerIdentificador();
         if(pF.obtenerIdentificador() != 0){
 
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
@@ -109,12 +104,9 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     private Usuario comprobarUsuarioBD(Usuario usuarioComprobar){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                usuario = refindCliente.comprobarUsuario(usuarioComprobar);
-            }
+        Thread thread = new Thread(() -> {
+            RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+            usuario = refindCliente.comprobarUsuario(usuarioComprobar);
         });
         thread.start();
         try {

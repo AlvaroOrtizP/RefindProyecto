@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
-import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 import Cliente.RefindCliente;
@@ -73,7 +72,7 @@ public class ActivityListaFav extends AppCompatActivity {
 
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          3 Obtener Favoritos
      * -----------------------------------------------------------

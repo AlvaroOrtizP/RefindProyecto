@@ -18,7 +18,6 @@ import android.widget.EditText;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
@@ -47,7 +46,6 @@ public class ActivityRegistro extends AppCompatActivity {
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
      */
-    private FirebaseAuth mAuth;
     private EditText correo;
     private EditText nombre;
     private EditText apellido;
@@ -75,36 +73,40 @@ public class ActivityRegistro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        /**
-         * -----------------------------------------------------------
-         *                          2.1 Enlazar variables
-         * -----------------------------------------------------------
+        /*
+          -----------------------------------------------------------
+                                   2.1 Enlazar variables
+          -----------------------------------------------------------
          */
-        mAuth = FirebaseAuth.getInstance();
         correo = findViewById(R.id.emailRegistro);
         nombre = findViewById(R.id.nombreRegistro);
         apellido = findViewById(R.id.apellidoRegistro);
         pass = findViewById(R.id.passRegistro);
         confirmacionPass = findViewById(R.id.passComRegistro);
         checkBox = findViewById(R.id.checkBox);
-        /**
-         * -----------------------------------------------------------
-         *                          2.2 Funcionamiento del check
-         * -----------------------------------------------------------
+        /*
+          -----------------------------------------------------------
+                                   2.2 Funcionamiento del check
+          -----------------------------------------------------------
          */
         checkBox.setOnClickListener(v -> isChecked= !isChecked);
     }
 
+    /*
+      -----------------------------------------------------------
+                               3 REGISTRO DE USUARIO
+      -----------------------------------------------------------
+     */
+
     /**
-     * -----------------------------------------------------------
-     *                          3 REGISTRO DE USUARIO
-     * -----------------------------------------------------------
+     * Metodo que permite el registro de usuarios
+     *
      */
     public void registrarUsuario (View view){
-        /**
-         * -----------------------------------------------------------
-         *                          3.1 Guardar los datos del usuario
-         * -----------------------------------------------------------
+        /*
+          -----------------------------------------------------------
+                                   3.1 Guardar los datos del usuario
+          -----------------------------------------------------------
          */
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre.getText().toString());
@@ -115,10 +117,10 @@ public class ActivityRegistro extends AppCompatActivity {
         usuario.setFoto("0");
         usuario.setPass(pass.getText().toString());
 
-        /**
-         * -----------------------------------------------------------
-         *                          3.2 Comprobacion
-         * -----------------------------------------------------------
+        /*
+          -----------------------------------------------------------
+                                   3.2 Comprobacion
+          -----------------------------------------------------------
          */
         boolean comprobar = true;
         if(usuario == null || usuario.getEmail().equals("") || usuario.getNombre().equals("") || usuario.getApellido().equals("") || usuario.getPass().equals("") || confirmacionPass.equals("")){
@@ -155,10 +157,10 @@ public class ActivityRegistro extends AppCompatActivity {
             comprobar = false;
         }
 
-        /**
-         * -----------------------------------------------------------
-         *                          3.3 Crear usuario
-         * -----------------------------------------------------------
+        /*
+          -----------------------------------------------------------
+                                   3.3 Crear usuario
+          -----------------------------------------------------------
          */
         if(comprobar){
             usuario.setPass(usuario.encriptar(usuario.getPass()));
@@ -181,48 +183,24 @@ public class ActivityRegistro extends AppCompatActivity {
                 snackbar.setDuration(10000);
                 snackbar.show();
             }
-    // probar que guarda el usuario igual en la siguiente ventana da error comprobar al igual que el login
+             // probar que guarda el usuario igual en la siguiente ventana da error comprobar al igual que el login
             //usar los snac para ver que va tod bien sin los intent
 
 
-            /**try{
-
-
-                                }else{
-                                        //Se elimina el usuario de la BBDD de Firebase
-                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                     user.delete()
-                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                 @Override
-                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                     if (!task.isSuccessful()) {
-                                                         Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
-                                                         snackbar.setDuration(10000);
-                                                         snackbar.show();
-                                                     }
-                                                 }
-                                             });
-
-                                    }
-                            } else {//En caso de error en la identificacion del usuario saldria por aqui
-                                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
-                                snackbar.setDuration(10000);
-                                snackbar.show();
-                            }
-                        });
-
-            }catch (Exception e){
-                Snackbar snackbar = Snackbar.make(view, R.string.errorRegistroCorreoDupli, Snackbar.LENGTH_LONG);
-                snackbar.setDuration(10000);
-                snackbar.show();
-            }*/
         }
     }
 
+    /*
+      -----------------------------------------------------------
+                                4 Funcion de crear
+      -----------------------------------------------------------
+     */
+
     /**
-     * -----------------------------------------------------------
-     *                           4 Funcion de crear
-     * -----------------------------------------------------------
+     * Metodo para crear usuarios
+     * @param usuario Objeto usuario usado para pasar los datos a la base de datos
+     * @param view vista de activity
+     * @return mensaje de error
      */
     private String crearUsuario(Usuario usuario, View view){
         Thread thread = new Thread(new Runnable() {
@@ -289,8 +267,8 @@ public class ActivityRegistro extends AppCompatActivity {
         startActivity(registro_login);
     }
 
-    /**
-     * TODO borrar todos los datos y comprobar que no se pueden registrar usuarios con el mismo correo
-     * TODO Textos correctos
+    /*
+      TODO borrar todos los datos y comprobar que no se pueden registrar usuarios con el mismo correo
+      TODO Textos correctos
      */
 }
