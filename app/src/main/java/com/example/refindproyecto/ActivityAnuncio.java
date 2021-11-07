@@ -404,9 +404,9 @@ public class ActivityAnuncio extends AppCompatActivity {
     public void creadorDeComent(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
-        editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
-        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
-        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
+        editComent = contactPopupView.findViewById(R.id.popupComent);
+        btnGuardar = contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = contactPopupView.findViewById(R.id.btnCCancelar);
         btnGuardar.setOnClickListener(v -> crearComent());
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);

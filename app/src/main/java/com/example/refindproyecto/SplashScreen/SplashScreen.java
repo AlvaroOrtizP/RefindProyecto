@@ -20,8 +20,8 @@ import android.widget.TextView;
 import com.example.refindproyecto.ActivityLogin;
 import com.example.refindproyecto.R;
 
-/**
- * TODO: En un futuro revisar
+/*
+ *
  * https://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#FLAG_FULLSCREEN
  */
 
