@@ -31,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Adaptador.AdaptadorComent;
+import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +44,7 @@ import POJOS.Indicador;
 import POJOS.Usuario;
 
 
-/**
+/*
  * TODO: Eliminar partes que no se utilizan al terminar el proyecto
  * TODO; mejorar layout de activity y de popup
  * Todo: El texto del comentario no puede ser null
@@ -66,7 +67,7 @@ import POJOS.Usuario;
 
 
 public class ActivityAnuncio extends AppCompatActivity {
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
@@ -93,9 +94,9 @@ public class ActivityAnuncio extends AppCompatActivity {
     String anuncioId = "";
     String[] arrayComen = comentarioT.split("/");
     RequestQueue requestImage;
+    ProcedimientoPreferencias pF = null;
 
-
-    /**
+    /*
      * -----------------------------------------------------------
      *                          2 ONCREATE
      * -----------------------------------------------------------
@@ -116,7 +117,13 @@ public class ActivityAnuncio extends AppCompatActivity {
         registerForContextMenu(tvTelefono);
         requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
-        //usuario.setUsuarioId(mAuth.getUid()); todo añadir id usuario
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
 
         // 2.3
         anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio
@@ -173,7 +180,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         //TODO: falta añadir nuevo anuncio
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          3 DATOS DEL ANUNCIO
      * -----------------------------------------------------------
@@ -197,7 +204,7 @@ public class ActivityAnuncio extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    /**
+    /*
      * -----------------------------------------------------------
      *                          4 FAVORITOS
      * -----------------------------------------------------------
@@ -286,7 +293,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          5 LLAMADA
      * -----------------------------------------------------------
@@ -316,7 +323,7 @@ public class ActivityAnuncio extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          6 COMENTARIOS
      * -----------------------------------------------------------
@@ -432,7 +439,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         startActivity(i);
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          7 CARGAR FOTO DEL ANUNCIO
      * -----------------------------------------------------------

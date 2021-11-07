@@ -32,7 +32,7 @@ import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-/**
+/*
  * Estructura del codigo:
  *  - 1 Creacion de variables
  *      1.1 Para el navbar
@@ -53,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ActivityPerfil extends AppCompatActivity {
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
@@ -63,13 +63,13 @@ public class ActivityPerfil extends AppCompatActivity {
     CircleImageView imagenPerfil;
     FloatingActionButton salir;
     TextView nombrePerfil, biografiaPerfil, apellidoPerfil;
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1.1 Para el navbar
      * -----------------------------------------------------------
      */
     ImageButton btnInicio, btnFavorito, btnPerfil;
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1.2 Para el formulario emergente
      * -----------------------------------------------------------
@@ -81,7 +81,7 @@ public class ActivityPerfil extends AppCompatActivity {
     Button btnGuardar, btnCancelar;
     ProcedimientoPreferencias pF = null;
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          2 ONCREATE
      * -----------------------------------------------------------
@@ -105,8 +105,6 @@ public class ActivityPerfil extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil = findViewById(R.id.btnPerfil);
-        Context context = this.getApplicationContext();
-        ProcedimientoPreferencias procedimientoPreferencias = null;
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
         if(pF.obtenerIdentificador() == 0){
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
@@ -114,7 +112,7 @@ public class ActivityPerfil extends AppCompatActivity {
         }else{
             usuario.setUsuarioId(pF.obtenerIdentificador());
         }
-        /**
+        /*
          * -----------------------------------------------------------
          *                          2.2 Funciones check
          * -----------------------------------------------------------
@@ -135,7 +133,7 @@ public class ActivityPerfil extends AppCompatActivity {
             }
         });
 
-        /**
+        /*
          * -----------------------------------------------------------
          *                          2.3 Funciones botones
          * -----------------------------------------------------------
@@ -150,7 +148,7 @@ public class ActivityPerfil extends AppCompatActivity {
             startActivity(i);
         });
 
-        /**
+        /*
          * -----------------------------------------------------------
          *                          2.4 Carga de datos del usuario
          * -----------------------------------------------------------
@@ -180,7 +178,7 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          3 CREAR POPUP
      * -----------------------------------------------------------
@@ -243,7 +241,7 @@ public class ActivityPerfil extends AppCompatActivity {
         });
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          4 OBTENER DATOS USUARIO
      * -----------------------------------------------------------
@@ -266,7 +264,7 @@ public class ActivityPerfil extends AppCompatActivity {
         return usuario;
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          5 CARGAR IMAGEN
      * -----------------------------------------------------------
@@ -289,7 +287,7 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          6 AUDIO
      * -----------------------------------------------------------
@@ -309,7 +307,7 @@ public class ActivityPerfil extends AppCompatActivity {
         editor.apply();
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          7 PREFERENCIAS
      * -----------------------------------------------------------
@@ -321,7 +319,7 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          8 ACTUALIZAR USUARIO
      * -----------------------------------------------------------
@@ -347,7 +345,7 @@ public class ActivityPerfil extends AppCompatActivity {
         dialog.cancel();
     }
 
-    /**
+    /*
      *  Todo: mejorar el diseño del popup
      *  TODO generar javadoc
      *
