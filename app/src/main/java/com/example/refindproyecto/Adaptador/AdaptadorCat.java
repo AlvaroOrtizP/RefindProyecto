@@ -76,18 +76,13 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             titulo.setText(itemCategoria.getTitulo());
             descripcion.setText(itemCategoria.getDescripcion());
             cargarImagen(imagenPerfil, Indicador.IMAGEN_CATEGORIA+itemCategoria.getFoto());
-
+            System.out.println(Indicador.IMAGEN_CATEGORIA+itemCategoria.getFoto());
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
-
+    //TODO cambiar la IP el dia de la presetacion
     private void cargarImagen(ImageView imagenPerfil, String url){
-        ImageRequest imageRequest = new ImageRequest(url, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                imagenPerfil.setImageBitmap(response);
-            }
-        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+        ImageRequest imageRequest = new ImageRequest(url, response -> imagenPerfil.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Poner una imagen por defecto

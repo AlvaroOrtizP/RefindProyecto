@@ -162,6 +162,7 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         }
+
         cargarImagen(imagenPerfil, usuario);//5 CARGAR IMAGEN
         nombrePerfil.setText(usuario.getNombre());
         biografiaPerfil.setText(usuario.getNombre());

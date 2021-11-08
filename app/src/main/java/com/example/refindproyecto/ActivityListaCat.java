@@ -121,7 +121,7 @@ public class ActivityListaCat extends AppCompatActivity {
         setRecyclerView(categoriaList);
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          4 Manda datos al Recycler
      * -----------------------------------------------------------
