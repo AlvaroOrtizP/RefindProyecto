@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 import Cliente.RefindCliente;
@@ -16,7 +17,7 @@ import POJOS.Anuncio;
 import POJOS.Categoria;
 
 
-/**
+/*
  * Estructura del codigo:
  *      - 1 Creacion de variables
  *      - 2 ONCREATE
@@ -25,7 +26,7 @@ import POJOS.Categoria;
  *      - 3 OBTENER ANUNCIOS
  */
 public class ActivityListaAnun extends AppCompatActivity {
-    /**
+    /*
      * -----------------------------------------------------------
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
@@ -37,7 +38,7 @@ public class ActivityListaAnun extends AppCompatActivity {
     ImageButton btnInicio, btnFavorito, btnPerfil;
     FloatingActionButton addAnuncio;
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          2 ONCREATE
      * -----------------------------------------------------------
@@ -76,7 +77,7 @@ public class ActivityListaAnun extends AppCompatActivity {
 
     }
 
-    /**
+    /*
      * -----------------------------------------------------------
      *                          3 OBTENER ANUNCIOS
      * -----------------------------------------------------------
@@ -87,25 +88,7 @@ public class ActivityListaAnun extends AppCompatActivity {
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 anuncioT = refindCliente.obtenerAnuncios(categoria);
-                String[] arrayAnuncio = anuncioT.split("/");
-                Integer id=0;
-                for (int i = 0; i <= arrayAnuncio.length - 1; i++) {
-                    anuncio = new Anuncio();
-                    if (arrayAnuncio[i].equals("-")) {
-                        i++;
-                    }
-                    id = Integer.valueOf(arrayAnuncio[i]);
-                    anuncio.setAnuncioId(id);
-                    i++;
-                    anuncio.setTitulo(arrayAnuncio[i]);
-                    i++;
-                    anuncio.setDescripcion(arrayAnuncio[i]);
-                    i = i + 3;
-                    anuncio.setTelefono(arrayAnuncio[i]);
-                    i++;
-                    anuncio.setFoto(arrayAnuncio[i]);
-                    anuncioList.add(anuncio);
-                }
+
             }
         });
         thread.start();
@@ -115,8 +98,39 @@ public class ActivityListaAnun extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-        setRecyclerView(anuncioList);
+        clasificarAnuncios(anuncioT);
     }
+
+    private void clasificarAnuncios(String anuncioText){
+        if(!anuncioText.equals("")){
+            String[] arrayAnuncio = anuncioText.split("/");
+            Integer id=0;
+            for (int i = 0; i <= arrayAnuncio.length - 1; i++) {
+                anuncio = new Anuncio();
+                if (arrayAnuncio[i].equals("-")) {
+                    i++;
+                }
+                id = Integer.valueOf(arrayAnuncio[i]);
+                anuncio.setAnuncioId(id);
+                i++;
+                anuncio.setTitulo(arrayAnuncio[i]);
+                i++;
+                anuncio.setDescripcion(arrayAnuncio[i]);
+                i = i + 3;
+                anuncio.setTelefono(arrayAnuncio[i]);
+                i++;
+                anuncio.setFoto(arrayAnuncio[i]);
+                anuncioList.add(anuncio);
+                setRecyclerView(anuncioList);
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "No existen anuncios para esta categoria",Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
     private void setRecyclerView(List<Anuncio> anuncioList){
         AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewAnu);
