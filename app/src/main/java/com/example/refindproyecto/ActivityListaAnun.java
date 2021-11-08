@@ -88,14 +88,13 @@ public class ActivityListaAnun extends AppCompatActivity {
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 anuncioT = refindCliente.obtenerAnuncios(categoria);
-
             }
         });
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
+            Toast.makeText(getApplicationContext(), "Problema al cargar los anuncios",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         clasificarAnuncios(anuncioT);

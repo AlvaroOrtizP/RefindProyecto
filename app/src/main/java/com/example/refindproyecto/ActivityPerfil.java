@@ -165,7 +165,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
         cargarImagen(imagenPerfil, usuario);//5 CARGAR IMAGEN
         nombrePerfil.setText(usuario.getNombre());
-        biografiaPerfil.setText(usuario.getNombre());
+        biografiaPerfil.setText(usuario.getBiografia());
         apellidoPerfil.setText(usuario.getApellido());
         salir.setOnClickListener(view -> {
 
