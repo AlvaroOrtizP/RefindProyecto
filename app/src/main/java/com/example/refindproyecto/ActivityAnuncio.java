@@ -334,7 +334,7 @@ public class ActivityAnuncio extends AppCompatActivity {
             public void run() {
                 //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                comentarioT = refindCliente.obtenerComentarios(anuncio);
+                comentarioT = refindCliente.obtenerComentarios(anuncio);//falla aqui
                 Integer id=0;
                 String[] arrayComen = comentarioT.split("/");
                 if(!comentarioT.equals("")){

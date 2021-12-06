@@ -37,18 +37,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  *  - 1 Creacion de variables
  *      1.1 Para el navbar
  *      1.2 Para el formulario emergente
+ *      1.3 Para subir las imagenes
  *  - 2 onCreate
  *      2.1 Enlazar variables
  *      2.2 Funciones check
  *      2.3 Funciones botones
  *      2.4 Carga de datos del usuario
- *  - 3 CREAR POPUP
- *      3.1 Popup eleccion de fotos
- *  - 4 OBTENER DATOS USUARIO
- *  - 5 CARGAR IMAGEN
- *  - 6 AUDIO
- *  - 7 PREFERENCIAS
- *  - 8 ACTUALIZAR USUARIO
+ *  - 3 OBTENER DATOS USUARIO
+ *  - 4 CARGAR IMAGEN
+ *  - 5 AUDIO
+ *  - 6 PREFERENCIAS
  */
 
 
@@ -74,12 +72,9 @@ public class ActivityPerfil extends AppCompatActivity {
      *                          1.2 Para el formulario emergente
      * -----------------------------------------------------------
      */
-    AlertDialog.Builder dialogBuilder;
-    AlertDialog dialog;
-    EditText newNombre, newBiografia, newApellido;
-    ImageView btnNewfoto;
-    Button btnGuardar, btnCancelar;
+    Button btnEditarPerfil;
     ProcedimientoPreferencias pF = null;
+
 
     /*
      * -----------------------------------------------------------
@@ -105,6 +100,7 @@ public class ActivityPerfil extends AppCompatActivity {
         btnInicio =findViewById(R.id.btnInicio);
         btnFavorito =findViewById(R.id.btnFavorito);
         btnPerfil = findViewById(R.id.btnPerfil);
+        btnEditarPerfil = findViewById(R.id.editarPerfil);
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
         if(pF.obtenerIdentificador() == 0){
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
@@ -147,7 +143,10 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(ActivityPerfil.this, ActivityListaFav.class);
             startActivity(i);
         });
-
+        btnEditarPerfil.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityPerfil.this, ActivityAjustesUsuario.class);
+            startActivity(i);
+        });
         /*
          * -----------------------------------------------------------
          *                          2.4 Carga de datos del usuario
@@ -181,69 +180,6 @@ public class ActivityPerfil extends AppCompatActivity {
 
     /*
      * -----------------------------------------------------------
-     *                          3 CREAR POPUP
-     * -----------------------------------------------------------
-     */
-
-    /**
-     * Metodo creado para usar con el boton editarPerfil
-     * Este metodo usa el layout popup para crear un formulario emergente
-     */
-    public void crearPopup(View view) {
-        Usuario usuario = new Usuario();
-        usuario.setFoto("0");//TODO cambiar esto
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        newNombre = contactPopupView.findViewById(R.id.popupNombre);
-        newBiografia = contactPopupView.findViewById(R.id.popupBiografia);
-        newApellido = contactPopupView.findViewById(R.id.popupApellido);
-        btnGuardar = contactPopupView.findViewById(R.id.btnCGuardar);
-        btnCancelar = contactPopupView.findViewById(R.id.btnCCancelar);
-        btnNewfoto = contactPopupView.findViewById(R.id.imgPopup);
-        //Visionado del popup
-        dialogBuilder.setView(contactPopupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-        Spinner spinner = contactPopupView.findViewById(R.id.spinner);
-        String[] opciones = {"Customizada 1", "Customizada 2", "Customizada 3"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
-        spinner.setAdapter(adapter);
-        btnCancelar.setOnClickListener(v -> dialog.cancel());
-
-
-        btnGuardar.setOnClickListener(v -> {
-            actualizarUsuario();//8 ACTUALIZAR USUARIO
-        });
-
-        /*
-         * -----------------------------------------------------------
-         *                          3.1 Popup eleccion de fotos
-         * -----------------------------------------------------------
-         */
-       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO +position+".png", response -> {
-                    btnNewfoto.setImageBitmap(response);
-                    imagenPerfil.setImageBitmap(response);
-                    // usuario.setFoto(position);//TODO
-                }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplication(),R.string.errorCargarImagen, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                requestQueue.add(imageRequest);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    /*
-     * -----------------------------------------------------------
      *                          4 OBTENER DATOS USUARIO
      * -----------------------------------------------------------
      */
@@ -271,9 +207,7 @@ public class ActivityPerfil extends AppCompatActivity {
      * -----------------------------------------------------------
      */
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
-        String prueba = Indicador.IMAGEN_USUARIO+usuario.getFoto();
-
-        ImageRequest imageRequest = new ImageRequest(prueba, new Response.Listener<Bitmap>() {
+        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto(), new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 imagenPerfil.setImageBitmap(response);
@@ -320,35 +254,5 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
 
-    /*
-     * -----------------------------------------------------------
-     *                          8 ACTUALIZAR USUARIO
-     * -----------------------------------------------------------
-     */
-    private void actualizarUsuario() {
-        usuario.setNombre(newNombre.getText().toString());
-        usuario.setApellido(newApellido.getText().toString());
-        usuario.setBiografia(newBiografia.getText().toString());
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                usuario = refindCliente.actualizarUsuario(usuario);
-            }
-        });//todo EXCEPCION
-        thread.start();
-        nombrePerfil = findViewById(R.id.nombreUsuario);
-        biografiaPerfil = findViewById(R.id.tvBibliografia);
-        apellidoPerfil = findViewById(R.id.apellidoUsuario);
-        nombrePerfil.setText(usuario.getNombre());
-        apellidoPerfil.setText(usuario.getApellido());
-        biografiaPerfil.setText(usuario.getBiografia());
-        dialog.cancel();
-    }
 
-    /*
-     *  Todo: mejorar el diseño del popup
-     *  TODO generar javadoc
-     *
-     */
 }
