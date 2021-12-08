@@ -82,7 +82,9 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         btnAceptar.setOnClickListener(v -> {
             usuario = actualizarUsuario();
             if("OK".equals(usuario.getError())){
-                subirImagenApache();//todo Cuando haces los cambios sin subir una nueva foto peta
+                if(comprobador == 1){
+                    subirImagenApache();//todo Cuando haces los cambios sin subir una nueva foto peta
+                }
                 Intent i = new Intent(ActivityAjustesUsuario.this, ActivityPerfil.class);
                 startActivity(i);
             }
@@ -135,10 +137,18 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                System.out.println("antes");
                 usuario = refindCliente.actualizarUsuario(usuario);
+                System.out.println("Despues");
             }
         });//todo EXCEPCION
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
         return usuario;
     }
 
@@ -171,6 +181,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
                 //Cómo obtener el mapa de bits de la Galería
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 //Configuración del mapa de bits en ImageView
+                comprobador = 1;
                 ajustesImagen.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
