@@ -40,14 +40,8 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
      *                          1.3 Para subir las imagenes
      * -----------------------------------------------------------
      */
-    int PICK_IMAGE_REQUEST = 1;
-    Bitmap bitmap;
-    //Ruta donde se encuentra el archivo php
-    String UPLOAD_URL = "http://10.0.2.2/Refind/images/subirImagenUsuario.php";//10.0.2.2
 
-    //Las keys de los parametros que se pasaran por POST
-    String KEY_IMAGE = "foto";
-    String KEY_NOMBRE = "nombre";
+    Bitmap bitmap;//Esta no se remplaz
     int comprobador = 0;
     Usuario usuario = new Usuario();
     ProcedimientoPreferencias pF = null;
@@ -169,13 +163,13 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), Indicador.PICK_IMAGE_REQUEST);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == Indicador.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             try {
                 //Cómo obtener el mapa de bits de la Galería
@@ -203,7 +197,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
     public void subirImagenApache() {
 
         final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Indicador.UPLOAD_URL_USUARIO,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -226,8 +220,8 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
                 String nombre = usuario.getUsuarioId().toString();
 
                 Map<String, String> params = new Hashtable<String, String>();
-                params.put(KEY_IMAGE, imagen);
-                params.put(KEY_NOMBRE, nombre);
+                params.put(Indicador.KEY_IMAGE, imagen);
+                params.put(Indicador.KEY_NOMBRE, nombre);
 
                 return params;
             }

@@ -6,75 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".ActivityNewAnuncio">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_casa" />
-
     <LinearLayout
-        android:layout_width="311dp"
-        android:layout_height="392dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="342dp"
+        android:layout_height="620dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/nombreNewAnuncio"
+        <ImageView
+            android:id="@+id/ajustesImagen"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="50dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnElegirImagen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="Nombre del anuncio" />
+            android:text="Elegir Imagen" />
 
-        <EditText
-            android:id="@+id/telefonoNewAnuncio"
+        <TextView
+            android:id="@+id/textNuevoNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoLink="email"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="Telefono" />
-
-        <Spinner
-            android:id="@+id/categoriaNewAnuncio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Nuevo nombre"
+            android:textSize="20dp" />
 
         <EditText
-            android:id="@+id/descripNewAnuncio"
+            android:id="@+id/editNewNombre"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="Descripcion del anuncio" />
+            android:layout_height="wrap_content"
+            android:hint="Nuevo apellido"
+
+            android:minHeight="48dp" />
+
+
+        <TextView
+            android:id="@+id/textNuevoApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="Nuevo apellido"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/editNewApellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nuevo apellido"
+
+            android:minHeight="48dp" />
+
+
+        <TextView
+            android:id="@+id/textNuevaBio"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:text="Nueva biografia" />
+
+        <EditText
+            android:id="@+id/editNewBio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nueva biografia"
+
+            android:minHeight="48dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/aceptarNewAnuncio"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnAjustesAceptar"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Aceptar" />
 
             <Button
-                android:id="@+id/cancelarrNewAnuncio"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnAjustesCancelar"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cancelar" />
         </LinearLayout>
+
 
     </LinearLayout>
 
