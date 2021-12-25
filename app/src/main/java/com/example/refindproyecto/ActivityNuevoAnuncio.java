@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,31 +36,38 @@ import POJOS.Categoria;
 import POJOS.Indicador;
 import POJOS.Usuario;
 
-public class ActivityCrearAnuncio extends AppCompatActivity {
+//El bueno
+public class ActivityNuevoAnuncio extends AppCompatActivity {
     EditText nombreAnuncio, telefonoAnuncio, descripcionAnuncio;
     TextView categoriaAnuncio;
     Button btnAceptar, bntCancelar, elegirImagen;
     Usuario usuario;
     Categoria categoria;
     Anuncio anuncio = new Anuncio();
-    int comprobador = 0;
+    boolean fotoElegida = false;
     RequestQueue requestQueue;
     ImageView anuncioImagen;
     Bitmap bitmap;
     Intent i = null;
+    int PICK_IMAGE_REQUEST = 1;
 
+    String KEY_IMAGE = "foto";
+    String KEY_NOMBRE = "nombre";
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_anuncio);
-        inicializar();
+        setContentView(R.layout.activity_nuevo_anuncio);
+        usuario = inicializar();
         btnAceptar.setOnClickListener(v -> {
-            //Crear anuncio
-            if(crearAnuncio().equals("ok")){
-                startActivity(i);
+            //TODO que salga el mensaje por pantalla
+            if(fotoElegida){
+                System.out.println("Elgiste foto" + fotoElegida);
+                crearAnuncio(usuario);
             }
             else{
-                Toast.makeText(ActivityCrearAnuncio.this, "Error", Toast.LENGTH_LONG).show();
+                System.out.println("Debes elegir una foto" + fotoElegida);
+
             }
         });
         bntCancelar.setOnClickListener(v -> {
@@ -70,120 +76,19 @@ public class ActivityCrearAnuncio extends AppCompatActivity {
         elegirImagen.setOnClickListener(v -> {
             abrirGaleria();
         });
-    }
-    private void inicializar(){
-        nombreAnuncio = findViewById(R.id.editNombreAnun);
-        telefonoAnuncio = findViewById(R.id.editTelefono);
-        categoriaAnuncio = findViewById(R.id.textCategoria);
-        descripcionAnuncio = findViewById(R.id.editDescripcion);
-        anuncioImagen = findViewById(R.id.nuevoAnuncioImagen);
-        categoria = new Categoria();
-        usuario = new Usuario();
-        categoria.setCategoriaId(Integer.valueOf(getIntent().getIntExtra("categoriaIdAnuncio", 0)));
-        categoriaAnuncio.setText("cambiar esto");// todo se puede hacer una consulta para obtener el nombre con el id o buscar la forma de pasar el nombre por intent tambien
-        btnAceptar = findViewById(R.id.btnCrearAnuncioAceptar);
-        bntCancelar = findViewById(R.id.btnCrearAnuncioCancelar);
-        elegirImagen = findViewById(R.id.btnElegirImagen);
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        ProcedimientoPreferencias pF = new ProcedimientoPreferencias(this.getApplicationContext());
-        if(pF.obtenerIdentificador() == 0){
-            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivity(i);
-        }else{
-            usuario.setUsuarioId(pF.obtenerIdentificador());
-        }
-        i = new Intent(ActivityCrearAnuncio.this, ActivityListaCat.class);
+
 
     }
-
-    private void abrirGaleria() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), Indicador.PICK_IMAGE_REQUEST);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Indicador.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Cómo obtener el mapa de bits de la Galería
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                //Configuración del mapa de bits en ImageView
-                comprobador = 1;
-                anuncioImagen.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public String getStringImagen(Bitmap bmp) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
-    }
-    public void subirImagenApache() {
-
-        final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Indicador.UPLOAD_URL_ANUNCIO,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        loading.dismiss();
-                        Toast.makeText(ActivityCrearAnuncio.this, response, Toast.LENGTH_LONG).show();
-                        System.out.println(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loading.dismiss();
-                Toast.makeText(ActivityCrearAnuncio.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                System.out.println(error.getMessage());
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                String imagen = getStringImagen(bitmap);
-                String nombre = usuario.getUsuarioId().toString();
-
-                Map<String, String> params = new Hashtable<String, String>();
-                params.put(Indicador.KEY_IMAGE, imagen);
-                params.put(Indicador.KEY_NOMBRE, nombre);
-
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-    private String crearAnuncio(){
-        obtenerDatosAnuncio();
-        if(insertarAnuncio(usuario).equals("ok")){
-            subirImagenApache();
-        }
-        return anuncio.getError();
-    }
-    private void obtenerDatosAnuncio(){
-        anuncio.setUsuario(usuario);
-        System.out.println(usuario);
-        anuncio.setTitulo(nombreAnuncio.getText().toString());
-        anuncio.setTelefono(telefonoAnuncio.getText().toString());
-        anuncio.setDescripcion(descripcionAnuncio.getText().toString());
-        anuncio.setCategoria(categoria);
-        anuncio.setFoto("png");
-    }
-    private String insertarAnuncio(Usuario usu){
+    private String crearAnuncio(Usuario usuario1){
+        anuncio = obtenerDatosAnuncio();
+        System.out.println("Datos del anuncio el crear anuncio " + anuncio);
+        System.out.println("Datos del usuario el crear anuncio " + usuario1);
+        //Tengo los datos del anuncio y tengo el usuario id en el objeto usuario1
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                Anuncio pruebaAnun = new Anuncio(null, anuncio.getTitulo(), anuncio.getDescripcion(), categoria, usu, anuncio.getTelefono(), anuncio.getFoto());
+                Anuncio pruebaAnun = new Anuncio(null, anuncio.getTitulo(), anuncio.getDescripcion(), categoria, usuario1, anuncio.getTelefono(), anuncio.getFoto());
                 anuncio = refindCliente.crearAnuncio(pruebaAnun);
             }
         });//todo EXCEPCION
@@ -194,9 +99,120 @@ public class ActivityCrearAnuncio extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-        System.out.println("El mensaje de errores " + anuncio.getError());
+        System.out.println("---------------------El mensaje de errores " + anuncio);
+        if(!anuncio.getError().contains("error")){
+            subirImagen(anuncio.getError());
+            startActivity(i);
+        }
+
         return anuncio.getError();
     }
+    //No tocar
 
-    //falta añadir lo de paypal
+    private Anuncio obtenerDatosAnuncio(){
+        Anuncio oAnuncio = new Anuncio();
+        oAnuncio.setTitulo(nombreAnuncio.getText().toString());
+        oAnuncio.setTelefono(telefonoAnuncio.getText().toString());
+        oAnuncio.setDescripcion(descripcionAnuncio.getText().toString());
+        oAnuncio.setCategoria(categoria);
+        oAnuncio.setFoto("png");
+        System.out.println("Este es el anuncio de obtener datos" +oAnuncio);
+        return oAnuncio;
+    }
+    private Usuario inicializar(){
+        nombreAnuncio = findViewById(R.id.editNombreAnun);
+        telefonoAnuncio = findViewById(R.id.editTelefono);
+        categoriaAnuncio = findViewById(R.id.textCategoria);
+        descripcionAnuncio = findViewById(R.id.editDescripcion);
+        anuncioImagen = findViewById(R.id.nuevoAnuncioImagen);
+        btnAceptar = findViewById(R.id.btnCrearAnuncioAceptar);
+        bntCancelar = findViewById(R.id.btnCrearAnuncioCancelar);
+        elegirImagen = findViewById(R.id.btnElegirImagen);
+
+
+        categoria = new Categoria();
+        usuario = new Usuario();
+
+
+        categoria.setCategoriaId(Integer.valueOf(getIntent().getIntExtra("categoriaIdAnuncio", 0)));
+        categoriaAnuncio.setText("cambiar esto");// todo se puede hacer una consulta para obtener el nombre con el id o buscar la forma de pasar el nombre por intent tambien
+
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        ProcedimientoPreferencias pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
+        i = new Intent(ActivityNuevoAnuncio.this, ActivityListaCat.class);
+        return usuario;
+    }
+
+    //No tocar Subir imagen
+    public String getStringImagen(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+    public void subirImagen(String identificador) {
+        final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Indicador.UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loading.dismiss();
+                        Toast.makeText(ActivityNuevoAnuncio.this, response, Toast.LENGTH_LONG).show();
+                        System.out.println(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(ActivityNuevoAnuncio.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                System.out.println(error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                String imagen = getStringImagen(bitmap);
+
+                Map<String, String> params = new Hashtable<String, String>();
+                params.put(KEY_IMAGE, imagen);
+                params.put(KEY_NOMBRE, identificador);
+                params.put("tipo", "anuncio");
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Cómo obtener el mapa de bits de la Galería
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Configuración del mapa de bits en ImageView
+                anuncioImagen.setImageBitmap(bitmap);
+                fotoElegida = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private void abrirGaleria() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), PICK_IMAGE_REQUEST);
+    }
 }

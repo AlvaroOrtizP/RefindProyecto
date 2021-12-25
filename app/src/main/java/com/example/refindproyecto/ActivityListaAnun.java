@@ -65,7 +65,7 @@ public class ActivityListaAnun extends AppCompatActivity {
             startActivity(i);
         });
         addAnuncio.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityListaAnun.this, ActivityCrearAnuncio.class);
+            Intent i = new Intent(ActivityListaAnun.this, ActivityNuevoAnuncio.class);
             i.putExtra("categoriaIdAnuncio", categoria.getCategoriaId());
             startActivity(i);
         });

@@ -33,7 +33,7 @@ import java.util.Map;
 import Cliente.RefindCliente;
 import POJOS.Indicador;
 import POJOS.Usuario;
-
+//todo eliminar
 public class ActivityAjustesUsuario extends AppCompatActivity {
     /*
      * -----------------------------------------------------------
@@ -132,6 +132,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 System.out.println("antes");
+                usuario.setNombre("paco");
                 usuario = refindCliente.actualizarUsuario(usuario);
                 System.out.println("Despues");
             }
@@ -197,7 +198,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
     public void subirImagenApache() {
 
         final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Indicador.UPLOAD_URL_USUARIO,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

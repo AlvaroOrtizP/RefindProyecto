@@ -14,12 +14,14 @@
         android:theme="@style/Theme.RefindProyecto"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ActivityCrearAnuncio"
+            android:name=".ActivityNuevoAnuncio"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityUsuarioAjustes"
             android:exported="false" />
         <activity
             android:name=".ActivityAjustesUsuario"
             android:exported="false" />
-        <activity android:name=".ActivityNewAnuncio" />
         <activity android:name=".ActivityAnuncio" />
         <activity android:name=".ActivityListaFav" />
         <activity android:name=".ActivityListaAnun" />

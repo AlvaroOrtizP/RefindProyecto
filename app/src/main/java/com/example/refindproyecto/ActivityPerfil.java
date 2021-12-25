@@ -144,7 +144,7 @@ public class ActivityPerfil extends AppCompatActivity {
             startActivity(i);
         });
         btnEditarPerfil.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityPerfil.this, ActivityAjustesUsuario.class);
+            Intent i = new Intent(ActivityPerfil.this, ActivityUsuarioAjustes.class);
             startActivity(i);
         });
         /*
