@@ -218,6 +218,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 //TODO excepcion
             }
         });
+        System.out.println(Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto());
         requestQueue.add(imageRequest);
     }
 

@@ -62,11 +62,12 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         btnAceptar.setOnClickListener(v -> {
             //TODO que salga el mensaje por pantalla
             if(fotoElegida){
-                System.out.println("Elgiste foto" + fotoElegida);
+                System.out.println("Elgiste foto " + fotoElegida);
                 crearAnuncio(usuario);
             }
             else{
-                System.out.println("Debes elegir una foto" + fotoElegida);
+                //todo que salga por pantalla
+                System.out.println("Debes elegir una foto " + fotoElegida);
 
             }
         });

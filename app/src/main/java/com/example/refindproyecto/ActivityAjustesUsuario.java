@@ -110,6 +110,8 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         return usuario;
     }
     private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
+        System.out.println("Entra en cargar imagen");
+        System.out.println("La imagen para cargar es " + Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto() );
         ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto(), new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -146,10 +148,6 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         }
         return usuario;
     }
-
-
-
-
     /*
      * -----------------------------------------------------------
      *                          9 SUBIR IMAGEN
