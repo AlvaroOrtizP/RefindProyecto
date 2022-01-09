@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.snackbar.Snackbar;
 import Cliente.RefindCliente;
+import POJOS.Indicador;
 import POJOS.Usuario;
 
 
@@ -49,7 +50,6 @@ public class ActivityLogin extends AppCompatActivity {
         pass = findViewById(R.id.passLogin);
         Button iniciarSesion = findViewById(R.id.IniciarSesionLogin);
         Button irRegistro = findViewById(R.id.irRegistroLogin);
-
 
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
         if(pF.obtenerIdentificador() != 0){

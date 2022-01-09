@@ -74,7 +74,6 @@ public class ActivityAnuncio extends AppCompatActivity {
      */
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList = new ArrayList<>();
-    private FirebaseAuth mAuth;
     ImageView imageView;
     TextView tvTitulo, tvDescripcion, tvTelefono;
     ImageButton bTelefono;
@@ -85,7 +84,6 @@ public class ActivityAnuncio extends AppCompatActivity {
     AlertDialog dialog;
     Button btnGuardar, btnCancelar;
     EditText editComent;
-    List<Anuncio> anuncioList;
     String saberFavorito = "", comentarioT = "";
     Usuario usuario = new Usuario();
     Anuncio anuncio = new Anuncio();
@@ -107,23 +105,11 @@ public class ActivityAnuncio extends AppCompatActivity {
 
         // 2.1
         setContentView(R.layout.activity_anuncio);
-        fav = findViewById(R.id.imBFav);
-        tvTelefono = findViewById(R.id.telefono);
-        bTelefono = findViewById(R.id.bTelefono);
-        tvTitulo=findViewById(R.id.tvTituloAnuncio);
-        tvDescripcion=findViewById(R.id.tvDescripcionDetail);
-        imageView=findViewById(R.id.anuncioFoto);
-        addComentario = findViewById(R.id.fabAddComent);
+        inicializar();
         registerForContextMenu(tvTelefono);
         requestImage = Volley.newRequestQueue(getApplicationContext());
         // 2.2
-        pF = new ProcedimientoPreferencias(this.getApplicationContext());
-        if(pF.obtenerIdentificador() == 0){
-            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivity(i);
-        }else{
-            usuario.setUsuarioId(pF.obtenerIdentificador());
-        }
+
 
         // 2.3
         anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio
@@ -139,7 +125,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         obtenerAnuncio();
         comprobarFavorito();
         obtenerComentarios();
-        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncio.getFoto());// TODO: esta parte falla
+        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncioId+"."+ anuncio.getFoto());
         // 2.5
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
@@ -177,9 +163,23 @@ public class ActivityAnuncio extends AppCompatActivity {
 
 
         addComentario.setOnClickListener(v -> creadorDeComent());
-        //TODO: falta añadir nuevo anuncio
     }
-
+    private void inicializar(){
+        fav = findViewById(R.id.imBFav);
+        tvTelefono = findViewById(R.id.telefono);
+        bTelefono = findViewById(R.id.bTelefono);
+        tvTitulo=findViewById(R.id.tvTituloAnuncio);
+        tvDescripcion=findViewById(R.id.tvDescripcionDetail);
+        imageView=findViewById(R.id.anuncioFoto);
+        addComentario = findViewById(R.id.fabAddComent);
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
+    }
     /*
      * -----------------------------------------------------------
      *                          3 DATOS DEL ANUNCIO
@@ -211,6 +211,7 @@ public class ActivityAnuncio extends AppCompatActivity {
      */
 
     /**
+     * TODO FALTA
      * Se comprueba si el anuncio esta previamente en la lista de favoritos de ese usuario llamando al metodo saberFavorito
      */
     public void comprobarFavorito(){
@@ -272,17 +273,18 @@ public class ActivityAnuncio extends AppCompatActivity {
        return false;
     }
     private boolean saberFavorito(Anuncio anuncio, Usuario usuario){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
-            }
-        });
-        thread.start();
         try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                    //saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
+                }
+            });
+            thread.start();
             thread.join();
         } catch (InterruptedException e) {
+            System.out.println("Error en la saber favorito "+ e.getMessage());
             //TODO: añadir excepcion
             e.printStackTrace();
         }
@@ -329,12 +331,14 @@ public class ActivityAnuncio extends AppCompatActivity {
      * -----------------------------------------------------------
      */
     private void obtenerComentarios(){
+        System.out.println("Entrando en obtener comentarios");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 comentarioT = refindCliente.obtenerComentarios(anuncio);//falla aqui
+                System.out.println("Esta es ka prueba " + comentarioT);
                 Integer id=0;
                 String[] arrayComen = comentarioT.split("/");
                 if(!comentarioT.equals("")){
@@ -351,6 +355,15 @@ public class ActivityAnuncio extends AppCompatActivity {
                             comentario.setComentarioId(1);//El anuncio 1 sera el anuncio de error
                         }
                         i++;
+                        try{
+                            id = Integer.valueOf(arrayComen[i]);
+                            usuario.setUsuarioId(id);
+                        }catch (NumberFormatException ex){
+                            //TODO caso de error
+                            usuario.setUsuarioId(1);
+                        }
+                        i++;
+                        usuario.setFoto("png");
                         usuario.setNombre(arrayComen[i]);
                         comentario.setUsuario(usuario);
                         i++;
@@ -361,7 +374,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                     }
                 }
                 else{
-                    //TODO: mensaje de que no existen comentarios
+
                 }
             }
         });
@@ -374,8 +387,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         }
 
         setRecyclerView(comentarioList);
+        System.out.println("Saliendo de obtener comentarios");
     }
-    // Bloque de codigo para cargar los comentarios en el card view
     private void setRecyclerView(List<Comentario> comentarioList){
         AdaptadorComent listadapter = new AdaptadorComent(comentarioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewComen);
@@ -383,6 +396,11 @@ public class ActivityAnuncio extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listadapter);
     }
+
+
+
+
+    //CAMBIAR
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -412,14 +430,12 @@ public class ActivityAnuncio extends AppCompatActivity {
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
-
         btnCancelar.setOnClickListener(v -> dialog.cancel());
     }
     private void crearComent(){
         comentarioNuevo = new Comentario();
         comentarioNuevo.setAnuncio(anuncio);
         comentarioNuevo.setUsuario(usuario);
-        //TODO: obtener el texto
         comentarioNuevo.setTexto(editComent.getText().toString());
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -436,8 +452,10 @@ public class ActivityAnuncio extends AppCompatActivity {
             e.printStackTrace();
         }
         Intent i = new Intent(ActivityAnuncio.this, ActivityAnuncio.class);
+        i.putExtra("anuncio_id", ""+anuncio.getAnuncioId());
         startActivity(i);
     }
+
 
     /**
      * -----------------------------------------------------------

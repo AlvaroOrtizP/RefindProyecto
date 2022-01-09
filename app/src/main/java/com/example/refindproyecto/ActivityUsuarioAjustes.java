@@ -160,7 +160,6 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
                 //Cómo obtener el mapa de bits de la Galería
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 //Configuración del mapa de bits en ImageView
-                //Configuración del mapa de bits en ImageView
                 comprobador = 1;
                 iv.setImageBitmap(bitmap);
             } catch (IOException e) {
