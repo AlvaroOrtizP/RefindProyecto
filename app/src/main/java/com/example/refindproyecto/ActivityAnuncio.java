@@ -90,7 +90,6 @@ public class ActivityAnuncio extends AppCompatActivity {
     Comentario comentario = null;
     Comentario comentarioNuevo = null;
     String anuncioId = "";
-    String[] arrayComen = comentarioT.split("/");
     RequestQueue requestImage;
     ProcedimientoPreferencias pF = null;
 
@@ -136,7 +135,10 @@ public class ActivityAnuncio extends AppCompatActivity {
 
         });
         fav.setOnClickListener(view -> {
+            System.out.println("Dar fav");
+            System.out.println("El fav es "+ onFav);
             if(onFav){
+
                 eliminarFav();
                 onFav=false;
                 fav.setImageResource(R.drawable.ic_favorito_off);
@@ -147,7 +149,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                 });
                 snackbar.show();
             }else{
-                addFav();
+                addFav();//peta
                 onFav=true;
                 fav.setAnimation(R.raw.animacion);
                 fav.playAnimation();
@@ -214,7 +216,8 @@ public class ActivityAnuncio extends AppCompatActivity {
      * TODO FALTA
      * Se comprueba si el anuncio esta previamente en la lista de favoritos de ese usuario llamando al metodo saberFavorito
      */
-    public void comprobarFavorito(){
+    private void comprobarFavorito(){
+        System.out.println("Comprobando favoritos ...");
         if(anuncioId!=null){
             if(saberFavorito(anuncio, usuario)){
                 onFav=true;
@@ -225,6 +228,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                 fav.setImageResource(R.drawable.ic_favorito_off);
             }
         }
+        System.out.println("Favorito: "+onFav);
     }
     private boolean addFav(){
        saberFavorito = "";
@@ -278,7 +282,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                 @Override
                 public void run() {
                     RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                    //saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
+                    saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
                 }
             });
             thread.start();
@@ -335,13 +339,13 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                comentarioT = refindCliente.obtenerComentarios(anuncio);//falla aqui
-                System.out.println("Esta es ka prueba " + comentarioT);
+                comentarioT = refindCliente.obtenerComentarios(anuncio);
                 Integer id=0;
                 String[] arrayComen = comentarioT.split("/");
+
                 if(!comentarioT.equals("")){
+                    System.out.println("Se obtienen comentarios");
                     for (int i = 0; i <= arrayComen.length - 1; i++) {
                         comentario = new Comentario();
                         if (arrayComen[i].equals("-")) {
@@ -373,9 +377,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                         comentarioList.add(comentario);
                     }
                 }
-                else{
 
-                }
             }
         });
         thread.start();
@@ -385,9 +387,7 @@ public class ActivityAnuncio extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-
         setRecyclerView(comentarioList);
-        System.out.println("Saliendo de obtener comentarios");
     }
     private void setRecyclerView(List<Comentario> comentarioList){
         AdaptadorComent listadapter = new AdaptadorComent(comentarioList, this);
