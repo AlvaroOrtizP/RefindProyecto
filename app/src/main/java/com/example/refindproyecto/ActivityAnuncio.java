@@ -107,39 +107,13 @@ public class ActivityAnuncio extends AppCompatActivity {
 
         // 2.1
         setContentView(R.layout.activity_anuncio);
-        fav = findViewById(R.id.imBFav);
-        tvTelefono = findViewById(R.id.telefono);
-        bTelefono = findViewById(R.id.bTelefono);
-        tvTitulo=findViewById(R.id.tvTituloAnuncio);
-        tvDescripcion=findViewById(R.id.tvDescripcionDetail);
-        imageView=findViewById(R.id.anuncioFoto);
-        addComentario = findViewById(R.id.fabAddComent);
-        registerForContextMenu(tvTelefono);
-        requestImage = Volley.newRequestQueue(getApplicationContext());
-        // 2.2
-        pF = new ProcedimientoPreferencias(this.getApplicationContext());
-        if(pF.obtenerIdentificador() == 0){
-            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivity(i);
-        }else{
-            usuario.setUsuarioId(pF.obtenerIdentificador());
-        }
-
-        // 2.3
-        anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio
-        try{
-            anuncio.setAnuncioId(Integer.valueOf(anuncioId));
-        }catch (NumberFormatException ex){
-            //TODO caso de error
-            anuncio.setAnuncioId(1);//El anuncio 1 sera el anuncio de error
-        }
-
+        inicializar();
 
         // 2.4 Llamada a los metodos
         obtenerAnuncio();
         comprobarFavorito();
         obtenerComentarios();
-        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncio.getFoto());// TODO: esta parte falla
+        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncio.getFoto());
         // 2.5
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
@@ -151,6 +125,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         });
         fav.setOnClickListener(view -> {
             if(onFav){
+                System.out.println("Se añade a favoritos");
+                /*
                 eliminarFav();
                 onFav=false;
                 fav.setImageResource(R.drawable.ic_favorito_off);
@@ -160,7 +136,11 @@ public class ActivityAnuncio extends AppCompatActivity {
 
                 });
                 snackbar.show();
+
+                 */
             }else{
+                System.out.println("Se quita de favoritos");
+                /*
                 addFav();
                 onFav=true;
                 fav.setAnimation(R.raw.animacion);
@@ -171,7 +151,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                 snackbar.setAction("Ok", v -> {
                 });
                 snackbar.show();
-
+*/
             }
         });
 
@@ -272,6 +252,7 @@ public class ActivityAnuncio extends AppCompatActivity {
        return false;
     }
     private boolean saberFavorito(Anuncio anuncio, Usuario usuario){
+        System.out.println("Android: Comienza la comprobacion del favorito");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -286,10 +267,17 @@ public class ActivityAnuncio extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-        if(!saberFavorito.equals("")){
+        System.out.println("Android: saberFavorito== "+ saberFavorito);
+        if(saberFavorito.equals("TRUE")){
             return true;
+        }else if(saberFavorito.equals("FALSE")){
+            return false;
+        }else{
+            System.err.println("Error en la comprobacion de favorito");
+            System.err.println("Mensaje de error "+ saberFavorito);
+            return false;
         }
-        return false;
+
     }
 
 
@@ -457,5 +445,33 @@ public class ActivityAnuncio extends AppCompatActivity {
             }
         });
         requestImage.add(imageRequest);
+    }
+    private void inicializar(){
+        fav = findViewById(R.id.imBFav);
+        tvTelefono = findViewById(R.id.telefono);
+        bTelefono = findViewById(R.id.bTelefono);
+        tvTitulo=findViewById(R.id.tvTituloAnuncio);
+        tvDescripcion=findViewById(R.id.tvDescripcionDetail);
+        imageView=findViewById(R.id.anuncioFoto);
+        addComentario = findViewById(R.id.fabAddComent);
+        registerForContextMenu(tvTelefono);
+        requestImage = Volley.newRequestQueue(getApplicationContext());
+        // 2.2
+        pF = new ProcedimientoPreferencias(this.getApplicationContext());
+        if(pF.obtenerIdentificador() == 0){
+            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivity(i);
+        }else{
+            usuario.setUsuarioId(pF.obtenerIdentificador());
+        }
+
+        // 2.3
+        anuncioId= getIntent().getStringExtra("anuncio_id"); //Obtenenemos un String con el identificador del anuncio
+        try{
+            anuncio.setAnuncioId(Integer.valueOf(anuncioId));
+        }catch (NumberFormatException ex){
+            //TODO caso de error
+            anuncio.setAnuncioId(1);//El anuncio 1 sera el anuncio de error
+        }
     }
 }
