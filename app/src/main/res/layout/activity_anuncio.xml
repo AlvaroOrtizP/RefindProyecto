@@ -153,6 +153,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@color/white"
+        android:onClick="prueba()"
         app:layout_constraintEnd_toStartOf="@+id/tvTituloAnuncio"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

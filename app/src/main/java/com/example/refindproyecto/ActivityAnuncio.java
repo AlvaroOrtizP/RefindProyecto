@@ -123,11 +123,12 @@ public class ActivityAnuncio extends AppCompatActivity {
             ActivityCompat.requestPermissions(ActivityAnuncio.this, new String[]{Manifest.permission.CALL_PHONE},REQUEST_PERMISSION_CALL);
 
         });
+
         fav.setOnClickListener(view -> {
             if(onFav){
                 System.out.println("Se añade a favoritos");
-                /*
-                eliminarFav();
+
+
                 onFav=false;
                 fav.setImageResource(R.drawable.ic_favorito_off);
                 Snackbar snackbar = Snackbar.make(view, R.string.favOff, Snackbar.LENGTH_LONG);
@@ -137,10 +138,10 @@ public class ActivityAnuncio extends AppCompatActivity {
                 });
                 snackbar.show();
 
-                 */
+
             }else{
                 System.out.println("Se quita de favoritos");
-                /*
+
                 addFav();
                 onFav=true;
                 fav.setAnimation(R.raw.animacion);
@@ -151,13 +152,11 @@ public class ActivityAnuncio extends AppCompatActivity {
                 snackbar.setAction("Ok", v -> {
                 });
                 snackbar.show();
-*/
+
             }
         });
-
-
         addComentario.setOnClickListener(v -> creadorDeComent());
-        //TODO: falta añadir nuevo anuncio
+
     }
 
     /*
@@ -345,6 +344,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                         i++;
                         comentario.setTexto(arrayComen[i]);
                         i++;
+                        //System.out.println("Datos del comentario "+ comentario);
                         comentarioList.add(comentario);
                     }
                 }
@@ -392,9 +392,9 @@ public class ActivityAnuncio extends AppCompatActivity {
     public void creadorDeComent(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_coment, null);
-        editComent = (EditText)contactPopupView.findViewById(R.id.popupComent);
-        btnGuardar = (Button)contactPopupView.findViewById(R.id.btnCGuardar);
-        btnCancelar = (Button)contactPopupView.findViewById(R.id.btnCCancelar);
+        editComent = contactPopupView.findViewById(R.id.popupComent);
+        btnGuardar = contactPopupView.findViewById(R.id.btnCGuardar);
+        btnCancelar = contactPopupView.findViewById(R.id.btnCCancelar);
         btnGuardar.setOnClickListener(v -> crearComent());
         //Visionado del popup
         dialogBuilder.setView(contactPopupView);
@@ -409,6 +409,10 @@ public class ActivityAnuncio extends AppCompatActivity {
         comentarioNuevo.setUsuario(usuario);
         //TODO: obtener el texto
         comentarioNuevo.setTexto(editComent.getText().toString());
+        System.out.println("-------------------------------------");
+        System.out.println("Comienza la creaccion del comentario");
+        System.out.println("Android Crear comentario: ID anuncio "+comentarioNuevo.getAnuncio() + " usuario id "+comentarioNuevo.getComentarioId());
+        System.out.println("Texto: "+comentarioNuevo.getTexto());
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -423,7 +427,12 @@ public class ActivityAnuncio extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
+        System.out.println("Finaliza la creaccion del comentario");
+        System.out.println("-------------------------------------");
+
         Intent i = new Intent(ActivityAnuncio.this, ActivityAnuncio.class);
+        System.out.println("El anuncio id es "+ this.anuncioId);
+        i.putExtra("anuncio_id", this.anuncioId);
         startActivity(i);
     }
 
@@ -474,4 +483,5 @@ public class ActivityAnuncio extends AppCompatActivity {
             anuncio.setAnuncioId(1);//El anuncio 1 sera el anuncio de error
         }
     }
+
 }
