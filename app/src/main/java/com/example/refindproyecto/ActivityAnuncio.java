@@ -327,6 +327,7 @@ public class ActivityAnuncio extends AppCompatActivity {
                 if(!comentarioT.equals("")){
                     for (int i = 0; i <= arrayComen.length - 1; i++) {
                         comentario = new Comentario();
+                        //0
                         if (arrayComen[i].equals("-")) {
                             i++;
                         }
@@ -337,11 +338,18 @@ public class ActivityAnuncio extends AppCompatActivity {
                             //TODO caso de error
                             comentario.setComentarioId(1);//El anuncio 1 sera el anuncio de error
                         }
+                        //1
                         i++;
+                        //2
+                        usuario.setUsuarioId(Integer.valueOf(arrayComen[i]));
+                        i++;
+                        //3
                         usuario.setNombre(arrayComen[i]);
                         comentario.setUsuario(usuario);
                         i++;
+                        //4
                         i++;
+                        //5
                         comentario.setTexto(arrayComen[i]);
                         i++;
                         //System.out.println("Datos del comentario "+ comentario);
