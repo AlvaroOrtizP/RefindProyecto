@@ -155,7 +155,7 @@ public class ActivityPerfil extends AppCompatActivity {
 
         usuario = obtenerDatosUsuario();//4 OBTENER DATOS USUARIO
 
-        if(!usuario.getError().equals("OK")){//TODO: probar esto
+        if(!usuario.getError().equals("OK")){
             pF.desactivarUsuario();
             pF.activarAudio();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);

@@ -11,6 +11,9 @@
 
 
     <!-- Strings de: Activity : PERFIL -->
+    <string name="nombre">Name</string>
+    <string name="apellido1">Second Name</string>
+    <string name="newBiografi">New Biografi</string>
     <string name="nombreUsuario">Ej_Alvaro</string>
     <string name="desFotoUsuario">User photo</string>
     <string name="editarPerfil">Setting</string>

@@ -31,53 +31,48 @@
         <TextView
             android:id="@+id/textNuevoNombre"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_height="10dp"
             android:layout_weight="1"
-            android:text="Nuevo nombre"
+            android:text="@string/nombre"
             android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editNewNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nuevo apellido"
-
+            android:hint="@string/nombre"
             android:minHeight="48dp" />
 
 
         <TextView
             android:id="@+id/textNuevoApellido"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_height="10dp"
             android:layout_weight="1"
-            android:text="Nuevo apellido"
+            android:text="@string/apellido1"
             android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editNewApellido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nuevo apellido"
-
+            android:hint="@string/apellido1"
             android:minHeight="48dp" />
 
 
         <TextView
             android:id="@+id/textNuevaBio"
             android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="10dp"
             android:layout_weight="1"
             android:textSize="20dp"
-            android:text="Nueva biografia" />
+            android:text="@string/newBiografi" />
 
         <EditText
             android:id="@+id/editNewBio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nueva biografia"
+            android:hint="@string/newBiografi"
 
             android:minHeight="48dp" />
 

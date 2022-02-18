@@ -10,6 +10,9 @@
 
 
     <!-- Strings de: Activity : PERFIL -->
+    <string name="nombre">Nombre</string>
+    <string name="apellido1">Apellido</string>
+    <string name="newBiografi">Nueva biografia</string>
     <string name="nombreUsuario">Ej_Alvaro</string>
     <string name="desFotoUsuario">Foto del usuario</string>
     <string name="editarPerfil">Configuración</string>
