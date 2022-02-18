@@ -32,8 +32,7 @@ public class ActivityListaFav extends AppCompatActivity {
      */
     ImageButton btnInicio, btnFavorito, btnPerfil;
     Usuario usuario = new Usuario();
-    ArrayList<Anuncio> anuncioList = new ArrayList<>();
-    String anuncioT = "";
+    List<Anuncio> anuncioList = new ArrayList<>();
     ProcedimientoPreferencias pF = null;
     /**
      * -----------------------------------------------------------
@@ -64,12 +63,8 @@ public class ActivityListaFav extends AppCompatActivity {
         }else{
             usuario.setUsuarioId(pF.obtenerIdentificador());
         }
-        anuncioList = new ArrayList<>();
-
         //Llamadas a metodos
         obtenerFavortios(usuario);
-
-
     }
 
     /*
@@ -83,31 +78,10 @@ public class ActivityListaFav extends AppCompatActivity {
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
                 try{
-                    anuncioT = refindCliente.obtenerFavoritos(usuario);
-                    String[] anuncioArray = anuncioT.split("/");
-                    Anuncio anuncio = null;
-                    Integer id=0;
-                    if(!anuncioT.equals("")){
-                        for (int i = 0; i <= anuncioArray.length - 1; i++) {
-                            anuncio = new Anuncio();
-                            if (anuncioArray[i].equals("-")) {
-                                i++;
-                            }
-                            id = Integer.valueOf(anuncioArray[i]);
-                            anuncio.setAnuncioId(id);
-                            i++;
-                            anuncio.setTitulo(anuncioArray[i]);
-                            i++;
-                            anuncio.setDescripcion(anuncioArray[i]);
-                            i=i+3;
-                            anuncio.setTelefono(anuncioArray[i]);
-                            i++;
-                            anuncio.setFoto(anuncioArray[i]);
-                            anuncioList.add(anuncio);
-                        }
-                    }
+                    anuncioList = refindCliente.obtenerListaFavoritos(usuario);
+
                 }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No tienes", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -118,7 +92,7 @@ public class ActivityListaFav extends AppCompatActivity {
         } catch (InterruptedException e) {
             Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
         }
-        if(anuncioT.equals("")){
+        if(anuncioList.size()==0){
             Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show();
         }
         setRecyclerView(anuncioList);

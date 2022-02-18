@@ -85,14 +85,11 @@ public class ActivityAnuncio extends AppCompatActivity {
     AlertDialog dialog;
     Button btnGuardar, btnCancelar;
     EditText editComent;
-    List<Anuncio> anuncioList;
     String saberFavorito = "", comentarioT = "";
     Usuario usuario = new Usuario();
     Anuncio anuncio = new Anuncio();
-    Comentario comentario = null;
     Comentario comentarioNuevo = null;
     String anuncioId = "";
-    String[] arrayComen = comentarioT.split("/");
     RequestQueue requestImage;
     ProcedimientoPreferencias pF = null;
 
@@ -126,8 +123,8 @@ public class ActivityAnuncio extends AppCompatActivity {
 
         fav.setOnClickListener(view -> {
             if(onFav){
-                System.out.println("Se añade a favoritos");
-
+                System.out.println("Se quita a favoritos");
+                eliminarFav();
 
                 onFav=false;
                 fav.setImageResource(R.drawable.ic_favorito_off);
@@ -140,7 +137,7 @@ public class ActivityAnuncio extends AppCompatActivity {
 
 
             }else{
-                System.out.println("Se quita de favoritos");
+                System.out.println("Se añade de favoritos");
 
                 addFav();
                 onFav=true;
@@ -266,7 +263,6 @@ public class ActivityAnuncio extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-        System.out.println("Android: saberFavorito== "+ saberFavorito);
         if(saberFavorito.equals("TRUE")){
             return true;
         }else if(saberFavorito.equals("FALSE")){
@@ -321,44 +317,8 @@ public class ActivityAnuncio extends AppCompatActivity {
             public void run() {
                 //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                comentarioT = refindCliente.obtenerComentarios(anuncio);//falla aqui
-                Integer id=0;
-                String[] arrayComen = comentarioT.split("/");
-                if(!comentarioT.equals("")){
-                    for (int i = 0; i <= arrayComen.length - 1; i++) {
-                        comentario = new Comentario();
-                        //0
-                        if (arrayComen[i].equals("-")) {
-                            i++;
-                        }
-                        try{
-                            id = Integer.valueOf(arrayComen[i]);
-                            comentario.setComentarioId(id);
-                        }catch (NumberFormatException ex){
-                            //TODO caso de error
-                            comentario.setComentarioId(1);//El anuncio 1 sera el anuncio de error
-                        }
-                        //1
-                        i++;
-                        //2
-                        usuario.setUsuarioId(Integer.valueOf(arrayComen[i]));
-                        i++;
-                        //3
-                        usuario.setNombre(arrayComen[i]);
-                        comentario.setUsuario(usuario);
-                        i++;
-                        //4
-                        i++;
-                        //5
-                        comentario.setTexto(arrayComen[i]);
-                        i++;
-                        //System.out.println("Datos del comentario "+ comentario);
-                        comentarioList.add(comentario);
-                    }
-                }
-                else{
-                    //TODO: mensaje de que no existen comentarios
-                }
+
+                comentarioList = refindCliente.obtenerListaComentarios(anuncio);
             }
         });
         thread.start();

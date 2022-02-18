@@ -74,12 +74,7 @@ public class ActivityListaCat extends AppCompatActivity {
             public void run() {
                 try {
                     RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                    categoriaT = refindCliente.obtenerCategorias();
-                    if(categoriaT != null || !categoriaT.equals("ERROR_CONEXION")){
-                        formtearCategoria();
-                    }else{
-                        Toast.makeText(getApplicationContext(), R.string.errorConexion,Toast.LENGTH_SHORT).show();
-                    }
+                    categoriaList = refindCliente.obtenerListaCategorias();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), R.string.errorConexion,Toast.LENGTH_SHORT).show();
                 }
@@ -92,6 +87,7 @@ public class ActivityListaCat extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
+
         setRecyclerView(categoriaList);
     }
 
@@ -107,32 +103,5 @@ public class ActivityListaCat extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listadapter);
     }
-    private void formtearCategoria(){
 
-        Integer id=0;
-        String[] arrayCat = categoriaT.split("/");
-        if(!categoriaT.equals("")){
-            for (int i = 0; i <= arrayCat.length - 1; i++) {
-                if (arrayCat[i].equals("-")) {
-                    i++;
-                }
-                //Error de numero. Tiene que estar en la forma de formatear
-                id = Integer.valueOf(arrayCat[i]);
-                categoria = new Categoria();
-                categoria.setCategoriaId(id);
-                i++;
-                categoria.setTitulo(arrayCat[i]);
-                i++;
-                categoria.setDescripcion(arrayCat[i]);
-                i++;
-                categoria.setFoto(arrayCat[i]);
-                i++;
-                categoriaList.add(categoria);
-            }
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "No existen categorias",Toast.LENGTH_SHORT).show();
-        }
-        categoriaList.add(categoria);
-    }
 }

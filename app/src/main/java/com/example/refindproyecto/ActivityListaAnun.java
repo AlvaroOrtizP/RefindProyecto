@@ -87,7 +87,7 @@ public class ActivityListaAnun extends AppCompatActivity {
             @Override
             public void run() {
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-                anuncioT = refindCliente.obtenerAnuncios(categoria);
+                anuncioList = refindCliente.obtenerListaAnuncios(categoria);
             }
         });
         thread.start();
@@ -97,38 +97,11 @@ public class ActivityListaAnun extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Problema al cargar los anuncios",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        clasificarAnuncios(anuncioT);
-    }
-
-    private void clasificarAnuncios(String anuncioText){
-        if(!anuncioText.equals("")){
-            String[] arrayAnuncio = anuncioText.split("/");
-            Integer id=0;
-            for (int i = 0; i <= arrayAnuncio.length - 1; i++) {
-                anuncio = new Anuncio();
-                if (arrayAnuncio[i].equals("-")) {
-                    i++;
-                }
-                id = Integer.valueOf(arrayAnuncio[i]);
-                anuncio.setAnuncioId(id);
-                i++;
-                anuncio.setTitulo(arrayAnuncio[i]);
-                i++;
-                anuncio.setDescripcion(arrayAnuncio[i]);
-                i = i + 3;
-                anuncio.setTelefono(arrayAnuncio[i]);
-                i++;
-                anuncio.setFoto(arrayAnuncio[i]);
-                anuncioList.add(anuncio);
-                setRecyclerView(anuncioList);
-            }
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "No existen anuncios para esta categoria",Toast.LENGTH_SHORT).show();
-        }
-
+        setRecyclerView(anuncioList);
 
     }
+
+
 
     private void setRecyclerView(List<Anuncio> anuncioList){
         AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
