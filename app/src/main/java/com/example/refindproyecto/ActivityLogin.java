@@ -112,14 +112,15 @@ public class ActivityLogin extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         return usuario;
     }
 
-    private void comprobacionFinal(View view, Usuario usuarioALTA){
-        if(usuarioALTA.getUsuarioId() != null && usuarioALTA.getUsuarioId() >0){
+    private void comprobacionFinal(View view, Usuario usuarioAlta){
+        if(usuarioAlta.getUsuarioId() != null && usuarioAlta.getUsuarioId() >0){
             //sonido de correcto
             MediaPlayer mp = MediaPlayer.create(this, R.raw.correcto);
             mp.start();
@@ -127,7 +128,7 @@ public class ActivityLogin extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), R.string.bienvenida,
                     Toast.LENGTH_SHORT).show();
             pF = new ProcedimientoPreferencias(this.getApplicationContext());
-            pF.guardarIdentificador(usuarioALTA);
+            pF.guardarIdentificador(usuarioAlta);
             //Pasar de activity
             Intent i = new Intent(getApplicationContext(), ActivityListaCat.class);
             startActivity(i);
@@ -135,7 +136,6 @@ public class ActivityLogin extends AppCompatActivity {
             //Audio de error
             MediaPlayer mp = MediaPlayer.create(this, R.raw.error);
             mp.start();
-            //Mensaje de error TODO comprobar que se ejecuta el del metodo comprobarUsuario
             Snackbar snackbar = Snackbar.make(view, R.string.errorLogin, Snackbar.LENGTH_LONG);
             snackbar.setDuration(10000);
             snackbar.setAction("Ok", v -> {
