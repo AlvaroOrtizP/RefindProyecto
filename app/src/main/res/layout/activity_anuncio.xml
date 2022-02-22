@@ -133,12 +133,11 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RecyclerViewComen"
                     android:layout_width="416dp"
-                    android:layout_height="360dp"
+                    android:layout_height="340dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="3dp"
                     app:layout_constraintHorizontal_bias="0.6"
                     app:layout_constraintVertical_bias="0.0">
-
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
 
@@ -153,7 +152,6 @@
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
         android:background="@color/white"
-        android:onClick="prueba()"
         app:layout_constraintEnd_toStartOf="@+id/tvTituloAnuncio"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

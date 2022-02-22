@@ -74,7 +74,6 @@ public class ActivityAnuncio extends AppCompatActivity {
      */
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList = new ArrayList<>();
-    private FirebaseAuth mAuth;
     ImageView imageView;
     TextView tvTitulo, tvDescripcion, tvTelefono;
     ImageButton bTelefono;
@@ -315,9 +314,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                //Al meter categorias a mano funciona pero no se pq no obtiene un array vacio
                 RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
-
                 comentarioList = refindCliente.obtenerListaComentarios(anuncio);
             }
         });
@@ -331,7 +328,6 @@ public class ActivityAnuncio extends AppCompatActivity {
 
         setRecyclerView(comentarioList);
     }
-    // Bloque de codigo para cargar los comentarios en el card view
     private void setRecyclerView(List<Comentario> comentarioList){
         AdaptadorComent listadapter = new AdaptadorComent(comentarioList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerViewComen);

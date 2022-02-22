@@ -1,6 +1,8 @@
 package com.example.refindproyecto;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,9 +26,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.refindproyecto.Adaptador.AdaptadorAnun;
+import com.example.refindproyecto.Adaptador.AdaptadorComent;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import Cliente.RefindCliente;
+import POJOS.Anuncio;
+import POJOS.Comentario;
 import POJOS.Indicador;
 import POJOS.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -74,7 +84,7 @@ public class ActivityPerfil extends AppCompatActivity {
      */
     Button btnEditarPerfil;
     ProcedimientoPreferencias pF = null;
-
+    List<Anuncio> anuncioList = new ArrayList<>();
 
     /*
      * -----------------------------------------------------------
@@ -174,10 +184,35 @@ public class ActivityPerfil extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         });
-        // Quitar la llamada desde la vista al popup
+        obtenerAnunciosPerfil();
     }
 
+    private void obtenerAnunciosPerfil(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                anuncioList = refindCliente.obtenerListaAnunciosPerfil(usuario);
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
+        setRecyclerView(anuncioList);
+    }
+
+    private void setRecyclerView(List<Anuncio> anuncioList){
+        AdaptadorAnun listadapter = new AdaptadorAnun(anuncioList, this);
+        RecyclerView recyclerView = findViewById(R.id.RecyclerViewAnuncios);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listadapter);
+    }
     /*
      * -----------------------------------------------------------
      *                          4 OBTENER DATOS USUARIO
