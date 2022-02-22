@@ -12,9 +12,11 @@ import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
+
+import Cliente.ProcedimientosAnuncios;
 import Cliente.RefindCliente;
-import POJOS.Anuncio;
-import POJOS.Categoria;
+import Modelo.Anuncio;
+import Modelo.Categoria;
 
 
 /*
@@ -86,7 +88,7 @@ public class ActivityListaAnun extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
                 anuncioList = refindCliente.obtenerListaAnuncios(categoria);
             }
         });

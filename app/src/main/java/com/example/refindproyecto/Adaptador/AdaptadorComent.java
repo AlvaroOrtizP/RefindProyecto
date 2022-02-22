@@ -17,9 +17,8 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.R;
 import java.util.List;
-
-import POJOS.Comentario;
-import POJOS.Indicador;
+import Modelo.Comentario;
+import Modelo.Indicador;
 
 public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHolder>{
     private List<Comentario> comentarioList;

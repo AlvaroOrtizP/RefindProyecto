@@ -2,8 +2,8 @@ package com.example.refindproyecto.Procedimientos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import Modelo.Usuario;
 
-import POJOS.Usuario;
 
 public class ProcedimientoPreferencias {
 

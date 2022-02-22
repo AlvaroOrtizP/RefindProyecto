@@ -2,7 +2,6 @@ package com.example.refindproyecto.Adaptador;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.R;
 import java.util.List;
-import POJOS.Categoria;
-import POJOS.Indicador;
+import Modelo.Categoria;
+import Modelo.Indicador;
 
 public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> {
     private List<Categoria> categoriaList;

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,9 +20,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityAnuncio;
 import com.example.refindproyecto.R;
 import java.util.List;
-
-import POJOS.Anuncio;
-import POJOS.Indicador;
+import Modelo.Anuncio;
+import Modelo.Indicador;
 
 
 public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder> {

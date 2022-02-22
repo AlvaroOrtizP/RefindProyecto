@@ -5,18 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.refindproyecto.Adaptador.AdaptadorCat;
-import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.List;
-import Cliente.RefindCliente;
-import POJOS.Categoria;
+import Cliente.ProcedimientosCategorias;
+import Modelo.Categoria;
 
 /**
  * Estructura del codigo:
@@ -33,6 +28,7 @@ public class ActivityListaCat extends AppCompatActivity {
      *                          1 CREACION DE VARIABLES
      * -----------------------------------------------------------
      */
+
     List<Categoria> categoriaList = new ArrayList<>();
     Categoria categoria = null;
     String categoriaT = "";
@@ -73,7 +69,7 @@ public class ActivityListaCat extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                    ProcedimientosCategorias refindCliente = new ProcedimientosCategorias("10.0.2.2", 30500);
                     categoriaList = refindCliente.obtenerListaCategorias();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), R.string.errorConexion,Toast.LENGTH_SHORT).show();
@@ -96,7 +92,7 @@ public class ActivityListaCat extends AppCompatActivity {
      *                          4 Manda datos al Recycler
      * -----------------------------------------------------------
      */
-    private void setRecyclerView(List<POJOS.Categoria> categoriaList){
+    private void setRecyclerView(List<Categoria> categoriaList){
         AdaptadorCat listadapter = new AdaptadorCat(categoriaList, this);
         RecyclerView recyclerView = findViewById(R.id.RecyclerCat);
         recyclerView.setHasFixedSize(true);

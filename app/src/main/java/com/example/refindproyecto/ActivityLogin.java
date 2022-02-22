@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.snackbar.Snackbar;
-import Cliente.RefindCliente;
-import POJOS.Usuario;
+import Cliente.ProcedimientosUsuarios;
+import Modelo.Usuario;
 
 
 /**
@@ -105,7 +105,7 @@ public class ActivityLogin extends AppCompatActivity {
 
     private Usuario comprobarUsuarioBD(Usuario usuarioComprobar){
         Thread thread = new Thread(() -> {
-            RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+            ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
             usuario = refindCliente.comprobarUsuario(usuarioComprobar);
         });
         thread.start();

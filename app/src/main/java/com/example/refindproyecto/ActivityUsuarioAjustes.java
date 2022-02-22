@@ -28,8 +28,9 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
+import Cliente.ProcedimientosUsuarios;
 import Cliente.RefindCliente;
-import POJOS.Usuario;
+import Modelo.Usuario;
 
 public class ActivityUsuarioAjustes extends AppCompatActivity {
     Button btnBuscar, btnSubir;
@@ -93,7 +94,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
                 usuario = refindCliente.obtenerUsuario(usuario);
             }
         });
@@ -110,7 +111,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
 
                 usuario.setNombre(nombre.getText().toString());
                 usuario.setApellido(apellido.getText().toString());

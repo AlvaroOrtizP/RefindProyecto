@@ -1,11 +1,9 @@
 package com.example.refindproyecto.Procedimientos;
 
 import android.view.View;
-
 import com.example.refindproyecto.R;
 import com.google.android.material.snackbar.Snackbar;
-
-import POJOS.Usuario;
+import Modelo.Usuario;
 
 public class Error {
     public void prueba(View view, Usuario usuario){

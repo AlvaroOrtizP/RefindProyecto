@@ -30,11 +30,11 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
-import Cliente.RefindCliente;
-import POJOS.Anuncio;
-import POJOS.Categoria;
-import POJOS.Indicador;
-import POJOS.Usuario;
+import Cliente.ProcedimientosAnuncios;
+import Modelo.Anuncio;
+import Modelo.Categoria;
+import Modelo.Indicador;
+import Modelo.Usuario;
 
 //El bueno
 public class ActivityNuevoAnuncio extends AppCompatActivity {
@@ -87,7 +87,7 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
                 Anuncio pruebaAnun = new Anuncio(null, anuncio.getTitulo(), anuncio.getDescripcion(), categoria, usuario1, anuncio.getTelefono(), anuncio.getFoto());
                 anuncio = refindCliente.crearAnuncio(pruebaAnun);
             }

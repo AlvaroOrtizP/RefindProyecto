@@ -2,7 +2,6 @@ package com.example.refindproyecto;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,15 +22,14 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
+import Cliente.ProcedimientosUsuarios;
+import Modelo.Indicador;
+import Modelo.Usuario;
 
-import Cliente.RefindCliente;
-import POJOS.Indicador;
-import POJOS.Usuario;
 //todo eliminar
 public class ActivityAjustesUsuario extends AppCompatActivity {
     /*
@@ -96,7 +93,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
                 usuario = refindCliente.obtenerUsuario(usuario);
             }
         });
@@ -130,7 +127,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
                 System.out.println("antes");
                 usuario.setNombre("paco");
                 usuario = refindCliente.actualizarUsuario(usuario);

@@ -11,9 +11,9 @@ import com.example.refindproyecto.Adaptador.AdaptadorAnun;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import java.util.ArrayList;
 import java.util.List;
-import Cliente.RefindCliente;
-import POJOS.Anuncio;
-import POJOS.Usuario;
+import Cliente.ProcedimientosFavoritos;
+import Modelo.Anuncio;
+import Modelo.Usuario;
 
 /**
  * Estructura del codigo:
@@ -76,7 +76,7 @@ public class ActivityListaFav extends AppCompatActivity {
        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosFavoritos refindCliente = new ProcedimientosFavoritos("10.0.2.2", 30500);
                 try{
                     anuncioList = refindCliente.obtenerListaFavoritos(usuario);
 

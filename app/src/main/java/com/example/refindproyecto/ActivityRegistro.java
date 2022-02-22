@@ -18,9 +18,11 @@ import android.widget.EditText;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
+
+import Cliente.ProcedimientosUsuarios;
 import Cliente.RefindCliente;
-import POJOS.Indicador;
-import POJOS.Usuario;
+import Modelo.Indicador;
+import Modelo.Usuario;
 
 /**
  * Estructura del codigo:
@@ -206,7 +208,7 @@ public class ActivityRegistro extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
                 usuario.setError(refindCliente.crearUsuario(usuario));
                 if(!usuario.getError().equals(Indicador.USUARIO_CORREO_DUP)){
                     Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);

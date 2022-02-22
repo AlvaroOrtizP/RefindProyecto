@@ -34,14 +34,15 @@ import com.example.refindproyecto.Adaptador.AdaptadorComent;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
-import Cliente.RefindCliente;
-import POJOS.Anuncio;
-import POJOS.Comentario;
-import POJOS.Indicador;
-import POJOS.Usuario;
+import Cliente.ProcedimientosAnuncios;
+import Cliente.ProcedimientosComentario;
+import Cliente.ProcedimientosFavoritos;
+import Modelo.Anuncio;
+import Modelo.Comentario;
+import Modelo.Indicador;
+import Modelo.Usuario;
 
 
 /*
@@ -164,7 +165,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
                 anuncio = refindCliente.obtenerAnuncio(anuncio);
                 tvTitulo.setText(anuncio.getTitulo());
                 tvDescripcion.setText(anuncio.getDescripcion());
@@ -205,7 +206,7 @@ public class ActivityAnuncio extends AppCompatActivity {
        Thread thread = new Thread(new Runnable() {
            @Override
            public void run() {
-               RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+               ProcedimientosFavoritos refindCliente = new ProcedimientosFavoritos("10.0.2.2", 30500);
                saberFavorito = refindCliente.crearFavorito(usuario, anuncio);
            }
        });
@@ -228,7 +229,7 @@ public class ActivityAnuncio extends AppCompatActivity {
        Thread thread = new Thread(new Runnable() {
            @Override
            public void run() {
-               RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+               ProcedimientosFavoritos refindCliente = new ProcedimientosFavoritos("10.0.2.2", 30500);
                saberFavorito = refindCliente.eliminarFavorito(usuario, anuncio);
            }
        });
@@ -251,7 +252,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosFavoritos refindCliente = new ProcedimientosFavoritos("10.0.2.2", 30500);
                 saberFavorito = refindCliente.saberFavorito(usuario, anuncio);
             }
         });
@@ -314,7 +315,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosComentario refindCliente = new ProcedimientosComentario("10.0.2.2", 30500);
                 comentarioList = refindCliente.obtenerListaComentarios(anuncio);
             }
         });
@@ -380,7 +381,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RefindCliente refindCliente = new RefindCliente("10.0.2.2", 30500);
+                ProcedimientosComentario refindCliente = new ProcedimientosComentario("10.0.2.2", 30500);
                 refindCliente.crearComentario(comentarioNuevo);
             }
         });
