@@ -179,8 +179,6 @@ public class ActivityPerfil extends AppCompatActivity {
         biografiaPerfil.setText(usuario.getBiografia());
         apellidoPerfil.setText(usuario.getApellido());
         salir.setOnClickListener(view -> {
-
-            //TODO comprobar que se eliminan preferencias
             pF.desactivarAudio();
             pF.desactivarUsuario();
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
@@ -190,13 +188,10 @@ public class ActivityPerfil extends AppCompatActivity {
     }
 
     private void obtenerAnunciosPerfil(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Thread thread = new Thread(() -> {
 
-                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
-                anuncioList = refindCliente.obtenerListaAnunciosPerfil(usuario);
-            }
+            ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
+            anuncioList = refindCliente.obtenerListaAnunciosPerfil(usuario);
         });
         thread.start();
         try {

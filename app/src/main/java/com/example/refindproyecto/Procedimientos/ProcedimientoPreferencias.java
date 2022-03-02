@@ -48,10 +48,10 @@ public class ProcedimientoPreferencias {
     public void desactivarUsuario(){
         SharedPreferences preferences=context.getSharedPreferences("identificacion",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
-        editor.putInt("identificacion",0);
-        editor.clear();
-        //editor.commit();
+        editor.remove("identificacion");
+
         editor.apply();
+
     }
     public void desactivarAudio(){
         SharedPreferences preferences=context.getSharedPreferences("sonido",Context.MODE_PRIVATE);

@@ -85,13 +85,14 @@ public class ActivityAnuncio extends AppCompatActivity {
     AlertDialog dialog;
     Button btnGuardar, btnCancelar;
     EditText editComent;
-    String saberFavorito = "", comentarioT = "";
+    String saberFavorito = "";
     Usuario usuario = new Usuario();
     Anuncio anuncio = new Anuncio();
     Comentario comentarioNuevo = null;
     String anuncioId = "";
     RequestQueue requestImage;
     ProcedimientoPreferencias pF = null;
+    boolean propietario;
 
     /*
      * -----------------------------------------------------------
@@ -105,6 +106,20 @@ public class ActivityAnuncio extends AppCompatActivity {
         // 2.1
         setContentView(R.layout.activity_anuncio);
         inicializar();
+        //Comprobamos si es el autor
+        comprobarSiEsAutor();
+        System.out.println("Autor: "+propietario);
+        if(propietario){
+            addComentario.setImageResource(R.drawable.ic_settings);
+            addComentario.setOnClickListener(v ->{
+                irAjustesAnuncio();
+            });
+        }else{
+            addComentario.setImageResource(R.drawable.ic_add_coment);
+            addComentario.setOnClickListener(v ->{
+                creadorDeComent();
+            });
+        }
 
         // 2.4 Llamada a los metodos
         obtenerAnuncio();
@@ -152,8 +167,9 @@ public class ActivityAnuncio extends AppCompatActivity {
 
             }
         });
-        addComentario.setOnClickListener(v -> creadorDeComent());
-
+        /*addComentario.setOnClickListener(v ->{
+            creadorDeComent();
+        });*/
     }
 
     /*
@@ -170,6 +186,27 @@ public class ActivityAnuncio extends AppCompatActivity {
                 tvTitulo.setText(anuncio.getTitulo());
                 tvDescripcion.setText(anuncio.getDescripcion());
                 tvTelefono.setText(anuncio.getTelefono());
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
+    }
+    private void comprobarSiEsAutor(){
+        Thread thread = new Thread(new Runnable() {
+                @Override
+            public void run() {
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
+                Anuncio anuncioCompro =anuncio = refindCliente.comprobarPropietario(anuncio, usuario);
+                if(anuncioCompro.getError().equals("OK")){
+                    propietario=true;
+                }else{
+                    propietario=false;
+                }
             }
         });
         thread.start();
@@ -401,6 +438,11 @@ public class ActivityAnuncio extends AppCompatActivity {
         startActivity(i);
     }
 
+    private void irAjustesAnuncio(){
+        Intent i = new Intent(ActivityAnuncio.this, ActivityActualizarAnuncio.class);
+        i.putExtra("anuncio_id", this.anuncioId);
+        startActivity(i);
+    }
     /**
      * -----------------------------------------------------------
      *                          7 CARGAR FOTO DEL ANUNCIO

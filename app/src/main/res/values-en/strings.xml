@@ -54,7 +54,7 @@
     <string name="mensajeParaRegistro">Do not you have an account yet?</string>
     <string name="btnRegistro">Sign up</string>
     <string name="check">Are you over 18?</string>
-
+    <string name="telefono">Phone</string>
 
     <!-- Menu contextual AL DEJAR PULSADO-->
     <string name="action_quitarF">Cancel</string>
@@ -70,8 +70,8 @@
     <!-- Strings de: Activity : MAIN - list_element -->
     <string name="icoImageView">Image icon</string>
     <string name="TituloEjemplo">Title Example</string>
-    <string name="descripcionEjemplo">Description Example
-</string>
+    <string name="descripcionEjemplo">Description Example</string>
+    <string name="descripcion">Description</string>
     <string name="statusTextView">Active</string>
     <string name="title_activity__anunciante">Map</string>
     <string name="title_activity_anunciante">Map</string>

@@ -53,7 +53,7 @@
     <string name="mensajeParaRegistro">¿Aun no tienes una cuenta?</string>
     <string name="btnRegistro">Registrate</string>
     <string name="check">¿Eres mayor de 18?</string>
-
+    <string name="telefono">Telefono</string>
 
     <!-- Menu contextual AL DEJAR PULSADO-->
     <string name="action_quitarF">Cancelar</string>
@@ -70,6 +70,7 @@
     <string name="icoImageView">Icono de imagen</string>
     <string name="TituloEjemplo">Titulo Ejemplo</string>
     <string name="descripcionEjemplo">Descripcion Ejemplo</string>
+    <string name="descripcion">Descripcion</string>
     <string name="statusTextView">Activo</string>
     <string name="title_activity__anunciante">Map</string>
     <string name="title_activity_anunciante">Map</string>

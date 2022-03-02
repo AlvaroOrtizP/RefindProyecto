@@ -143,6 +143,12 @@ public class ActivityLogin extends AppCompatActivity {
             snackbar.show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+        //super.onBackPressed();
+    }
 }
 
 

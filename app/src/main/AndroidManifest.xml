@@ -14,6 +14,9 @@
         android:theme="@style/Theme.RefindProyecto"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ActivityActualizarAnuncio"
+            android:exported="false" />
+        <activity
             android:name=".ActivityNuevoAnuncio"
             android:exported="false" />
         <activity

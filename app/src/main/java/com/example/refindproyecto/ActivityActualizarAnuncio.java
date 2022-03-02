@@ -2,6 +2,7 @@ package com.example.refindproyecto;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,34 +24,36 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
+
+import Cliente.ProcedimientosAnuncios;
 import Cliente.ProcedimientosUsuarios;
+import Modelo.Anuncio;
 import Modelo.Indicador;
 import Modelo.Usuario;
 
-//todo eliminar
-public class ActivityAjustesUsuario extends AppCompatActivity {
-    /*
-     * -----------------------------------------------------------
-     *                          1.3 Para subir las imagenes
-     * -----------------------------------------------------------
-     */
-
+public class ActivityActualizarAnuncio extends AppCompatActivity {
+    Anuncio anuncio = new Anuncio();
     Bitmap bitmap;//Esta no se remplaz
     int comprobador = 0;
-    Usuario usuario = new Usuario();
+    //Usuario usuario = new Usuario();
     ProcedimientoPreferencias pF = null;
-    EditText editNewNombre, editNewApellido, editNewBio;
+    EditText editNuevoTitulo, editNewTel, editDescrp;
     Button btnElegirImagen, btnAceptar, bntCancelar;
     ImageView ajustesImagen;
     RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajustes_usuario);
+        setContentView(R.layout.activity_actualizar_anuncio);
+
+        String anuncioId = getIntent().getStringExtra("anuncio_id");
+
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
         inicializar();
 
@@ -59,42 +63,72 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
             startActivity(i);
         }else{
-            cargarInicial();
+            cargarInicial(anuncioId);
         }
         btnElegirImagen.setOnClickListener(v -> {
             abrirGaleria();
         });
         bntCancelar.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityAjustesUsuario.this, ActivityPerfil.class);
+            Intent i = new Intent(ActivityActualizarAnuncio.this, ActivityPerfil.class);
             startActivity(i);
         });
-
-        // falta cambiar el nombre de la base de datos
         btnAceptar.setOnClickListener(v -> {
-            usuario = actualizarUsuario();
-            if("OK".equals(usuario.getError())){
+           anuncio = actualizarAnuncio();
+            if(anuncio.getError()!= null && "OK".equals(anuncio.getError())){
                 if(comprobador == 1){
                     subirImagenApache();
                 }
-                Intent i = new Intent(ActivityAjustesUsuario.this, ActivityPerfil.class);
+                Intent i = new Intent(ActivityActualizarAnuncio.this, ActivityPerfil.class);
                 startActivity(i);
             }
             else{
-                Toast.makeText(ActivityAjustesUsuario.this, "Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityActualizarAnuncio.this, "Error", Toast.LENGTH_LONG).show();
             }
         });
     }
-    /*
-     * -----------------------------------------------------------
-     *                          4 OBTENER DATOS USUARIO
-     * -----------------------------------------------------------
-     */
-    private Usuario obtenerDatosUsuario(){
+
+    private Anuncio actualizarAnuncio() {
+        anuncio.setTitulo((editNuevoTitulo.getText()==null)?"":editNuevoTitulo.getText().toString());
+        anuncio.setDescripcion((editDescrp.getText()==null)?"":editDescrp.getText().toString());
+        anuncio.setTelefono((editNewTel.getText()==null)?"":editNewTel.getText().toString());
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
-                usuario = refindCliente.obtenerUsuario(usuario);
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
+                anuncio = refindCliente.actualizarAnuncio(anuncio);
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return anuncio;
+    }
+
+    private void cargarInicial(String anuncioId) {
+        try{
+            anuncio.setAnuncioId(Integer.parseInt(anuncioId));
+            anuncio = obtenerDatosAnuncio();
+            editNuevoTitulo.setText(anuncio.getTitulo());
+            editNewTel.setText(anuncio.getTelefono());
+            editDescrp.setText(anuncio.getDescripcion());
+            cargarImagen(ajustesImagen, anuncio);
+        }
+        catch (NumberFormatException ex){
+            Intent i = new Intent(getApplicationContext(), ActivityAnuncio.class);
+            startActivity(i);
+        }
+
+    }
+    private Anuncio obtenerDatosAnuncio(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
+                anuncio = refindCliente.obtenerAnuncio(anuncio);
             }
         });
         thread.start();
@@ -104,10 +138,21 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
             //TODO: añadir excepcion
             e.printStackTrace();
         }
-        return usuario;
+        return anuncio;
     }
-    private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
-        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto(), new Response.Listener<Bitmap>() {
+
+    private void inicializar() {
+        editNuevoTitulo = findViewById(R.id.editNuevoTitulo);
+        editNewTel = findViewById(R.id.editNewTel);
+        editDescrp = findViewById(R.id.editDescrp);
+        ajustesImagen = findViewById(R.id.ajustesImagen);
+        btnAceptar = findViewById(R.id.btnAjustesAceptar);
+        bntCancelar = findViewById(R.id.btnAjustesCancelar);
+        btnElegirImagen = findViewById(R.id.btnElegirImagen);
+    }
+
+    private void cargarImagen(ImageView imagenPerfil, Anuncio anuncio){
+        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+anuncio.getAnuncioId()+"."+anuncio.getFoto(), new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 imagenPerfil.setImageBitmap(response);
@@ -120,30 +165,6 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
         });
         requestQueue.add(imageRequest);
     }
-    private Usuario actualizarUsuario() {
-        usuario.setNombre(editNewNombre.getText().toString());
-        usuario.setApellido(editNewApellido.getText().toString());
-        usuario.setBiografia(editNewBio.getText().toString());
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
-                usuario = refindCliente.actualizarUsuario(usuario);
-            }
-        });//todo EXCEPCION
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
-        }
-        return usuario;
-    }
-
-
-
-
     /*
      * -----------------------------------------------------------
      *                          9 SUBIR IMAGEN
@@ -197,14 +218,14 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         loading.dismiss();
-                        Toast.makeText(ActivityAjustesUsuario.this, response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ActivityActualizarAnuncio.this, response, Toast.LENGTH_LONG).show();
                         System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 loading.dismiss();
-                Toast.makeText(ActivityAjustesUsuario.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(ActivityActualizarAnuncio.this, error.getMessage(), Toast.LENGTH_LONG).show();
                 System.out.println(error.getMessage());
             }
         }){
@@ -212,7 +233,7 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 String imagen = getStringImagen(bitmap);
-                String nombre = usuario.getUsuarioId().toString();
+                String nombre = anuncio.getAnuncioId().toString();
 
                 Map<String, String> params = new Hashtable<String, String>();
                 params.put(Indicador.KEY_IMAGE, imagen);
@@ -224,29 +245,5 @@ public class ActivityAjustesUsuario extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-    }
-
-
-    /*
-     * -----------------------------------------------------------
-     *                          9.1 INICIZALIZA
-     * -----------------------------------------------------------
-     */
-    private void inicializar(){
-        editNewNombre = findViewById(R.id.editNewNombre);
-        editNewApellido = findViewById(R.id.editNewApellido);
-        editNewBio = findViewById(R.id.editNewBio);
-        ajustesImagen = findViewById(R.id.ajustesImagen);
-        btnAceptar = findViewById(R.id.btnAjustesAceptar);
-        bntCancelar = findViewById(R.id.btnAjustesCancelar);
-        btnElegirImagen = findViewById(R.id.btnElegirImagen);
-    }
-    public void cargarInicial(){
-        usuario.setUsuarioId(pF.obtenerIdentificador());
-        usuario = obtenerDatosUsuario();
-        editNewNombre.setText(usuario.getNombre());
-        editNewApellido.setText(usuario.getApellido());
-        editNewBio.setText(usuario.getBiografia());
-        cargarImagen(ajustesImagen, usuario);
     }
 }
