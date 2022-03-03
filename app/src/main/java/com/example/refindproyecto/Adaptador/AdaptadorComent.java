@@ -75,7 +75,7 @@ public class AdaptadorComent extends RecyclerView.Adapter<AdaptadorComent.ViewHo
         void binData (final Comentario itemComentario){
             nombreUsuario.setText(itemComentario.getUsuario().getNombre());
             comentario.setText(itemComentario.getTexto());
-            cargarImagen(imagen, Indicador.IMAGEN_USUARIO+itemComentario.getUsuario().getFoto());
+            cargarImagen(imagen, Indicador.IMAGEN_USUARIO+itemComentario.getUsuario().getUsuarioId()+"."+itemComentario.getUsuario().getFoto());
             
             cv.setId(itemComentario.getComentarioId());
         }

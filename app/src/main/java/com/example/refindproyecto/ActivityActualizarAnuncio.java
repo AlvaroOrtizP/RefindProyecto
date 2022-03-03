@@ -69,7 +69,8 @@ public class ActivityActualizarAnuncio extends AppCompatActivity {
             abrirGaleria();
         });
         bntCancelar.setOnClickListener(v -> {
-            Intent i = new Intent(ActivityActualizarAnuncio.this, ActivityPerfil.class);
+            Intent i = new Intent(ActivityActualizarAnuncio.this, ActivityAnuncio.class);
+            i.putExtra("anuncio_id", anuncio.getAnuncioId().toString());
             startActivity(i);
         });
         btnAceptar.setOnClickListener(v -> {
@@ -152,7 +153,7 @@ public class ActivityActualizarAnuncio extends AppCompatActivity {
     }
 
     private void cargarImagen(ImageView imagenPerfil, Anuncio anuncio){
-        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+anuncio.getAnuncioId()+"."+anuncio.getFoto(), new Response.Listener<Bitmap>() {
+        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_ANUNCIO+anuncio.getAnuncioId()+"."+anuncio.getFoto(), new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 imagenPerfil.setImageBitmap(response);

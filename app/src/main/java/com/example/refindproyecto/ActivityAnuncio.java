@@ -125,7 +125,7 @@ public class ActivityAnuncio extends AppCompatActivity {
         obtenerAnuncio();
         comprobarFavorito();
         obtenerComentarios();
-        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO + anuncio.getFoto());
+        cargarImagen(imageView, Indicador.IMAGEN_ANUNCIO+anuncio.getAnuncioId()+"." + anuncio.getFoto());
         // 2.5
         bTelefono.setOnClickListener(v -> {
             if(ContextCompat.checkSelfPermission(ActivityAnuncio.this, Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
