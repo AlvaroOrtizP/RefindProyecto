@@ -31,6 +31,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import Cliente.ProcedimientosAnuncios;
+import Cliente.ProcedimientosCategorias;
 import Modelo.Anuncio;
 import Modelo.Categoria;
 import Modelo.Indicador;
@@ -66,8 +67,7 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
                 crearAnuncio(usuario);
             }
             else{
-                System.out.println("Debes elegir una foto" + fotoElegida);
-
+                Toast.makeText(getApplicationContext(), "Debes elegir una foto",Toast.LENGTH_SHORT).show();
             }
         });
         bntCancelar.setOnClickListener(v -> {
@@ -76,8 +76,6 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         elegirImagen.setOnClickListener(v -> {
             abrirGaleria();
         });
-
-
     }
     private String crearAnuncio(Usuario usuario1){
         anuncio = obtenerDatosAnuncio();
@@ -116,7 +114,6 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         oAnuncio.setDescripcion(descripcionAnuncio.getText().toString());
         oAnuncio.setCategoria(categoria);
         oAnuncio.setFoto("png");
-        System.out.println("Este es el anuncio de obtener datos" +oAnuncio);
         return oAnuncio;
     }
     private Usuario inicializar(){
@@ -128,14 +125,11 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         btnAceptar = findViewById(R.id.btnCrearAnuncioAceptar);
         bntCancelar = findViewById(R.id.btnCrearAnuncioCancelar);
         elegirImagen = findViewById(R.id.btnElegirImagen);
-
-
         categoria = new Categoria();
         usuario = new Usuario();
-
-
         categoria.setCategoriaId(Integer.valueOf(getIntent().getIntExtra("categoriaIdAnuncio", 0)));
-        categoriaAnuncio.setText("cambiar esto");// todo se puede hacer una consulta para obtener el nombre con el id o buscar la forma de pasar el nombre por intent tambien
+
+        categoriaAnuncio.setText(obtenerNombreCategoria(categoria));
 
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -214,5 +208,28 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), PICK_IMAGE_REQUEST);
+    }
+
+    private String obtenerNombreCategoria(Categoria categoria){
+        final Categoria[] categoriaNombre = {new Categoria()};
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ProcedimientosCategorias pC = new ProcedimientosCategorias("10.0.2.2", 30500);
+
+                categoriaNombre[0] = pC.obtenerNombreCategoria(categoria);
+            }
+        });//todo EXCEPCION
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            categoriaNombre[0].setTitulo("No se encontro categoria");
+            //TODO: añadir excepcion
+            e.printStackTrace();
+        }
+        String resultadoFinal = categoriaNombre[0].getTitulo();
+        return resultadoFinal;
     }
 }
