@@ -18,9 +18,7 @@ import android.widget.EditText;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
-
 import Cliente.ProcedimientosUsuarios;
-import Cliente.RefindCliente;
 import Modelo.Indicador;
 import Modelo.Usuario;
 
@@ -55,7 +53,6 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText confirmacionPass;
     Boolean isChecked=false;
     MaterialCheckBox checkBox;
-
     ProcedimientoPreferencias pF =null;
     /**
      * -----------------------------------------------------------
@@ -185,10 +182,6 @@ public class ActivityRegistro extends AppCompatActivity {
                 snackbar.setDuration(10000);
                 snackbar.show();
             }
-             // probar que guarda el usuario igual en la siguiente ventana da error comprobar al igual que el login
-            //usar los snac para ver que va tod bien sin los intent
-
-
         }
     }
 
@@ -251,9 +244,7 @@ public class ActivityRegistro extends AppCompatActivity {
         builder.setLights(Color.MAGENTA, 1000, 1000);
         builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
         builder.setDefaults(Notification.DEFAULT_SOUND);
-
         builder.setContentIntent(pendingIntent);
-
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }

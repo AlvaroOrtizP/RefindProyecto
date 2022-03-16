@@ -173,7 +173,6 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 String imagen = getStringImagen(bitmap);
-
                 Map<String, String> params = new Hashtable<String, String>();
                 params.put(KEY_IMAGE, imagen);
                 params.put(KEY_NOMBRE, identificador);
@@ -182,14 +181,12 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
                 return params;
             }
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             try {
@@ -216,17 +213,14 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
             @Override
             public void run() {
                 ProcedimientosCategorias pC = new ProcedimientosCategorias("10.0.2.2", 30500);
-
                 categoriaNombre[0] = pC.obtenerNombreCategoria(categoria);
             }
-        });//todo EXCEPCION
-
+        });
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
             categoriaNombre[0].setTitulo("No se encontro categoria");
-            //TODO: añadir excepcion
             e.printStackTrace();
         }
         String resultadoFinal = categoriaNombre[0].getTitulo();
