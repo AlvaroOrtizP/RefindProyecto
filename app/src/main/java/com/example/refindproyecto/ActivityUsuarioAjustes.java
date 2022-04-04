@@ -86,8 +86,8 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         System.out.println("El usuario con el que entra es "+ this.usuario.getUsuarioId());
         usuario = obtenerDatosUsuario();
         nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
-        apellido.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
-        biografia.setText(usuario.getApellido() == null ? "": usuario.getApellido());
+        apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
+        biografia.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
 
     }
     private Usuario obtenerDatosUsuario(){

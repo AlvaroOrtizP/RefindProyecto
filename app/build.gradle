@@ -35,7 +35,8 @@ android {
 }
 
 dependencies {
-
+    //Paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -59,4 +60,5 @@ dependencies {
 
     //PAYPAL
     implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+
 }
