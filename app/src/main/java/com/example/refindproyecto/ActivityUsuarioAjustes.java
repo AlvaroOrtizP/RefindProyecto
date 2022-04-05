@@ -33,7 +33,7 @@ import Cliente.RefindCliente;
 import Modelo.Usuario;
 
 public class ActivityUsuarioAjustes extends AppCompatActivity {
-    Button btnBuscar, btnSubir;
+    Button btnBuscar, btnSubir, btnCancear;
     ImageView imagen;
     EditText nombre;
     EditText apellido;
@@ -54,6 +54,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         this.usuario = new Usuario();
         btnBuscar = findViewById(R.id.btnElegirImagen);
         btnSubir = findViewById(R.id.btnAjustesAceptar);
+        btnCancear = findViewById(R.id.btnAjustesCancelar);
 
         nombre = findViewById(R.id.editNewNombre);
         imagen = findViewById(R.id.ajustesImagen);
@@ -71,6 +72,10 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
             public void onClick(View v) {
                 showFileChooser();
             }
+        });
+        btnCancear.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityUsuarioAjustes.this, ActivityPerfil.class);
+            startActivity(i);
         });
 
         btnSubir.setOnClickListener(new View.OnClickListener() {

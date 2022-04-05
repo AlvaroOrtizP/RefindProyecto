@@ -112,7 +112,6 @@ public class ActivityRegistro extends AppCompatActivity {
         usuario.setApellido(apellido.getText().toString());
         usuario.setEmail(correo.getText().toString());
         usuario.setBiografia("");
-        usuario.setCreador(0);
         usuario.setFoto("0");
         usuario.setPass(pass.getText().toString());
 

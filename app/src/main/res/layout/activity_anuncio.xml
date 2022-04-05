@@ -16,12 +16,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/anuncioFoto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="TODO"
-            tools:src="@drawable/hotel" />
+            android:layout_width="125dp"
+            android:layout_height="121dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="17dp"
+            android:contentDescription="@string/nombre_anuncio"
+            android:src="@drawable/hotel"
+            app:civ_border_color="#99000000"
+            app:civ_border_width="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -47,6 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="510dp"
         android:layout_marginTop="5dp"
@@ -56,92 +66,89 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTituloAnuncio">
 
+        <LinearLayout
+            android:id="@+id/asd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/informacion"
+                android:layout_width="153dp"
+                android:layout_height="67dp"
+                android:fontFamily="@font/akaya_kanadaka_regular"
+                android:text="@string/informacion"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDescripcionDetail"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="@string/descripcion_anuncio"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.39"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTituloAnuncio" />
+
             <LinearLayout
-                android:id="@+id/asd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="4dp"
-                android:gravity="center">
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/informacion"
-                    android:layout_width="153dp"
-                    android:layout_height="67dp"
-                    android:fontFamily="@font/akaya_kanadaka_regular"
-                    android:text="@string/informacion"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvDescripcionDetail"
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center"
-                    android:text="@string/descripcion_anuncio"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.39"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTituloAnuncio" />
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_width="120dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/telefono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="3dp"
-
-                        android:text="61111111" />
-
-                    <ImageButton
-                        android:layout_marginStart="3dp"
-                        android:id="@+id/bTelefono"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        app:srcCompat="@drawable/ic_telefono" />
-
-                </LinearLayout>
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabAddComent"
+                    android:id="@+id/telefono"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="160dp"
-                    android:clickable="true"
-                    app:srcCompat="@drawable/ic_add_coment" />
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="3dp"
 
-                <TextView
-                    android:id="@+id/textView4"
+                    android:text="61111111" />
+
+                <ImageButton
+                    android:id="@+id/bTelefono"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/akaya_kanadaka_regular"
-                    android:text="@string/comentarios"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    app:srcCompat="@drawable/ic_telefono" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RecyclerViewComen"
-                    android:layout_width="416dp"
-                    android:layout_height="340dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="3dp"
-                    app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintVertical_bias="0.0">
-                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAddComent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="160dp"
+                android:clickable="true"
+                app:srcCompat="@drawable/ic_add_coment" />
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/akaya_kanadaka_regular"
+                android:text="@string/comentarios"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerViewComen"
+                android:layout_width="416dp"
+                android:layout_height="230dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintVertical_bias="0.0"></androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -157,6 +164,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:srcCompat="@drawable/ic_favorito_off" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <include layout="@layout/bottom_nav" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

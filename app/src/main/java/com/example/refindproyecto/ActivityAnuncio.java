@@ -43,6 +43,7 @@ import Modelo.Anuncio;
 import Modelo.Comentario;
 import Modelo.Indicador;
 import Modelo.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /*
@@ -75,7 +76,7 @@ public class ActivityAnuncio extends AppCompatActivity {
      */
     private static final int REQUEST_PERMISSION_CALL = 100;
     List<Comentario> comentarioList = new ArrayList<>();
-    ImageView imageView;
+    CircleImageView imageView;
     TextView tvTitulo, tvDescripcion, tvTelefono;
     ImageButton bTelefono;
     Boolean onFav;
@@ -93,6 +94,8 @@ public class ActivityAnuncio extends AppCompatActivity {
     RequestQueue requestImage;
     ProcedimientoPreferencias pF = null;
     boolean propietario;
+
+    ImageButton btnInicio, btnFavorito, btnPerfil;
 
     /*
      * -----------------------------------------------------------
@@ -166,6 +169,21 @@ public class ActivityAnuncio extends AppCompatActivity {
                 snackbar.show();
 
             }
+        });
+        btnFavorito =findViewById(R.id.btnFavorito);
+        btnPerfil = findViewById(R.id.btnPerfil);
+        btnInicio =findViewById(R.id.btnInicio);
+        btnInicio.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityAnuncio.this, ActivityListaCat.class);
+            startActivity(i);
+        });
+        btnFavorito.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityAnuncio.this, ActivityListaFav.class);
+            startActivity(i);
+        });
+        btnPerfil.setOnClickListener(v -> {
+            Intent i = new Intent(ActivityAnuncio.this, ActivityPerfil.class);
+            startActivity(i);
         });
         /*addComentario.setOnClickListener(v ->{
             creadorDeComent();

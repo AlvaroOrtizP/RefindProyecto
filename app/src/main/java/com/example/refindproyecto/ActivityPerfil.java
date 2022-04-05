@@ -3,24 +3,15 @@ package com.example.refindproyecto;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -106,7 +97,7 @@ public class ActivityPerfil extends AppCompatActivity {
         nombrePerfil = findViewById(R.id.nombreUsuario);
         biografiaPerfil = findViewById(R.id.tvBibliografia);
         apellidoPerfil = findViewById(R.id.apellidoUsuario);
-        Switch swSonido=findViewById(R.id.swSonido);
+        //Switch swSonido=findViewById(R.id.swSonido);
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         salir = findViewById(R.id.logOut);
         btnInicio =findViewById(R.id.btnInicio);
@@ -125,7 +116,7 @@ public class ActivityPerfil extends AppCompatActivity {
          *                          2.2 Funciones check
          * -----------------------------------------------------------
          */
-        swSonido.setChecked(cargarPreferencias());//7 PREFERENCIAS
+        /**swSonido.setChecked(cargarPreferencias());//7 PREFERENCIAS
         swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
             //6 AUDIO
             if(isChecked){
@@ -140,7 +131,7 @@ public class ActivityPerfil extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
             }
         });
-
+    */
         /*
          * -----------------------------------------------------------
          *                          2.3 Funciones botones
