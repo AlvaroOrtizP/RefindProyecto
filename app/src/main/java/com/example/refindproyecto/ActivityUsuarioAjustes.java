@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
@@ -30,6 +31,8 @@ import java.util.Map;
 
 import Cliente.ProcedimientosUsuarios;
 import Cliente.RefindCliente;
+import Modelo.Anuncio;
+import Modelo.Indicador;
 import Modelo.Usuario;
 
 public class ActivityUsuarioAjustes extends AppCompatActivity {
@@ -47,19 +50,13 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
     String UPLOAD_URL = "http://10.0.2.2/Refind/images/upload.php";//10.0.2.2
     String KEY_IMAGE = "foto";
     String KEY_NOMBRE = "nombre";
+    RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usuario_ajustes);
         this.usuario = new Usuario();
-        btnBuscar = findViewById(R.id.btnElegirImagen);
-        btnSubir = findViewById(R.id.btnAjustesAceptar);
-        btnCancear = findViewById(R.id.btnAjustesCancelar);
 
-        nombre = findViewById(R.id.editNewNombre);
-        imagen = findViewById(R.id.ajustesImagen);
-        apellido = findViewById(R.id.editNewApellido);
-        biografia = findViewById(R.id.editNewBio);
         pF = new ProcedimientoPreferencias(this.getApplicationContext());
         if(pF.obtenerIdentificador() == 0){
             Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
@@ -67,6 +64,8 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         }else{
             this.usuario.setUsuarioId(pF.obtenerIdentificador());
         }
+        cargaInicial();
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,10 +88,6 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
             }
         });
         System.out.println("El usuario con el que entra es "+ this.usuario.getUsuarioId());
-        usuario = obtenerDatosUsuario();
-        nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
-        apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
-        biografia.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
 
     }
     private Usuario obtenerDatosUsuario(){
@@ -174,7 +169,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         requestQueue.add(stringRequest);
     }
 
@@ -203,5 +198,42 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Seleciona imagen"), PICK_IMAGE_REQUEST);
+    }
+
+    private void cargaInicial(){
+        btnBuscar = findViewById(R.id.btnElegirImagen);
+        btnSubir = findViewById(R.id.btnAjustesAceptar);
+        btnCancear = findViewById(R.id.btnAjustesCancelar);
+
+        nombre = findViewById(R.id.editNewNombre);
+        imagen = findViewById(R.id.ajustesImagen);
+        apellido = findViewById(R.id.editNewApellido);
+        biografia = findViewById(R.id.editNewBio);
+        usuario = obtenerDatosUsuario();
+        nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
+        apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
+        biografia.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
+        //cargarImagen(imagen, usuario);
+    }
+
+    private void cargarImagen(ImageView imagenPerfil, Usuario usuario){
+        try{
+        ImageRequest imageRequest = new ImageRequest(Indicador.IMAGEN_USUARIO+usuario.getUsuarioId()+"."+usuario.getFoto(), new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                imagenPerfil.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("---- Error imagen "+ error.getMessage());
+            }
+        });
+
+        requestQueue.add(imageRequest);
+        }
+        catch (Exception e){
+            System.out.println("---- Error imagfen "+ e.getMessage());
+        }
     }
 }
