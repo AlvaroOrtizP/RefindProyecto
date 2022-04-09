@@ -61,9 +61,7 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         setContentView(R.layout.activity_nuevo_anuncio);
         usuario = inicializar();
         btnAceptar.setOnClickListener(v -> {
-            //TODO que salga el mensaje por pantalla
             if(fotoElegida){
-                System.out.println("Elgiste foto" + fotoElegida);
                 crearAnuncio(usuario);
             }
             else{
@@ -82,26 +80,32 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         System.out.println("Datos del anuncio el crear anuncio " + anuncio);
         System.out.println("Datos del usuario el crear anuncio " + usuario1);
         //Tengo los datos del anuncio y tengo el usuario id en el objeto usuario1
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
-                Anuncio pruebaAnun = new Anuncio(null, anuncio.getTitulo(), anuncio.getDescripcion(), categoria, usuario1, anuncio.getTelefono(), anuncio.getFoto());
-                anuncio = refindCliente.crearAnuncio(pruebaAnun);
+        if(anuncio.comprobarTelefono(anuncio.getTelefono())){
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ProcedimientosAnuncios refindCliente = new ProcedimientosAnuncios("10.0.2.2", 30500);
+                    Anuncio pruebaAnun = new Anuncio(null, anuncio.getTitulo(), anuncio.getDescripcion(), categoria, usuario1, anuncio.getTelefono(), anuncio.getFoto());
+                    anuncio = refindCliente.crearAnuncio(pruebaAnun);
+                }
+            });
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                        Toast.LENGTH_SHORT).show();
             }
-        });//todo EXCEPCION
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+
+            if(!anuncio.getError().contains("error")){
+                subirImagen(anuncio.getError());
+                startActivity(i);
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), R.string.tamanoTelefonoError,
+                    Toast.LENGTH_SHORT).show();
         }
-        System.out.println("---------------------El mensaje de errores " + anuncio);
-        if(!anuncio.getError().contains("error")){
-            subirImagen(anuncio.getError());
-            startActivity(i);
-        }
+
 
         return anuncio.getError();
     }

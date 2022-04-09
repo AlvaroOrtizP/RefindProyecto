@@ -210,8 +210,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
     }
     private void comprobarSiEsAutor(){
@@ -231,8 +231,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
     }
     /*
@@ -292,8 +292,8 @@ public class ActivityAnuncio extends AppCompatActivity {
        try {
            thread.join();
        } catch (InterruptedException e) {
-           //TODO: añadir excepcion
-           e.printStackTrace();
+           Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                   Toast.LENGTH_SHORT).show();
        }
        if(saberFavorito.equals("TRUE")){
            onFav=false;
@@ -315,8 +315,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         if(saberFavorito.equals("TRUE")){
             return true;
@@ -378,8 +378,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
 
         setRecyclerView(comentarioList);
@@ -444,8 +444,8 @@ public class ActivityAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         System.out.println("Finaliza la creaccion del comentario");
         System.out.println("-------------------------------------");

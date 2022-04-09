@@ -96,8 +96,8 @@ public class ActivityListaAnun extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            Toast.makeText(getApplicationContext(), "Problema al cargar los anuncios",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         setRecyclerView(anuncioList);
 

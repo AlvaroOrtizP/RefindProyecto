@@ -81,18 +81,33 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         btnSubir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actualizarUsuario();
-                if(imagenSeleccionada){
-                    uploadImage();
+                usuario = actualizarUsuario();
+                if(usuario.getError().equals("OK")){
+                    Intent i = new Intent(ActivityUsuarioAjustes.this, ActivityPerfil.class);
+                    if(imagenSeleccionada){
+                        try{
+                            uploadImage();
+                        }catch (Exception e){
+                            Toast.makeText(ActivityUsuarioAjustes.this, R.string.errorInsertarImagen, Toast.LENGTH_LONG).show();
+                        }
+                        startActivity(i);
+                    }
+                    startActivity(i);
+                }else{
+                    Toast.makeText(ActivityUsuarioAjustes.this, usuario.getError(), Toast.LENGTH_LONG).show();
                 }
-
             }
         });
         System.out.println("El usuario con el que entra es "+ this.usuario.getUsuarioId());
         usuario = obtenerDatosUsuario();
-        nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
-        apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
-        biografia.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
+        if(usuario.getError().equals("OK")){
+            nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
+            apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
+            biografia.setText(usuario.getBiografia() == null ? "": usuario.getBiografia());
+        }else{
+            Toast.makeText(ActivityUsuarioAjustes.this, usuario.getError(), Toast.LENGTH_LONG).show();
+        }
+
 
     }
     private Usuario obtenerDatosUsuario(){
@@ -107,7 +122,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
+            Toast.makeText(ActivityUsuarioAjustes.this, R.string.errorObtenerDatosUsuario, Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return usuario;
@@ -117,7 +132,6 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
             @Override
             public void run() {
                 ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
-
                 usuario.setNombre(nombre.getText().toString());
                 usuario.setApellido(apellido.getText().toString());
                 usuario.setBiografia(biografia.getText().toString());
@@ -129,7 +143,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
+            Toast.makeText(ActivityUsuarioAjustes.this, R.string.errorActualizarUsuario, Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return usuario;
@@ -143,7 +157,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         return encodedImage;
     }
 
-    public void uploadImage() {
+    public void uploadImage() throws  Exception {
         final ProgressDialog loading = ProgressDialog.show(this, "Subiendo...", "Espere por favor");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                 new Response.Listener<String>() {

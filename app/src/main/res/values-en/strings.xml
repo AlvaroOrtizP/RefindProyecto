@@ -134,4 +134,7 @@ Comments could not be obtained</string>
     <string name="noFavoritos">You dont have favorites yet</string>
     <string name="errorObtenerDatosUsuario">Failed to get user data</string>
     <string name="errorCargarCategoria">Failed to get categories</string>
+    <string name="errorActualizarUsuario">Error updating user</string>
+    <string name="errorInsertarImagen">Error inserting image</string>
+    <string name="tamanoTelefonoError">The size of the phone is not correct</string>
 </resources>

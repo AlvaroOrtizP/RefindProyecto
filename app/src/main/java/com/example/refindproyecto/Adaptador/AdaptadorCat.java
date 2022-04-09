@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
@@ -18,6 +20,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.ActivityListaAnun;
 import com.example.refindproyecto.R;
 import java.util.List;
+
+import Cliente.ProcedimientosCategorias;
+import Cliente.ProcedimientosGenerales;
 import Modelo.Categoria;
 import Modelo.Indicador;
 

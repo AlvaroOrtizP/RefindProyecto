@@ -130,4 +130,7 @@
     <string name="noFavoritos">Todavia no tienes favoritos</string>
     <string name="errorObtenerDatosUsuario">Error al obtener los datos del usuario</string>
     <string name="errorCargarCategoria">Error al cargar la categoria</string>
+    <string name="errorActualizarUsuario">Error al actualizar usuario</string>
+    <string name="errorInsertarImagen">Error al insertar imagen</string>
+    <string name="tamanoTelefonoError">El tamaño del telefono no es correcto</string>
 </resources>

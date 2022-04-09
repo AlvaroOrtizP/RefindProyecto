@@ -90,7 +90,8 @@ public class ActivityListaFav extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            Toast.makeText(getApplicationContext(), R.string.errorConexion, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         if(anuncioList.size()==0){
             Toast.makeText(getApplicationContext(), R.string.noFavoritos, Toast.LENGTH_SHORT).show();

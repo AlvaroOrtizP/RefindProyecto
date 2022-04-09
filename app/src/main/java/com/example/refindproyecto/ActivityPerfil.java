@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -111,6 +113,7 @@ public class ActivityPerfil extends AppCompatActivity {
         }else{
             usuario.setUsuarioId(pF.obtenerIdentificador());
         }
+
         /*
          * -----------------------------------------------------------
          *                          2.2 Funciones check
@@ -188,8 +191,8 @@ public class ActivityPerfil extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         setRecyclerView(anuncioList);
     }
@@ -218,8 +221,8 @@ public class ActivityPerfil extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         return usuario;
     }

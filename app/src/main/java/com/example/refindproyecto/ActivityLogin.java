@@ -98,7 +98,11 @@ public class ActivityLogin extends AppCompatActivity {
         }
         else{
             usuario.setPass(usuario.encriptar(usuario.getPass()));
+
+
             usuario = comprobarUsuarioBD(usuario);
+
+
             comprobacionFinal(view, usuario);
         }
     }
@@ -106,7 +110,7 @@ public class ActivityLogin extends AppCompatActivity {
     private Usuario comprobarUsuarioBD(Usuario usuarioComprobar){
         Thread thread = new Thread(() -> {
             ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
-            usuario = refindCliente.comprobarUsuario(usuarioComprobar);
+            usuario = refindCliente.comprobarUsuario(usuario);
         });
         thread.start();
         try {

@@ -104,7 +104,8 @@ public class ActivityActualizarAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         return anuncio;
     }
@@ -136,8 +137,8 @@ public class ActivityActualizarAnuncio extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
         return anuncio;
     }

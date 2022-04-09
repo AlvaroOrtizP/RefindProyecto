@@ -80,8 +80,8 @@ public class ActivityListaCat extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
         }
 
         setRecyclerView(categoriaList);
