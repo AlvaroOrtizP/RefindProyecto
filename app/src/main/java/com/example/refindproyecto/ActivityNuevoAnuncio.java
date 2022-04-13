@@ -3,6 +3,7 @@ package com.example.refindproyecto;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,9 +26,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
+import com.paypal.android.sdk.payments.PayPalAuthorization;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -37,8 +49,15 @@ import Modelo.Categoria;
 import Modelo.Indicador;
 import Modelo.Usuario;
 
-//El bueno
+
 public class ActivityNuevoAnuncio extends AppCompatActivity {
+    private static final String TAG = "paymentExample";
+    public static final String PAYPAL_KEY="AVpXjy2uusCWayVy_E7IKYiwKzP1za-aiBxmcMC5JqxsO62_Mkr9G070iWwV4Lyu_Ex4ZEUQSHat_TTT";
+    private static final int RQUEST_CODE_PAYMENT=1;
+    private static final int RQUEST_CODE_FUTURE_PAYMENT=2;
+    private static final String CONFIG_ENVIROMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+    private static PayPalConfiguration config;
+    PayPalPayment thisgsToBuy;
     EditText nombreAnuncio, telefonoAnuncio, descripcionAnuncio;
     TextView categoriaAnuncio;
     Button btnAceptar, bntCancelar, elegirImagen;
@@ -54,19 +73,25 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
 
     String KEY_IMAGE = "foto";
     String KEY_NOMBRE = "nombre";
-    
+    private boolean modoPaypal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        modoPaypal = false;
         setContentView(R.layout.activity_nuevo_anuncio);
         usuario = inicializar();
         btnAceptar.setOnClickListener(v -> {
             if(fotoElegida){
-                crearAnuncio(usuario);
+                if(modoPaypal){
+                     MakePayment();
+                }else{
+                    crearAnuncio(usuario);
+                }
             }
             else{
                 Toast.makeText(getApplicationContext(), "Debes elegir una foto",Toast.LENGTH_SHORT).show();
             }
+
         });
         bntCancelar.setOnClickListener(v -> {
             startActivity(i);
@@ -74,12 +99,10 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         elegirImagen.setOnClickListener(v -> {
             abrirGaleria();
         });
+        configPaypal();
     }
     private String crearAnuncio(Usuario usuario1){
         anuncio = obtenerDatosAnuncio();
-        System.out.println("Datos del anuncio el crear anuncio " + anuncio);
-        System.out.println("Datos del usuario el crear anuncio " + usuario1);
-        //Tengo los datos del anuncio y tengo el usuario id en el objeto usuario1
         if(anuncio.comprobarTelefono(anuncio.getTelefono())){
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -105,11 +128,9 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), R.string.tamanoTelefonoError,
                     Toast.LENGTH_SHORT).show();
         }
-
-
         return anuncio.getError();
     }
-    //No tocar
+
 
     private Anuncio obtenerDatosAnuncio(){
         Anuncio oAnuncio = new Anuncio();
@@ -148,7 +169,7 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         return usuario;
     }
 
-    //No tocar Subir imagen
+
     public String getStringImagen(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -188,22 +209,7 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            try {
-                //Cómo obtener el mapa de bits de la Galería
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                //Configuración del mapa de bits en ImageView
-                anuncioImagen.setImageBitmap(bitmap);
-                fotoElegida = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
     private void abrirGaleria() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -230,4 +236,77 @@ public class ActivityNuevoAnuncio extends AppCompatActivity {
         String resultadoFinal = categoriaNombre[0].getTitulo();
         return resultadoFinal;
     }
+
+    private void configPaypal(){
+        config = new PayPalConfiguration()
+                .environment(CONFIG_ENVIROMENT)
+                .clientId(PAYPAL_KEY)
+                .merchantName("Paypal Login")
+                .merchantPrivacyPolicyUri(Uri.parse("https://example.com/privacy"))
+                .merchantUserAgreementUri(Uri.parse("https://example.com/legal"));
+    }
+    private void MakePayment(){
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startService(intent);
+        thisgsToBuy = new PayPalPayment(new BigDecimal(String.valueOf("5.00")), "USD", "Payment", PayPalPayment.PAYMENT_INTENT_SALE);
+        Intent payment = new Intent(this, PaymentActivity.class);
+        payment.putExtra(PaymentActivity.EXTRA_PAYMENT, thisgsToBuy);
+        payment.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startActivityForResult(payment, RQUEST_CODE_PAYMENT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Cómo obtener el mapa de bits de la Galería
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                //Configuración del mapa de bits en ImageView
+                anuncioImagen.setImageBitmap(bitmap);
+                fotoElegida = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            if(requestCode==RQUEST_CODE_PAYMENT){
+                if(resultCode== Activity.RESULT_OK){
+                    PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                    if(confirmation!=null){
+                        try{
+                            System.out.println(confirmation.toJSONObject().toString(4));
+                            System.out.println(confirmation.toJSONObject().toString(4));
+
+                        }catch (JSONException e){
+                            System.out.println("Error "+ e.getMessage());
+                        }
+                    }
+                }else if(resultCode ==Activity.RESULT_CANCELED){
+                    System.out.println("Cancelado");
+                }else if(resultCode ==PaymentActivity.RESULT_EXTRAS_INVALID){
+                    System.out.println("Error");
+                }
+            }else if(resultCode == RQUEST_CODE_FUTURE_PAYMENT){
+                if(resultCode == Activity.RESULT_OK){
+                    PayPalAuthorization authorization = data.
+                            getParcelableExtra(PayPalFuturePaymentActivity.EXTRA_RESULT_AUTHORIZATION);
+                    if(authorization!=null){
+                        try{
+                            Log.i("FuturPaymentExamplee", authorization.toJSONObject().toString(4));
+                            String autherization_code = authorization.getAuthorizationCode();
+                            Log.i("FuturPaymentExamplee", authorization.toJSONObject().toString(4));
+                        }catch (Exception e){
+
+                        }
+                    }
+                    crearAnuncio(usuario);
+                }
+            }
+        }
+
+
+    }
+
 }
