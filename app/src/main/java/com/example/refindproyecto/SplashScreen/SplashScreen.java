@@ -49,7 +49,7 @@ public class SplashScreen extends AppCompatActivity {
         mp.start();
 
 
-        //TODO: mirar el FLAG_FULLSCREEN
+
         //Set full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
                 , WindowManager.LayoutParams.FLAG_FULLSCREEN);

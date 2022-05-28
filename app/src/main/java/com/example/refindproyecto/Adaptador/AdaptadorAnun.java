@@ -60,7 +60,7 @@ public class AdaptadorAnun extends RecyclerView.Adapter<AdaptadorAnun.ViewHolder
             }
         });
     }
-    //TODO: añadir otro campo a la base de datos con el tipo de imagen .png .jpg...
+
     public void setItems(List<Anuncio> anuncioList){
         this.anuncioList =anuncioList;
     }

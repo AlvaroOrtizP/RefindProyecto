@@ -116,27 +116,6 @@ public class ActivityPerfil extends AppCompatActivity {
 
         /*
          * -----------------------------------------------------------
-         *                          2.2 Funciones check
-         * -----------------------------------------------------------
-         */
-        /**swSonido.setChecked(cargarPreferencias());//7 PREFERENCIAS
-        swSonido.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //6 AUDIO
-            if(isChecked){
-                pF.activarAudio();
-                //procedimientoPreferencias.activarAudio();
-                //activarAudio();
-                Toast.makeText(getApplicationContext(), R.string.sonidoActivado, Toast.LENGTH_SHORT).show();
-            }else{
-                pF.desactivarAudio();
-                //procedimientoPreferencias.desactivarAudio();
-                //desactivarAudio();
-                Toast.makeText(getApplicationContext(), R.string.sonidoDesactivado, Toast.LENGTH_SHORT).show();
-            }
-        });
-    */
-        /*
-         * -----------------------------------------------------------
          *                          2.3 Funciones botones
          * -----------------------------------------------------------
          */

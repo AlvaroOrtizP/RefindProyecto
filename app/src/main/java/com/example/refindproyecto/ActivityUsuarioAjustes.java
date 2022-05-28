@@ -85,10 +85,11 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
                 if(imagenSeleccionada){
                     uploadImage();
                 }
-
+                Intent i = new Intent(ActivityUsuarioAjustes.this, ActivityPerfil.class);
+                startActivity(i);
             }
         });
-        System.out.println("El usuario con el que entra es "+ this.usuario.getUsuarioId());
+
         usuario = obtenerDatosUsuario();
         nombre.setText(usuario.getNombre() == null ? "": usuario.getNombre());
         apellido.setText(usuario.getApellido() == null ? "": usuario.getApellido());
@@ -107,7 +108,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
+            Toast.makeText(ActivityUsuarioAjustes.this, "Error al obtener datos del usuario", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         return usuario;
@@ -122,15 +123,15 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
                 usuario.setApellido(apellido.getText().toString());
                 usuario.setBiografia(biografia.getText().toString());
                 usuario = refindCliente.actualizarUsuario(usuario);
-                System.out.println("El usaurio para actualizar es "+ usuario);
+
             }
         });
         thread.start();
         try {
             thread.join();
         } catch (InterruptedException e) {
-            //TODO: añadir excepcion
-            e.printStackTrace();
+            Toast.makeText(ActivityUsuarioAjustes.this, "Error al actualizar usuario", Toast.LENGTH_LONG).show();
+
         }
         return usuario;
     }
@@ -150,8 +151,7 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         loading.dismiss();
-                        Toast.makeText(ActivityUsuarioAjustes.this, response, Toast.LENGTH_LONG).show();
-                        System.out.println(response);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -164,8 +164,8 @@ public class ActivityUsuarioAjustes extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 String imagen = getStringImagen(bitmap);
-                String nombre = ActivityUsuarioAjustes.this.nombre.getText().toString().trim();
-
+               // String nombre = ActivityUsuarioAjustes.this.nombre.getText().toString().trim();
+                String nombre = usuario.getUsuarioId().toString();
                 Map<String, String> params = new Hashtable<String, String>();
                 params.put(KEY_IMAGE, imagen);
                 params.put(KEY_NOMBRE, nombre);

@@ -48,7 +48,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /*
  * TODO: Eliminar partes que no se utilizan al terminar el proyecto
- * TODO; mejorar layout de activity y de popup
  * Todo: El texto del comentario no puede ser null
  * TODO: ordenar comentarios por fecha revisar la sql para ver que falla
  * Estructura del codigo:
@@ -427,33 +426,30 @@ public class ActivityAnuncio extends AppCompatActivity {
         comentarioNuevo = new Comentario();
         comentarioNuevo.setAnuncio(anuncio);
         comentarioNuevo.setUsuario(usuario);
-        //TODO: obtener el texto
         comentarioNuevo.setTexto(editComent.getText().toString());
-        System.out.println("-------------------------------------");
-        System.out.println("Comienza la creaccion del comentario");
-        System.out.println("Android Crear comentario: ID anuncio "+comentarioNuevo.getAnuncio() + " usuario id "+comentarioNuevo.getComentarioId());
-        System.out.println("Texto: "+comentarioNuevo.getTexto());
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ProcedimientosComentario refindCliente = new ProcedimientosComentario("10.0.2.2", 30500);
-                refindCliente.crearComentario(comentarioNuevo);
+        if(!comentarioNuevo.getTexto().equals("") ){
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ProcedimientosComentario refindCliente = new ProcedimientosComentario("10.0.2.2", 30500);
+                    refindCliente.crearComentario(comentarioNuevo);
+                }
+            });
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                        Toast.LENGTH_SHORT).show();
             }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+            Intent i = new Intent(ActivityAnuncio.this, ActivityAnuncio.class);
+            i.putExtra("anuncio_id", this.anuncioId);
+            startActivity(i);
+        }else{
+            Toast.makeText(getApplicationContext(), "El comentario no puede estar vacio",
                     Toast.LENGTH_SHORT).show();
         }
-        System.out.println("Finaliza la creaccion del comentario");
-        System.out.println("-------------------------------------");
 
-        Intent i = new Intent(ActivityAnuncio.this, ActivityAnuncio.class);
-        System.out.println("El anuncio id es "+ this.anuncioId);
-        i.putExtra("anuncio_id", this.anuncioId);
-        startActivity(i);
     }
 
     private void irAjustesAnuncio(){

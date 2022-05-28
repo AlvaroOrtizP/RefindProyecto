@@ -84,7 +84,7 @@ public class AdaptadorCat extends RecyclerView.Adapter<AdaptadorCat.ViewHolder> 
             cv.setId(itemCategoria.getCategoriaId());
         }
     }
-    //TODO cambiar la IP el dia de la presetacion
+
     private void cargarImagen(ImageView imagenPerfil, String url){
         ImageRequest imageRequest = new ImageRequest(url, response -> imagenPerfil.setImageBitmap(response), 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
