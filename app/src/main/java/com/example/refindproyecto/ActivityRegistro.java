@@ -15,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.example.refindproyecto.Procedimientos.ProcedimientoPreferencias;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,6 +56,7 @@ public class ActivityRegistro extends AppCompatActivity {
     Boolean isChecked=false;
     MaterialCheckBox checkBox;
     ProcedimientoPreferencias pF =null;
+    private  Usuario usuario;
     /**
      * -----------------------------------------------------------
      *                          1.1 Notificaciones
@@ -107,7 +110,7 @@ public class ActivityRegistro extends AppCompatActivity {
                                    3.1 Guardar los datos del usuario
           -----------------------------------------------------------
          */
-        Usuario usuario = new Usuario();
+        usuario = new Usuario();
         usuario.setNombre(nombre.getText().toString());
         usuario.setApellido(apellido.getText().toString());
         usuario.setEmail(correo.getText().toString());
@@ -164,26 +167,46 @@ public class ActivityRegistro extends AppCompatActivity {
             usuario.setPass(usuario.encriptar(usuario.getPass()));
             usuario.setError(crearUsuario(usuario, view));
             if("OK".equals(usuario.getError())){
+                usuario = comprobarUsuarioBD(usuario);
+
                 pF = new ProcedimientoPreferencias(this.getApplicationContext());
+                pF.desactivarUsuario();
                 pF.guardarIdentificador(usuario);//guardo el identificador
 
                 //Se manda la notificacion
                 setPendingIntent();
                 createNotificacionChanel();
                 createNotification();
-
-                //Se manda al usuario a la activity de Categorias
+/**
+                Snackbar snackbar = Snackbar.make(view, "Registro completado", Snackbar.LENGTH_LONG);
+                snackbar.setDuration(10000);
+                snackbar.show();
+   */             //Se manda al usuario a la activity de Categorias
                 Intent registro = new Intent(getApplicationContext(), ActivityListaCat.class);
                 startActivity(registro);
 
             }else{
-                Snackbar snackbar = Snackbar.make(view, usuario.getError(), Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(view, "hola mundo", Snackbar.LENGTH_LONG);
                 snackbar.setDuration(10000);
                 snackbar.show();
             }
         }
     }
-
+    private Usuario comprobarUsuarioBD(Usuario usuarioComprobar){
+        Thread thread = new Thread(() -> {
+            ProcedimientosUsuarios refindCliente = new ProcedimientosUsuarios("10.0.2.2", 30500);
+            usuario = refindCliente.comprobarUsuario(usuarioComprobar);
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            Toast.makeText(getApplicationContext(), R.string.errorConexion,
+                    Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        return usuario;
+    }
     /*
       -----------------------------------------------------------
                                 4 Funcion de crear

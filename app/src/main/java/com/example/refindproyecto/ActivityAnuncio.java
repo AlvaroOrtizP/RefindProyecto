@@ -273,7 +273,7 @@ public class ActivityAnuncio extends AppCompatActivity {
        }
        if(saberFavorito.equals("TRUE")){
            onFav=true;
-           Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
+           //Toast.makeText(getApplicationContext(), R.string.addFavoritosOk, Toast.LENGTH_SHORT).show();
            return true;
        }
        return false;
